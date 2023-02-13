@@ -83,6 +83,8 @@ public class NodeComponent extends AbstractNodeComponent {
 			}
 
 		}
+		
+		leave();
 
 		super.execute();
 	}
@@ -91,8 +93,8 @@ public class NodeComponent extends AbstractNodeComponent {
 		portNodeManagement.leave(contentDescriptorI.getContentNodeAddress());
 		this.portNodeManagement.doDisconnection();
 		for (Map.Entry<PeerNodeAddressI, OutPortNode> port : connectOutPort.entrySet()) {
-			port.getValue().disconnect(port.getKey());
 			port.getValue().doDisconnection();
+			connectOutPort.remove(port.getKey());
 		}
 	}
 
@@ -192,8 +194,6 @@ public class NodeComponent extends AbstractNodeComponent {
 
 	@Override
 	public synchronized void finalise() throws Exception {
-		doPortDisconnection(portNodeManagement.getPortURI());
-
 		for (Map.Entry<PeerNodeAddressI, OutPortNode> port : connectOutPort.entrySet()) {
 
 			doPortDisconnection(port.getValue().getPortURI());

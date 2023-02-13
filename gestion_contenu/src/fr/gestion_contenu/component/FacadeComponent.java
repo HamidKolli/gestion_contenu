@@ -74,20 +74,23 @@ public class FacadeComponent extends AbstractFacadeComponent {
 		}
 		
 		connectToNode.add(a);
+		Set<PeerNodeAddressI> result ;
 		
 		if (connectToNode.size() < NODE_RETURN) {
-			System.out.println("fin join " + a.getNodeIdentifier());
-			return connectToNode;
+			result = new HashSet<>(connectToNode);
+			System.out.println("fin join " + a.getNodeIdentifier()  + "size result " + result.size() );
+			return result;
 		}
 		
 		
-		Set<PeerNodeAddressI> result = new HashSet<>();
+		result = new HashSet<>();
 		List<PeerNodeAddressI> resultList = new ArrayList<>(connectToNode);
 
 		Collections.shuffle(resultList);
 
 		result.addAll(resultList.subList(0,Math.max(NODE_RETURN, resultList.size())));
-		System.out.println("fin join " + a.getNodeIdentifier());
+		System.out.println("fin join " + a.getNodeIdentifier() + "size result " + result.size() );
+		
 		return result;
 	}
 
