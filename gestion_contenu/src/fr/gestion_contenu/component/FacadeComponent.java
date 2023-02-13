@@ -101,20 +101,26 @@ public class FacadeComponent extends AbstractFacadeComponent {
 
 	@Override
 	public ContentDescriptorI find(ContentTemplateI cd, int hops) throws Exception {
+		System.out.println("start find facade"+ cd);
 		ContentDescriptorI c;
 		for (OutPortContentManagement op : connectNodeRoot.values()) {
 			if((c = op.find(cd, hops)) != null) {
+				System.out.println("fin find facade"+ cd);
 				return c;
 			}
 		}
+		
 		return null;
 	}
 
 	@Override
 	public Set<ContentDescriptorI> match(ContentTemplateI cd, Set<ContentDescriptorI> matched, int hops) throws Exception {
+		System.out.println("start match facade"+ cd);
 		for (OutPortContentManagement op : connectNodeRoot.values()) {
+			System.out.println("loop match facade");
 			op.match(cd, matched, hops);
 		}
+		System.out.println("fin match facade"+ cd);
 		
 		return matched;
 	}

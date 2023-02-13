@@ -10,7 +10,7 @@ public class ContentTemplate implements ContentTemplateI {
 	private Set<String> interpreters;
 	private Set<String> composers;
 
-	protected ContentTemplate(String title, String albumTitle, Set<String> interpreters, Set<String> composers) {
+	public ContentTemplate(String title, String albumTitle, Set<String> interpreters, Set<String> composers) {
 		super();
 		this.title = title;
 		this.albumTitle = albumTitle;
@@ -55,6 +55,11 @@ public class ContentTemplate implements ContentTemplateI {
 		return o.getAlbumTitle().equals(getAlbumTitle()) && o.getTitle().equals(getTitle())
 				&& o.getInterpreters().equals(getInterpreters()) && o.getComposers().equals(getComposers());
 
+	}
+	
+	@Override
+	public String toString() {
+		return "Template >>>> titre : "+ getTitle() + "| Album : "+ getAlbumTitle();
 	}
 
 }

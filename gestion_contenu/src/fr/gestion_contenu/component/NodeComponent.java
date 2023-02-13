@@ -1,6 +1,8 @@
 package fr.gestion_contenu.component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -24,7 +26,6 @@ import fr.sorbonne_u.components.annotations.OfferedInterfaces;
 import fr.sorbonne_u.components.annotations.RequiredInterfaces;
 import fr.sorbonne_u.components.exceptions.ComponentShutdownException;
 import fr.sorbonne_u.components.exceptions.ComponentStartException;
-
 
 @RequiredInterfaces(required = { NodeManagementCI.class, NodeCI.class, ContentManagementCI.class })
 @OfferedInterfaces(offered = { NodeCI.class, ContentManagementCI.class })
@@ -78,24 +79,22 @@ public class NodeComponent extends AbstractNodeComponent {
 		for (PeerNodeAddressI peerNodeAddressI : peersVoisins) {
 			if (!peerNodeAddressI.equals(contentDescriptorI.getContentNodeAddress())) {
 				connect(peerNodeAddressI);
-				Thread.sleep(3000L);
-				disconnect(peerNodeAddressI);
 			}
 
 		}
 		
-		leave();
+		
+	
 
 		super.execute();
 	}
 
 	public void leave() throws Exception {
 		portNodeManagement.leave(contentDescriptorI.getContentNodeAddress());
-		this.portNodeManagement.doDisconnection();
-		for (Map.Entry<PeerNodeAddressI, OutPortNode> port : connectOutPort.entrySet()) {
-			port.getValue().doDisconnection();
-			connectOutPort.remove(port.getKey());
-		}
+		
+		List<Map.Entry<PeerNodeAddressI, OutPortNode>> ports = new ArrayList<>(connectOutPort.entrySet());
+		for (int i = 0; i < ports.size(); i++)
+			disconnect(ports.get(i).getKey());
 	}
 
 	public void connect(PeerNodeAddressI peer) throws Exception {
@@ -135,29 +134,44 @@ public class NodeComponent extends AbstractNodeComponent {
 	}
 
 	public ContentDescriptorI find(ContentTemplateI cd, int hops) throws Exception {
-		if (hops == 0)
+		System.out.println("start find node" + cd);
+		if (hops == 0) {
+			System.out.println("fin find node" + cd);
 			return null;
-		if (contentDescriptorI.match((ContentDescriptorI)cd))
+		}
+		if (contentDescriptorI.match(cd)) {
+			System.out.println("fin find node" + cd);
 			return contentDescriptorI;
+		}
 		ContentDescriptorI tmp;
 		for (OutPortContentManagement port : connectNodeContent.values()) {
 
-			if ((tmp = port.find(cd, hops - 1)) != null)
+			if ((tmp = port.find(cd, hops - 1)) != null) {
+				System.out.println("fin find node" + cd);
 				return tmp;
+			}
 		}
+		System.out.println("fin find node" + cd);
 		return null;
 	}
 
 	public Set<ContentDescriptorI> match(ContentTemplateI cd, Set<ContentDescriptorI> matched, int hops)
 			throws Exception {
-		if (hops == 0)
-			return null;
+		System.out.println("start match node" + cd);
+
 		for (OutPortContentManagement op : connectNodeContent.values()) {
-			if(contentDescriptorI.match((ContentDescriptorI)cd))
-				matched.add(contentDescriptorI);
-			matched = op.match(cd, matched, hops-1);
+			boolean bool;
+			if ((bool = contentDescriptorI.match(cd))) {
+				System.out.println("match node trouve ? " + bool);
+				if (!matched.contains(contentDescriptorI))
+					matched.add(contentDescriptorI);
+			}
+			System.out.println("loop match node");
+			if (hops != 0)
+				matched = op.match(cd, matched, hops - 1);
 		}
-		
+		System.out.println("fin match node" + cd);
+
 		return matched;
 	}
 
@@ -194,14 +208,13 @@ public class NodeComponent extends AbstractNodeComponent {
 
 	@Override
 	public synchronized void finalise() throws Exception {
-		for (Map.Entry<PeerNodeAddressI, OutPortNode> port : connectOutPort.entrySet()) {
-
-			doPortDisconnection(port.getValue().getPortURI());
-		}
+		this.portNodeManagement.doDisconnection();
+		List<Map.Entry<PeerNodeAddressI, OutPortNode>> ports = new ArrayList<>(connectOutPort.entrySet());
+		for (int i = 0; i < ports.size(); i++)
+			ports.get(i).getValue().doDisconnection();
 		for (Map.Entry<PeerNodeAddressI, OutPortContentManagement> port : connectNodeContent.entrySet()) {
-			doPortDisconnection(port.getValue().getPortURI());
+			port.getValue().doDisconnection();
 		}
-
 		super.finalise();
 	}
 

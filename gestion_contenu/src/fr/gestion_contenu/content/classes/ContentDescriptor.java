@@ -58,5 +58,10 @@ public class ContentDescriptor extends ContentTemplate implements ContentDescrip
 			result = result && t.getInterpreters().equals(getInterpreters());
 		return result;
 	}
+	
+	@Override
+	public String toString() {
+		return "Descriptor >>>> titre : "+ getTitle() + "| Album : "+ getAlbumTitle() + "| Node Address : " + getContentNodeAddress().getContentManagementURI();
+	}
 
 }
