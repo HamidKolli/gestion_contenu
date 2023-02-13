@@ -1,7 +1,6 @@
 package fr.gestion_contenu.component;
 
 import java.util.HashMap;
-
 import java.util.Map;
 import java.util.Set;
 
@@ -25,6 +24,7 @@ import fr.sorbonne_u.components.annotations.OfferedInterfaces;
 import fr.sorbonne_u.components.annotations.RequiredInterfaces;
 import fr.sorbonne_u.components.exceptions.ComponentShutdownException;
 import fr.sorbonne_u.components.exceptions.ComponentStartException;
+
 
 @RequiredInterfaces(required = { NodeManagementCI.class, NodeCI.class, ContentManagementCI.class })
 @OfferedInterfaces(offered = { NodeCI.class, ContentManagementCI.class })
