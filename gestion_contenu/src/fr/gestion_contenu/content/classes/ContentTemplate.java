@@ -4,16 +4,13 @@ import java.util.Set;
 
 import fr.gestion_contenu.content.interfaces.ContentTemplateI;
 
-public class ContentTemplate implements ContentTemplateI{
+public class ContentTemplate implements ContentTemplateI {
 	private String title;
 	private String albumTitle;
 	private Set<String> interpreters;
 	private Set<String> composers;
-	
-	
-	
-	
-	public ContentTemplate(String title, String albumTitle, Set<String> interpreters, Set<String> composers) {
+
+	protected ContentTemplate(String title, String albumTitle, Set<String> interpreters, Set<String> composers) {
 		super();
 		this.title = title;
 		this.albumTitle = albumTitle;
@@ -23,26 +20,41 @@ public class ContentTemplate implements ContentTemplateI{
 
 	@Override
 	public String getTitle() {
-		// TODO Auto-generated method stub
+
 		return title;
 	}
 
 	@Override
 	public String getAlbumTitle() {
-		// TODO Auto-generated method stub
+
 		return albumTitle;
 	}
 
 	@Override
 	public Set<String> getInterpreters() {
-		// TODO Auto-generated method stub
+
 		return interpreters;
 	}
 
 	@Override
 	public Set<String> getComposers() {
-		// TODO Auto-generated method stub
+
 		return composers;
 	}
-	
+
+	@Override
+	public boolean equals(Object obj) {
+
+		if (obj == null)
+			return false;
+		
+		if (!(obj instanceof ContentTemplate))
+			return false;
+
+		ContentTemplate o = (ContentTemplate) obj;
+		return o.getAlbumTitle().equals(getAlbumTitle()) && o.getTitle().equals(getTitle())
+				&& o.getInterpreters().equals(getInterpreters()) && o.getComposers().equals(getComposers());
+
+	}
+
 }

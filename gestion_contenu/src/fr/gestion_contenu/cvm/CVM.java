@@ -21,24 +21,37 @@ public class CVM extends AbstractCVM {
 
 	@Override
 	public void deploy() throws Exception {
-		ContentNodeAddressI peer = new ContentNodeAdress(AbstractPort.generatePortURI(), "nodeVALD", AbstractPort.generatePortURI(), true, false);
+		
+		ApplicationNodeAddress ana = new ApplicationNodeAddress(AbstractPort.generatePortURI(), "facadeVald",
+				AbstractPort.generatePortURI(), true, false);
+		AbstractComponent.createComponent(FacadeComponent.class.getCanonicalName(), new Object[] { ana, 2 });
+		
+		ContentNodeAddressI peer = new ContentNodeAdress(AbstractPort.generatePortURI(), "nodeVALD",
+				AbstractPort.generatePortURI(), true, false);
 		ContentDescriptorI c = new ContentDescriptor("V.A.L.S.E", "NQNTMQMB", new HashSet<>(), new HashSet<>(), peer,
 				300);
-		ApplicationNodeAddress ana = new ApplicationNodeAddress(AbstractPort.generatePortURI(), "facadeVald", AbstractPort.generatePortURI(),true, false);
+		
 		AbstractComponent.createComponent(NodeComponent.class.getCanonicalName(),
 				new Object[] { c, ana.getNodeManagementURI() });
 
+		ContentNodeAddressI peer2 = new ContentNodeAdress(AbstractPort.generatePortURI(), "nodeVALD2",
+				AbstractPort.generatePortURI(), true, false);
+		ContentDescriptorI c2 = new ContentDescriptor("Rappel", "NQNTMQMB", new HashSet<>(), new HashSet<>(), peer2,
+				250);
 		
-		AbstractComponent.createComponent(FacadeComponent.class.getCanonicalName(), new Object[] {ana});
-				
+		AbstractComponent.createComponent(NodeComponent.class.getCanonicalName(),
+				new Object[] { c2, ana.getNodeManagementURI() });
+		
+		
+
 		super.deploy();
 	}
-	
+
 	public static void main(String[] args) {
 		try {
 			CVM cvm = new CVM();
 			cvm.startStandardLifeCycle(20000L);
-			Thread.sleep(5000L);
+			Thread.sleep(1000L);
 			System.exit(0);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -25,7 +25,7 @@ public class FacadePortNodeManagement extends AbstractInboundPort implements Nod
 		return getOwner().handleRequest(new AbstractComponent.AbstractService<Set<PeerNodeAddressI>>() {
 			@Override
 			public Set<PeerNodeAddressI> call() throws Exception {
-				return ((FacadeComponent) getOwner()).join(a);
+				return  ((FacadeComponent) getOwner()).join(a);
 			}
 		});
 	}
