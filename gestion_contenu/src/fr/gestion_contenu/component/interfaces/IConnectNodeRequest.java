@@ -2,6 +2,12 @@ package fr.gestion_contenu.component.interfaces;
 
 import fr.gestion_contenu.node.interfaces.PeerNodeAddressI;
 
+/**
+ * 
+ * @author Hamid KOLLI && Yanis ALAYOUD
+ * 
+ * Contrat de connexion entre les noeud
+ */
 public interface IConnectNodeRequest {
 	/**
 	 * Methode qui permet de ce connecter a un noeud

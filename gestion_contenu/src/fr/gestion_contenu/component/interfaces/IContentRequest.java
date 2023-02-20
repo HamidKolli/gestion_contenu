@@ -5,6 +5,12 @@ import java.util.Set;
 import fr.gestion_contenu.content.interfaces.ContentDescriptorI;
 import fr.gestion_contenu.content.interfaces.ContentTemplateI;
 
+/**
+ * 
+ * @author Hamid KOLLI && Yanis ALAYOUD
+ * 
+ * Contrat pour effectuer des requettes de contenu 
+ */
 public interface IContentRequest {
 
 	/**
@@ -16,7 +22,7 @@ public interface IContentRequest {
 	public ContentDescriptorI find(ContentTemplateI cd, int hops) throws Exception;
 
 	/**
-	 * Methode qui permet de rechercher des contenus semilaire a un template
+	 * Methode qui permet de rechercher des contenus similaire a un template
 	 * @param cd : le template
 	 * @param matched : l'ensemble des contenus deja trouves
 	 * @param hops : le nombre de pas pour eviter les appels infinis

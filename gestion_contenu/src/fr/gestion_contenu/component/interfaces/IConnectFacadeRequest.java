@@ -4,6 +4,12 @@ import java.util.Set;
 
 import fr.gestion_contenu.node.interfaces.PeerNodeAddressI;
 
+/**
+ * 
+ * @author Hamid KOLLI && Yanis ALAYOUD
+ * 
+ * Contrat de connexion a une facade 
+ */
 public interface IConnectFacadeRequest {
 
 	/**
