@@ -128,7 +128,6 @@ public class NodeComponent extends AbstractNodeComponent {
 		for (int i = 0; i < ports.size(); i++)
 			disconnect(ports.get(i).getKey());
 		
-		this.finalise();
 	}
 
 	/**
@@ -167,12 +166,14 @@ public class NodeComponent extends AbstractNodeComponent {
 
 		doPortDisconnection(port.getPortURI());
 		port.unpublishPort();
+		port.destroyPort();
 		connectOutPort.remove(peer);
 
 		OutPortContentManagement portContent = connectNodeContent.get(peer);
 		doPortDisconnection(portContent.getPortURI());
 
 		portContent.unpublishPort();
+		portContent.destroyPort();
 
 		connectNodeContent.remove(peer);
 		System.out.println("fin disconnect " + peer.getNodeIdentifier());
@@ -239,7 +240,7 @@ public class NodeComponent extends AbstractNodeComponent {
 	*
 	 */
 	@Override
-	public PeerNodeAddressI connectBack(PeerNodeAddressI peer) throws Exception {
+	public void connectBack(PeerNodeAddressI peer) throws Exception {
 		System.out.println("connect back to " + peer.getNodeIdentifier());
 		OutPortNode port = new OutPortNode(this);
 		port.publishPort();
@@ -251,7 +252,7 @@ public class NodeComponent extends AbstractNodeComponent {
 				ConnectorContentManagement.class.getCanonicalName());
 		connectNodeContent.put(peer, portContent);
 		System.out.println("fin connect back to " + peer.getNodeIdentifier());
-		return contentDescriptorI.getContentNodeAddress();
+		
 	}
 
 	/**
@@ -266,9 +267,11 @@ public class NodeComponent extends AbstractNodeComponent {
 		connectOutPort.remove(peer);
 		doPortDisconnection(port.getPortURI());
 		port.unpublishPort();
+		port.destroyPort();
 		OutPortContentManagement portContent = connectNodeContent.get(peer);
 		doPortDisconnection(portContent.getPortURI());
 		portContent.unpublishPort();
+		portContent.destroyPort();
 		connectNodeContent.remove(peer);
 		System.out.println("fin disconnect back from " + peer.getNodeIdentifier());
 

@@ -31,7 +31,7 @@ public abstract class AbstractNodeComponent extends AbstractComponent implements
 	 * @param peer : les addresses des ports entrants du noeud qui veut ce connecter
 	 * @throws Exception
 	 */
-	public abstract PeerNodeAddressI connectBack(PeerNodeAddressI peer) throws Exception;
+	public abstract void connectBack(PeerNodeAddressI peer) throws Exception;
 
 	
 	
