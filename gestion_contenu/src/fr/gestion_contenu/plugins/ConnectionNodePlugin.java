@@ -4,25 +4,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import fr.gestion_contenu.component.interfaces.AbstractNodeComponent;
 import fr.gestion_contenu.connectors.ConnectorContentManagement;
 import fr.gestion_contenu.connectors.ConnectorNode;
-import fr.gestion_contenu.connectors.ConnectorNodeManagement;
-import fr.gestion_contenu.content.classes.ContentDescriptor;
-import fr.gestion_contenu.content.interfaces.ContentDescriptorI;
-import fr.gestion_contenu.content.interfaces.ContentTemplateI;
 import fr.gestion_contenu.node.interfaces.ContentNodeAddressI;
 import fr.gestion_contenu.node.interfaces.PeerNodeAddressI;
-import fr.gestion_contenu.ports.InPortContentManagement;
 import fr.gestion_contenu.ports.InPortNode;
-import fr.gestion_contenu.ports.NodePortNodeManagement;
 import fr.gestion_contenu.ports.OutPortContentManagement;
 import fr.gestion_contenu.ports.OutPortNode;
-import fr.gestion_contenu.ports.interfaces.ContentManagementCI;
 import fr.gestion_contenu.ports.interfaces.NodeCI;
-import fr.gestion_contenu.ports.interfaces.NodeManagementCI;
 import fr.sorbonne_u.components.AbstractPlugin;
 import fr.sorbonne_u.components.ComponentI;
 
@@ -37,7 +28,7 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 	private InPortNode connectInPort;
 
 
-	public ConnectionNodePlugin(PeerNodeAddressI nodeAddresses, String portFacadeManagementURI) {
+	public ConnectionNodePlugin(PeerNodeAddressI nodeAddresses) {
 		super();
 		this.nodeAddresses = nodeAddresses;
 		connectOutPort = new HashMap<>();
@@ -50,31 +41,20 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 	 */
 	@Override
 	public void installOn(ComponentI owner) throws Exception {
-		
 		assert owner instanceof AbstractNodeComponent;
-
-		this.addRequiredInterface(NodeCI.class);
-		
-		this.addOfferedInterface(NodeCI.class);
-		
-		
-		
-
 		super.installOn(owner);
+		this.addRequiredInterface(NodeCI.class);
+		this.addOfferedInterface(NodeCI.class);
+		this.connectInPort = new InPortNode(nodeAddresses.getNodeURI(), owner,getPluginURI());
 	}
 
 	@Override
 	public void initialise() throws Exception {
-		this.connectInPort = new InPortNode(nodeAddresses.getNodeURI(), getOwner());
 		this.connectInPort.publishPort();
 		super.initialise();
 	}
 	
-	
-
-
-
-	public  OutPortContentManagement connect(PeerNodeAddressI peer) throws Exception {
+	protected OutPortContentManagement connect(PeerNodeAddressI peer) throws Exception {
 		System.out.println("connect to " + peer.getNodeIdentifier());
 		OutPortNode port = new OutPortNode(getOwner());
 		port.publishPort();
@@ -92,7 +72,7 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 	}
 
 
-	public void disconnect(PeerNodeAddressI peer,OutPortContentManagement portContent) throws Exception {
+	protected void disconnect(PeerNodeAddressI peer,OutPortContentManagement portContent) throws Exception {
 		OutPortNode port = connectOutPort.get(peer);
 		connectOutPort.remove(peer);
 		System.out.println("disconnect from " + peer.getNodeIdentifier());
@@ -112,7 +92,7 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 	
 	
 
-	public OutPortContentManagement connectBack(PeerNodeAddressI peer) throws Exception {
+	protected OutPortContentManagement connectBack(PeerNodeAddressI peer) throws Exception {
 		System.out.println("connect back to " + peer.getNodeIdentifier());
 		OutPortNode port = new OutPortNode(getOwner());
 		port.publishPort();
@@ -130,7 +110,7 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 	}
 
 
-	public void disconnectBack(PeerNodeAddressI peer) throws Exception {
+	protected void disconnectBack(PeerNodeAddressI peer) throws Exception {
 		System.out.println("disconnect back from " + peer.getNodeIdentifier());
 		OutPortNode port = connectOutPort.get(peer);
 		connectOutPort.remove(peer);

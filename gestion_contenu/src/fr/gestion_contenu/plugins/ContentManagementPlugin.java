@@ -4,19 +4,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import fr.gestion_contenu.component.interfaces.AbstractNodeComponent;
+import fr.gestion_contenu.component.interfaces.IContentRequest;
+import fr.gestion_contenu.content.interfaces.ContentDescriptorI;
+import fr.gestion_contenu.content.interfaces.ContentTemplateI;
+import fr.gestion_contenu.node.interfaces.ContentNodeAddressI;
 import fr.gestion_contenu.node.interfaces.PeerNodeAddressI;
 import fr.gestion_contenu.ports.InPortContentManagement;
 import fr.gestion_contenu.ports.OutPortContentManagement;
 import fr.gestion_contenu.ports.interfaces.ContentManagementCI;
-import fr.sorbonne_u.components.AbstractPlugin;
 import fr.sorbonne_u.components.ComponentI;
-import fr.gestion_contenu.component.interfaces.AbstractNodeComponent;
-import fr.gestion_contenu.content.classes.ContentDescriptor;
-import fr.gestion_contenu.content.interfaces.ContentDescriptorI;
-import fr.gestion_contenu.content.interfaces.ContentTemplateI;
-import fr.gestion_contenu.node.interfaces.ContentNodeAddressI;
 
-public class ContentManagementPlugin extends ConnectionNodePlugin{
+public class ContentManagementPlugin extends ConnectionNodePlugin implements IContentRequest{
 
 	
 	private static final long serialVersionUID = 1L;
@@ -24,16 +23,19 @@ public class ContentManagementPlugin extends ConnectionNodePlugin{
 	private ContentNodeAddressI contentNodeAddress;
 	private InPortContentManagement inPortContentManagement;
 	
-	public ContentManagementPlugin( ContentNodeAddressI contentNodeAddress, String portFacadeManagementURI) {
-		super(contentNodeAddress,portFacadeManagementURI);
+	public ContentManagementPlugin( ContentNodeAddressI contentNodeAddress) {
+		super(contentNodeAddress);
 		connectNodeContent = new HashMap<>();
 		this.contentNodeAddress = contentNodeAddress;
 	}	
 	
 	@Override
 	public void installOn(ComponentI owner) throws Exception {
-		inPortContentManagement = new InPortContentManagement(contentNodeAddress.getContentManagementURI(), owner);
 		super.installOn(owner);
+		this.addOfferedInterface(ContentManagementCI.class);
+		this.addRequiredInterface(ContentManagementCI.class);
+		System.out.println(getPluginURI());
+		inPortContentManagement = new InPortContentManagement(contentNodeAddress.getContentManagementURI(), owner,getPluginURI());
 	}
 	
 	@Override
@@ -48,7 +50,7 @@ public class ContentManagementPlugin extends ConnectionNodePlugin{
 			System.out.println("fin find node" + cd);
 			return null;
 		}
-		ContentDescriptor contentDescriptor;
+		ContentDescriptorI contentDescriptor;
 		if ((contentDescriptor = ((AbstractNodeComponent)getOwner()).match(cd)) != null) {
 			System.out.println("fin find node" + cd);
 			return contentDescriptor;
@@ -71,7 +73,7 @@ public class ContentManagementPlugin extends ConnectionNodePlugin{
 		System.out.println("start match node" + cd);
 
 		for (OutPortContentManagement op : connectNodeContent.values()) {
-			ContentDescriptor contentDescriptor;
+			ContentDescriptorI contentDescriptor;
 			if ((contentDescriptor = ((AbstractNodeComponent)getOwner()).match(cd)) != null){
 
 				if (!matched.contains(contentDescriptor))

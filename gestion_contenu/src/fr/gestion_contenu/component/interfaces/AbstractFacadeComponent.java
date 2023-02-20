@@ -17,7 +17,7 @@ import fr.sorbonne_u.components.annotations.RequiredInterfaces;
  * @author Hamid KOLLI && Yanis ALAYOUD
  * Classe abstraite qui gere les facades
  */
-public abstract class AbstractFacadeComponent extends AbstractComponent implements IContentRequest,IConnectFacadeRequest {
+public abstract class AbstractFacadeComponent extends AbstractComponent {
 
 	protected AbstractFacadeComponent(int nbThreads, int nbSchedulableThreads) {
 		super(nbThreads, nbSchedulableThreads);

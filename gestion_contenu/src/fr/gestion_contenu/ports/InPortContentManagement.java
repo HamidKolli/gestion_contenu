@@ -29,8 +29,9 @@ public class InPortContentManagement extends AbstractInboundPort implements Cont
 	 * @param owner : le composant qui le possede
 	 * @throws Exception
 	 */
-	public InPortContentManagement(String uri, ComponentI owner) throws Exception {
-		super(uri, ContentManagementCI.class, owner);
+	public InPortContentManagement(String uri,  ComponentI owner,
+			String pluginURI) throws Exception {
+		super(uri, ContentManagementCI.class, owner,pluginURI,null);
 	}
 
 	/**
@@ -45,7 +46,7 @@ public class InPortContentManagement extends AbstractInboundPort implements Cont
 			@Override
 			public ContentDescriptorI call() throws Exception {
 
-				return ((IContentRequest) getOwner()).find(cd, hops);
+				return ((IContentRequest) getServiceProviderReference()).find(cd, hops);
 			}
 		});
 
@@ -64,7 +65,7 @@ public class InPortContentManagement extends AbstractInboundPort implements Cont
 			@Override
 			public Set<ContentDescriptorI> call() throws Exception {
 
-				return ((IContentRequest) getOwner()).match(cd, matched, hops);
+				return ((IContentRequest) getServiceProviderReference()).match(cd, matched, hops);
 			}
 		});
 	}
