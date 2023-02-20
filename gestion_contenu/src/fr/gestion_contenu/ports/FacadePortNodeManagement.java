@@ -43,7 +43,7 @@ public class FacadePortNodeManagement extends AbstractInboundPort implements Nod
 	@Override
 	public Set<PeerNodeAddressI> join(PeerNodeAddressI a) throws Exception {
 
-		return getOwner().handleRequest(new AbstractComponent.AbstractService<Set<PeerNodeAddressI>>() {
+		return getOwner().handleRequest(new AbstractComponent.AbstractService<Set<PeerNodeAddressI>>(this.getPluginURI()) {
 			@Override
 			public Set<PeerNodeAddressI> call() throws Exception {
 				return ((FacadeContentManagementPlugin) getServiceProviderReference()).join(a);
@@ -61,7 +61,7 @@ public class FacadePortNodeManagement extends AbstractInboundPort implements Nod
 	 */
 	@Override
 	public void leave(PeerNodeAddressI a) throws Exception {
-		getOwner().handleRequest(new AbstractComponent.AbstractService<Void>() {
+		getOwner().handleRequest(new AbstractComponent.AbstractService<Void>(this.getPluginURI()) {
 			@Override
 			public Void call() throws Exception {
 				((FacadeContentManagementPlugin) getServiceProviderReference()).leave(a);

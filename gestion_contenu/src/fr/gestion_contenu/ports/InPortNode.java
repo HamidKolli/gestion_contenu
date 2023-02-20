@@ -28,8 +28,8 @@ public class InPortNode extends AbstractInboundPort implements NodeCI {
 	 * @param owner : le composant qui le possede
 	 * @throws Exception
 	 */
-	public InPortNode(String uri, ComponentI owner,String pluginURI) throws Exception {
-		super(uri, NodeCI.class, owner,pluginURI,null);
+	public InPortNode(String uri, ComponentI owner, String pluginURI) throws Exception {
+		super(uri, NodeCI.class, owner, pluginURI, null);
 	}
 
 	/**
@@ -39,7 +39,7 @@ public class InPortNode extends AbstractInboundPort implements NodeCI {
 	 */
 	@Override
 	public void connect(PeerNodeAddressI a) throws Exception {
-		getOwner().handleRequest(new AbstractComponent.AbstractService<Void>() {
+		getOwner().handleRequest(new AbstractComponent.AbstractService<Void>(this.getPluginURI()) {
 			@Override
 			public Void call() throws Exception {
 				((ContentManagementPlugin) getServiceProviderReference()).connectBack(a);
@@ -55,7 +55,7 @@ public class InPortNode extends AbstractInboundPort implements NodeCI {
 	 */
 	@Override
 	public void disconnect(PeerNodeAddressI a) throws Exception {
-		getOwner().handleRequest(new AbstractComponent.AbstractService<Void>() {
+		getOwner().handleRequest(new AbstractComponent.AbstractService<Void>(this.getPluginURI()) {
 			@Override
 			public Void call() throws Exception {
 				((ContentManagementPlugin) getServiceProviderReference()).disconnectBack(a);

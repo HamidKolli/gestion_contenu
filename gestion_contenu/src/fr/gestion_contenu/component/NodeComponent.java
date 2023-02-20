@@ -54,12 +54,12 @@ public class NodeComponent extends AbstractNodeComponent {
 			this.portNodeManagement.publishPort();
 			plugin = new ContentManagementPlugin(contentDescriptorI.getContentNodeAddress());
 			plugin.setPluginURI(AbstractPort.generatePortURI());
-			plugin.installOn(this);
-			plugin.initialise();
+			this.installPlugin(plugin);
+			super.start();
 		} catch (Exception e) {
 			throw new ComponentStartException(e);
 		}
-		super.start();
+		
 	}
 
 	/**

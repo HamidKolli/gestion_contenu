@@ -45,13 +45,15 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 		super.installOn(owner);
 		this.addRequiredInterface(NodeCI.class);
 		this.addOfferedInterface(NodeCI.class);
-		this.connectInPort = new InPortNode(nodeAddresses.getNodeURI(), owner,getPluginURI());
 	}
 
 	@Override
 	public void initialise() throws Exception {
-		this.connectInPort.publishPort();
 		super.initialise();
+		this.connectInPort = new InPortNode(nodeAddresses.getNodeURI(), getOwner(),getPluginURI());
+
+		this.connectInPort.publishPort();
+		
 	}
 	
 	protected OutPortContentManagement connect(PeerNodeAddressI peer) throws Exception {

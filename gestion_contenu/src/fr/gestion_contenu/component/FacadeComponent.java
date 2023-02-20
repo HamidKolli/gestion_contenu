@@ -44,8 +44,7 @@ public class FacadeComponent extends AbstractFacadeComponent {
 		try {
 			plugin = new FacadeContentManagementPlugin(applicationNodeAddress, numberRootNode);
 			plugin.setPluginURI(AbstractPort.generatePortURI());
-			plugin.installOn(this);
-			plugin.initialise();
+			this.installPlugin(plugin);
 		} catch (Exception e) {
 			throw new ComponentStartException(e);
 		}
@@ -55,30 +54,5 @@ public class FacadeComponent extends AbstractFacadeComponent {
 
 
 
-	/**
-	 * 
-	* @see fr.sorbonne_u.components.AbstractComponent#finalise()
-	*
-	 */
-	@Override
-	public synchronized void finalise() throws Exception {
-		plugin.finalise();
-		super.finalise();
-	}
-
-	/**
-	 * 
-	* @see fr.sorbonne_u.components.AbstractComponent#shutdown()
-	*
-	 */
-	@Override
-	public synchronized void shutdown() throws ComponentShutdownException {
-		try {
-			plugin.uninstall();
-		} catch (Exception e) {
-			throw new ComponentShutdownException(e);
-		}
-		super.shutdown();
-	}
-
+	
 }

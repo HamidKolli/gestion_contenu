@@ -29,7 +29,14 @@ public class FacadeContentManagementPlugin extends FacadeNodeManagementPlugin im
 		super.installOn(owner);
 		this.addOfferedInterface(ContentManagementCI.class);
 		this.addRequiredInterface(ContentManagementCI.class);
+	}
+	
+	@Override
+	public void initialise() throws Exception {
+		super.initialise();
 		portContentManagement = new InPortContentManagement(contentManagementURI, getOwner(),getPluginURI());
+		portContentManagement.publishPort();
+
 	}
 	
 	
@@ -69,14 +76,7 @@ public class FacadeContentManagementPlugin extends FacadeNodeManagementPlugin im
 		return matched;
 	}
 	
-	@Override
-	public void initialise() throws Exception {
 
-		portContentManagement.publishPort();
-
-		super.initialise();
-	}
-	
 	
 	@Override
 	public void uninstall() throws Exception {

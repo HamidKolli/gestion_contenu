@@ -41,14 +41,13 @@ public class FacadeNodeManagementPlugin extends AbstractPlugin implements IConne
 		super.installOn(owner);
 		this.addOfferedInterface(NodeManagementCI.class);
 		this.addRequiredInterface(NodeManagementCI.class);
-		facadePortNodeManagement = new FacadePortNodeManagement(facadePortNodeManagementURI,owner,getPluginURI());
-
 	}
 	
 	@Override
 	public void initialise() throws Exception {
-		facadePortNodeManagement.publishPort();
 		super.initialise();
+		facadePortNodeManagement = new FacadePortNodeManagement(facadePortNodeManagementURI,getOwner(),getPluginURI());
+		facadePortNodeManagement.publishPort();
 	}
 	
 	

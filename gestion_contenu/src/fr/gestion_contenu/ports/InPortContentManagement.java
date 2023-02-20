@@ -42,7 +42,7 @@ public class InPortContentManagement extends AbstractInboundPort implements Cont
 	 */
 	@Override
 	public ContentDescriptorI find(ContentTemplateI cd, int hops) throws Exception {
-		return getOwner().handleRequest(new AbstractComponent.AbstractService<ContentDescriptorI>() {
+		return getOwner().handleRequest(new AbstractComponent.AbstractService<ContentDescriptorI>(this.getPluginURI()) {
 			@Override
 			public ContentDescriptorI call() throws Exception {
 
@@ -61,7 +61,7 @@ public class InPortContentManagement extends AbstractInboundPort implements Cont
 	@Override
 	public Set<ContentDescriptorI> match(ContentTemplateI cd, Set<ContentDescriptorI> matched, int hops)
 			throws Exception {
-		return getOwner().handleRequest(new AbstractComponent.AbstractService<Set<ContentDescriptorI>>() {
+		return getOwner().handleRequest(new AbstractComponent.AbstractService<Set<ContentDescriptorI>>(this.getPluginURI()) {
 			@Override
 			public Set<ContentDescriptorI> call() throws Exception {
 
