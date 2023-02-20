@@ -15,7 +15,12 @@ import fr.sorbonne_u.components.AbstractComponent;
 public abstract class AbstractClientComponent extends AbstractComponent{
 
 	
-	
+	/**
+	 * 
+	 * Constructeur AbstractClientComponent
+	 * @param nbThreads 
+	 * @param nbSchedulableThreads
+	 */
 	protected AbstractClientComponent(int nbThreads, int nbSchedulableThreads) {
 		super(nbThreads, nbSchedulableThreads);
 	}

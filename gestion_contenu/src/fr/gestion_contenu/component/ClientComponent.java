@@ -26,12 +26,24 @@ public class ClientComponent extends AbstractClientComponent {
 	private String uriContentManagementFacade;
 	private OutPortContentManagement portContentManagement;
 
+	/**
+	 * 
+	 * Constructeur ClientComponent
+	 * @param uriContentManagementFacade : l'URI du port entrant d'une facade
+	 * @param template : la template du client
+	 * @throws Exception
+	 */
 	protected ClientComponent(String uriContentManagementFacade,ContentTemplateI template) throws Exception {
 		super(1, 0);
 		this.uriContentManagementFacade = uriContentManagementFacade;
 		this.template = template;
 	}
 
+	/**
+	 * 
+	* @see fr.sorbonne_u.components.AbstractComponent#start()
+	*
+	 */
 	@Override
 	public synchronized void start() throws ComponentStartException {
 		try {
@@ -42,19 +54,35 @@ public class ClientComponent extends AbstractClientComponent {
 		}
 		super.start();
 	}
-
+	
+	
+	/**
+	 * 
+	* @see fr.gestion_contenu.component.interfaces.AbstractClientComponent#find(fr.gestion_contenu.content.interfaces.ContentTemplateI)
+	*
+	 */
 	@Override
 	public ContentDescriptorI find(ContentTemplateI template) throws Exception {
 		return this.portContentManagement.find(template, 1);
 
 	}
 
+	/**
+	 * 
+	* @see fr.gestion_contenu.component.interfaces.AbstractClientComponent#match(fr.gestion_contenu.content.interfaces.ContentTemplateI)
+	*
+	 */
 	@Override
 	public Set<ContentDescriptorI> match(ContentTemplateI template) throws Exception {
 		return this.portContentManagement.match(template,new HashSet<>(), 1);
 
 	}
 
+	/**
+	 * 
+	* @see fr.sorbonne_u.components.AbstractComponent#execute()
+	*
+	 */
 	@Override
 	public void execute() throws Exception {
 		
@@ -76,12 +104,22 @@ public class ClientComponent extends AbstractClientComponent {
 		super.execute();
 	}
 
+	/**
+	 * 
+	* @see fr.sorbonne_u.components.AbstractComponent#finalise()
+	*
+	 */
 	@Override
 	public synchronized void finalise() throws Exception {
 		doPortDisconnection(this.portContentManagement.getPortURI());
 		super.finalise();
 	}
 
+	/**
+	 * 
+	* @see fr.sorbonne_u.components.AbstractComponent#shutdown()
+	*
+	 */
 	@Override
 	public synchronized void shutdown() throws ComponentShutdownException {
 		try {
