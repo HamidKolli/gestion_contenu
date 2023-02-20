@@ -12,16 +12,16 @@ import fr.gestion_contenu.connectors.ConnectorNode;
 import fr.gestion_contenu.connectors.ConnectorNodeManagement;
 import fr.gestion_contenu.content.interfaces.ContentDescriptorI;
 import fr.gestion_contenu.content.interfaces.ContentTemplateI;
-import fr.gestion_contenu.content_management.interfaces.ContentManagementCI;
 import fr.gestion_contenu.node.interfaces.ContentNodeAddressI;
-import fr.gestion_contenu.node.interfaces.NodeCI;
-import fr.gestion_contenu.node.interfaces.NodeManagementCI;
 import fr.gestion_contenu.node.interfaces.PeerNodeAddressI;
 import fr.gestion_contenu.ports.InPortContentManagement;
 import fr.gestion_contenu.ports.InPortNode;
 import fr.gestion_contenu.ports.NodePortNodeManagement;
 import fr.gestion_contenu.ports.OutPortContentManagement;
 import fr.gestion_contenu.ports.OutPortNode;
+import fr.gestion_contenu.ports.interfaces.ContentManagementCI;
+import fr.gestion_contenu.ports.interfaces.NodeCI;
+import fr.gestion_contenu.ports.interfaces.NodeManagementCI;
 import fr.sorbonne_u.components.annotations.OfferedInterfaces;
 import fr.sorbonne_u.components.annotations.RequiredInterfaces;
 import fr.sorbonne_u.components.exceptions.ComponentShutdownException;
@@ -29,7 +29,15 @@ import fr.sorbonne_u.components.exceptions.ComponentStartException;
 
 @RequiredInterfaces(required = { NodeManagementCI.class, NodeCI.class, ContentManagementCI.class })
 @OfferedInterfaces(offered = { NodeCI.class, ContentManagementCI.class })
+
+/**
+ * 
+ * @author Hamid KOLLI && Yanis ALAYOUD
+ * Classe conctrete qui gere les composant de noeud 
+ *
+ */
 public class NodeComponent extends AbstractNodeComponent {
+	
 	private ContentDescriptorI contentDescriptorI;
 	private NodePortNodeManagement portNodeManagement;
 	private Map<PeerNodeAddressI, OutPortNode> connectOutPort;
@@ -38,6 +46,13 @@ public class NodeComponent extends AbstractNodeComponent {
 	private InPortContentManagement inPortContentManagement;
 	private String portFacadeManagementURI;
 
+	/**
+	 * 
+	 * Constructeur NodeComponent 
+	 * @param contentDescriptorI : le descripteur du noeud
+	 * @param portFacadeManagementURI : l'uri du port entrant d'une facade (pour demander de joindre le reseau)
+	 * @throws Exception
+	 */
 	protected NodeComponent(ContentDescriptorI contentDescriptorI, String portFacadeManagementURI) throws Exception {
 		super(1, 0);
 		this.contentDescriptorI = contentDescriptorI;
@@ -47,7 +62,11 @@ public class NodeComponent extends AbstractNodeComponent {
 		this.connectNodeContent = new HashMap<>();
 
 	}
-
+	
+	/**
+	 * 
+	 * @see fr.sorbonne_u.components.AbstractComponent#start()
+	 */
 	@Override
 	public synchronized void start() throws ComponentStartException {
 		try {
@@ -65,6 +84,12 @@ public class NodeComponent extends AbstractNodeComponent {
 		super.start();
 	}
 
+	/**
+	 * 
+	* @see fr.gestion_contenu.component.interfaces.AbstractNodeComponent#join()
+	*
+	 */
+	@Override
 	public Set<PeerNodeAddressI> join() throws Exception {
 		doPortConnection(this.portNodeManagement.getPortURI(), this.portFacadeManagementURI,
 				ConnectorNodeManagement.class.getCanonicalName());
@@ -72,6 +97,11 @@ public class NodeComponent extends AbstractNodeComponent {
 		return peersVoisins;
 	}
 
+	/**
+	 * 
+	* @see fr.sorbonne_u.components.AbstractComponent#execute()
+	*
+	 */
 	@Override
 	public void execute() throws Exception {
 		Set<PeerNodeAddressI> peersVoisins = join();
@@ -82,21 +112,31 @@ public class NodeComponent extends AbstractNodeComponent {
 			}
 
 		}
-		
-		
-	
-
 		super.execute();
 	}
-
+	
+	/**
+	 * 
+	* @see fr.gestion_contenu.component.interfaces.AbstractNodeComponent#leave()
+	*
+	 */
+	@Override
 	public void leave() throws Exception {
 		portNodeManagement.leave(contentDescriptorI.getContentNodeAddress());
 		
 		List<Map.Entry<PeerNodeAddressI, OutPortNode>> ports = new ArrayList<>(connectOutPort.entrySet());
 		for (int i = 0; i < ports.size(); i++)
 			disconnect(ports.get(i).getKey());
+		
+		this.finalise();
 	}
 
+	/**
+	 * 
+	* @see fr.gestion_contenu.component.interfaces.AbstractNodeComponent#connect(fr.gestion_contenu.node.interfaces.PeerNodeAddressI)
+	*
+	 */
+	@Override
 	public void connect(PeerNodeAddressI peer) throws Exception {
 		System.out.println("connect to " + peer.getNodeIdentifier());
 		OutPortNode port = new OutPortNode(this);
@@ -113,6 +153,12 @@ public class NodeComponent extends AbstractNodeComponent {
 		System.out.println("connect reussi " + peer.getNodeIdentifier());
 	}
 
+	/**
+	 * 
+	* @see fr.gestion_contenu.component.interfaces.AbstractNodeComponent#disconnect(fr.gestion_contenu.node.interfaces.PeerNodeAddressI)
+	*
+	 */
+	@Override
 	public void disconnect(PeerNodeAddressI peer) throws Exception {
 		System.out.println("disconnect from " + peer.getNodeIdentifier());
 		OutPortNode port = connectOutPort.get(peer);
@@ -133,6 +179,12 @@ public class NodeComponent extends AbstractNodeComponent {
 
 	}
 
+	/**
+	 * 
+	* @see fr.gestion_contenu.component.interfaces.IContentRequest#find(fr.gestion_contenu.content.interfaces.ContentTemplateI, int)
+	*
+	 */
+	@Override
 	public ContentDescriptorI find(ContentTemplateI cd, int hops) throws Exception {
 		System.out.println("start find node" + cd);
 		if (hops == 0) {
@@ -155,6 +207,12 @@ public class NodeComponent extends AbstractNodeComponent {
 		return null;
 	}
 
+	/**
+	 * 
+	* @see fr.gestion_contenu.component.interfaces.IContentRequest#match(fr.gestion_contenu.content.interfaces.ContentTemplateI, java.util.Set, int)
+	*
+	 */
+	@Override
 	public Set<ContentDescriptorI> match(ContentTemplateI cd, Set<ContentDescriptorI> matched, int hops)
 			throws Exception {
 		System.out.println("start match node" + cd);
@@ -175,6 +233,11 @@ public class NodeComponent extends AbstractNodeComponent {
 		return matched;
 	}
 
+	/**
+	 * 
+	* @see fr.gestion_contenu.component.interfaces.AbstractNodeComponent#connectBack(fr.gestion_contenu.node.interfaces.PeerNodeAddressI)
+	*
+	 */
 	@Override
 	public PeerNodeAddressI connectBack(PeerNodeAddressI peer) throws Exception {
 		System.out.println("connect back to " + peer.getNodeIdentifier());
@@ -191,6 +254,11 @@ public class NodeComponent extends AbstractNodeComponent {
 		return contentDescriptorI.getContentNodeAddress();
 	}
 
+	/**
+	 * 
+	* @see fr.gestion_contenu.component.interfaces.AbstractNodeComponent#disconnectBack(fr.gestion_contenu.node.interfaces.PeerNodeAddressI)
+	*
+	 */
 	@Override
 	public void disconnectBack(PeerNodeAddressI peer) throws Exception {
 		System.out.println("disconnect back from " + peer.getNodeIdentifier());
@@ -206,6 +274,11 @@ public class NodeComponent extends AbstractNodeComponent {
 
 	}
 
+	/**
+	 * 
+	* @see fr.sorbonne_u.components.AbstractComponent#finalise()
+	*
+	 */
 	@Override
 	public synchronized void finalise() throws Exception {
 		this.portNodeManagement.doDisconnection();
@@ -218,6 +291,11 @@ public class NodeComponent extends AbstractNodeComponent {
 		super.finalise();
 	}
 
+	/**
+	 * 
+	* @see fr.sorbonne_u.components.AbstractComponent#shutdown()
+	*
+	 */
 	@Override
 	public synchronized void shutdown() throws ComponentShutdownException {
 		try {

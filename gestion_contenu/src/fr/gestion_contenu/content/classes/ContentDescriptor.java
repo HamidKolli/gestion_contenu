@@ -11,15 +11,6 @@ public class ContentDescriptor extends ContentTemplate implements ContentDescrip
 	private ContentNodeAddressI nodeAdress;
 	private long size;
 
-	/**
-	 * 
-	 * @param title
-	 * @param albumTitle
-	 * @param interpreters
-	 * @param composers
-	 * @param nodeAdress
-	 * @param size
-	 */
 	public ContentDescriptor(String title, String albumTitle, Set<String> interpreters, Set<String> composers,
 			ContentNodeAddressI nodeAdress, long size) {
 		super(title, albumTitle, interpreters, composers);

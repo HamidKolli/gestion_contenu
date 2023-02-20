@@ -7,13 +7,20 @@ import fr.gestion_contenu.component.interfaces.AbstractClientComponent;
 import fr.gestion_contenu.connectors.ConnectorContentManagement;
 import fr.gestion_contenu.content.interfaces.ContentDescriptorI;
 import fr.gestion_contenu.content.interfaces.ContentTemplateI;
-import fr.gestion_contenu.content_management.interfaces.ContentManagementCI;
 import fr.gestion_contenu.ports.OutPortContentManagement;
+import fr.gestion_contenu.ports.interfaces.ContentManagementCI;
 import fr.sorbonne_u.components.annotations.RequiredInterfaces;
 import fr.sorbonne_u.components.exceptions.ComponentShutdownException;
 import fr.sorbonne_u.components.exceptions.ComponentStartException;
 
 @RequiredInterfaces(required = { ContentManagementCI.class })
+
+/**
+ * 
+ * @author Hamid KOLLI && Yanis ALAYOUD
+ *
+ * Un exemple de classe de client
+ */
 public class ClientComponent extends AbstractClientComponent {
 	private ContentTemplateI template;
 	private String uriContentManagementFacade;
