@@ -57,7 +57,7 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 	}
 	
 	protected OutPortContentManagement connect(PeerNodeAddressI peer) throws Exception {
-		System.out.println("connect to " + peer.getNodeIdentifier());
+		getOwner().traceMessage("connect to " + peer.getNodeIdentifier());
 		OutPortNode port = new OutPortNode(getOwner());
 		port.publishPort();
 		getOwner().doPortConnection(port.getPortURI(), peer.getNodeURI(), ConnectorNode.class.getCanonicalName());
@@ -69,7 +69,7 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 		portContent.publishPort();
 		getOwner().doPortConnection(portContent.getPortURI(), ((ContentNodeAddressI) peer).getContentManagementURI(),
 				ConnectorContentManagement.class.getCanonicalName());
-		System.out.println("connect reussi " + peer.getNodeIdentifier());
+		getOwner().traceMessage("connect reussi " + peer.getNodeIdentifier());
 		return  portContent;
 	}
 
@@ -77,7 +77,7 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 	protected void disconnect(PeerNodeAddressI peer,OutPortContentManagement portContent) throws Exception {
 		OutPortNode port = connectOutPort.get(peer);
 		connectOutPort.remove(peer);
-		System.out.println("disconnect from " + peer.getNodeIdentifier());
+		getOwner().traceMessage("disconnect from " + peer.getNodeIdentifier());
 		port.disconnect(nodeAddresses);
 		port.doDisconnection();
 		port.unpublishPort();
@@ -87,7 +87,7 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 		portContent.unpublishPort();
 		portContent.destroyPort();
 		
-		System.out.println("fin disconnect " + peer.getNodeIdentifier());
+		getOwner().traceMessage("fin disconnect " + peer.getNodeIdentifier());
 
 	}
 
@@ -95,7 +95,7 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 	
 
 	protected OutPortContentManagement connectBack(PeerNodeAddressI peer) throws Exception {
-		System.out.println("connect back to " + peer.getNodeIdentifier());
+		getOwner().traceMessage("connect back to " + peer.getNodeIdentifier());
 		OutPortNode port = new OutPortNode(getOwner());
 		port.publishPort();
 		getOwner().doPortConnection(port.getPortURI(), peer.getNodeURI(), ConnectorNode.class.getCanonicalName());
@@ -106,20 +106,20 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 		getOwner().doPortConnection(portContent.getPortURI(), ((ContentNodeAddressI) peer).getContentManagementURI(),
 				ConnectorContentManagement.class.getCanonicalName());
 		
-		System.out.println("fin connect back to " + peer.getNodeIdentifier());
+		getOwner().traceMessage("fin connect back to " + peer.getNodeIdentifier());
 		return portContent;
 		
 	}
 
 
 	protected void disconnectBack(PeerNodeAddressI peer) throws Exception {
-		System.out.println("disconnect back from " + peer.getNodeIdentifier());
+		getOwner().traceMessage("disconnect back from " + peer.getNodeIdentifier());
 		OutPortNode port = connectOutPort.get(peer);
 		connectOutPort.remove(peer);
 		port.doDisconnection();
 		port.unpublishPort();
 		port.destroyPort();
-		System.out.println("fin disconnect back from " + peer.getNodeIdentifier());
+		getOwner().traceMessage("fin disconnect back from " + peer.getNodeIdentifier());
 		
 
 	}

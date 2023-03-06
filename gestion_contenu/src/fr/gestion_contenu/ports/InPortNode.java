@@ -1,8 +1,6 @@
 package fr.gestion_contenu.ports;
 
-import fr.gestion_contenu.component.NodeComponent;
 import fr.gestion_contenu.node.interfaces.PeerNodeAddressI;
-import fr.gestion_contenu.plugins.ConnectionNodePlugin;
 import fr.gestion_contenu.plugins.ContentManagementPlugin;
 import fr.gestion_contenu.ports.interfaces.NodeCI;
 import fr.sorbonne_u.components.AbstractComponent;

@@ -2,13 +2,11 @@ package fr.gestion_contenu.ports;
 
 import java.util.Set;
 
-import fr.gestion_contenu.component.FacadeComponent;
 import fr.gestion_contenu.node.interfaces.PeerNodeAddressI;
 import fr.gestion_contenu.plugins.FacadeContentManagementPlugin;
 import fr.gestion_contenu.ports.interfaces.NodeManagementCI;
 import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.ComponentI;
-import fr.sorbonne_u.components.interfaces.OfferedCI;
 import fr.sorbonne_u.components.ports.AbstractInboundPort;
 
 /**
@@ -61,11 +59,14 @@ public class FacadePortNodeManagement extends AbstractInboundPort implements Nod
 	 */
 	@Override
 	public void leave(PeerNodeAddressI a) throws Exception {
-		getOwner().handleRequest(new AbstractComponent.AbstractService<Void>(this.getPluginURI()) {
+		getOwner().runTask(new AbstractComponent.AbstractTask(pluginURI) {
 			@Override
-			public Void call() throws Exception {
-				((FacadeContentManagementPlugin) getServiceProviderReference()).leave(a);
-				return null;
+			public void run() {
+					try {
+						((FacadeContentManagementPlugin) getOwnerPlugin(pluginURI)).leave(a);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 			}
 		});
 	}

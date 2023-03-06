@@ -48,15 +48,18 @@ public class TestReadHashMap {
 	public static Set<ContentTemplateI> readTemplate() {
 
 		Set<ContentTemplateI> descriptors = new HashSet<>();
-		for (int i = 0; i < 10; i++) {
-			try (FileInputStream f = new FileInputStream("data/descriptors" + i + ".dat")) {
+		for (int i = 0; i < 2; i++) {
+			try (FileInputStream f = new FileInputStream("data/templates" + i + ".dat")) {
 				try (ObjectInputStream of = new ObjectInputStream(f)) {
 					HashMap<String, Object> data = (HashMap<String, Object>) (of.readObject());
-
+					
+					List<String> interpreters = (List<String>) data.get("interpreters");
+					List<String> composers = (List<String>) data.get("composers");
+					
 					descriptors.add(new ContentTemplate(((String) data.get("title")),
 							(String) data.get("album-title"), 
-							new HashSet<>((List) data.get("interpreters")),
-							new HashSet<>((List) data.get("composers"))));
+							interpreters == null? null : new HashSet<>(interpreters),
+							composers == null? null : new HashSet<>(composers)));
 				} catch (IOException | ClassNotFoundException e) {
 
 					e.printStackTrace();

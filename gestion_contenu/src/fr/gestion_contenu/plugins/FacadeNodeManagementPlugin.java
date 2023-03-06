@@ -18,7 +18,7 @@ import fr.gestion_contenu.ports.interfaces.NodeManagementCI;
 import fr.sorbonne_u.components.AbstractPlugin;
 import fr.sorbonne_u.components.ComponentI;
 
-public class FacadeNodeManagementPlugin extends AbstractPlugin implements IConnectFacadeRequest{
+public class FacadeNodeManagementPlugin extends AbstractPlugin implements IConnectFacadeRequest {
 
 	private static final long serialVersionUID = 1L;
 	protected Set<PeerNodeAddressI> connectToNode;
@@ -27,38 +27,38 @@ public class FacadeNodeManagementPlugin extends AbstractPlugin implements IConne
 	private String facadePortNodeManagementURI;
 	private final int numberRootNode;
 	public static final int NODE_RETURN = 2;
-	
-	public FacadeNodeManagementPlugin(String facadePortNodeManagementURI,int nbRoot) {
+
+	public FacadeNodeManagementPlugin(String facadePortNodeManagementURI, int nbRoot) {
 		super();
 		this.facadePortNodeManagementURI = facadePortNodeManagementURI;
 		connectToNode = new HashSet<>();
 		connectNodeRoot = new HashMap<>();
 		this.numberRootNode = nbRoot;
 	}
-	
+
 	@Override
 	public void installOn(ComponentI owner) throws Exception {
 		super.installOn(owner);
 		this.addOfferedInterface(NodeManagementCI.class);
 		this.addRequiredInterface(NodeManagementCI.class);
 	}
-	
+
 	@Override
 	public void initialise() throws Exception {
 		super.initialise();
-		facadePortNodeManagement = new FacadePortNodeManagement(facadePortNodeManagementURI,getOwner(),getPluginURI());
+		facadePortNodeManagement = new FacadePortNodeManagement(facadePortNodeManagementURI, getOwner(),
+				getPluginURI());
 		facadePortNodeManagement.publishPort();
 	}
-	
-	
+
 	/**
 	 * 
-	* @see fr.gestion_contenu.component.interfaces.IConnectFacadeRequest#join(fr.gestion_contenu.node.interfaces.PeerNodeAddressI)
-	*
+	 * @see fr.gestion_contenu.component.interfaces.IConnectFacadeRequest#join(fr.gestion_contenu.node.interfaces.PeerNodeAddressI)
+	 *
 	 */
 	@Override
 	public Set<PeerNodeAddressI> join(PeerNodeAddressI a) throws Exception {
-		System.out.println("join " + a.getNodeIdentifier());
+		getOwner().traceMessage("join " + a.getNodeIdentifier());
 		if (connectNodeRoot.size() < numberRootNode) {
 			OutPortContentManagement port = new OutPortContentManagement(getOwner());
 			port.publishPort();
@@ -66,70 +66,68 @@ public class FacadeNodeManagementPlugin extends AbstractPlugin implements IConne
 					ConnectorContentManagement.class.getCanonicalName());
 			connectNodeRoot.put(a, port);
 		}
-		
+
 		connectToNode.add(a);
-		Set<PeerNodeAddressI> result ;
-		
+		Set<PeerNodeAddressI> result;
+
 		if (connectToNode.size() < NODE_RETURN) {
 			result = new HashSet<>(connectToNode);
-			System.out.println("fin join " + a.getNodeIdentifier()  + "size result " + result.size() );
+			getOwner().traceMessage("fin join " + a.getNodeIdentifier() + "size result " + result.size());
 			return result;
 		}
-		
-		
+
 		result = new HashSet<>();
 		List<PeerNodeAddressI> resultList = new ArrayList<>(connectToNode);
 
 		Collections.shuffle(resultList);
 
-		result.addAll(resultList.subList(0,Math.max(NODE_RETURN, resultList.size())));
-		System.out.println("fin join " + a.getNodeIdentifier() + "size result " + result.size() );
-		
+		result.addAll(resultList.subList(0, Math.max(NODE_RETURN, resultList.size())));
+		getOwner().traceMessage("fin join " + a.getNodeIdentifier() + "size result " + result.size());
+
 		return result;
 	}
 
 	/**
 	 * 
-	* @see fr.gestion_contenu.component.interfaces.IConnectFacadeRequest#leave(fr.gestion_contenu.node.interfaces.PeerNodeAddressI)
-	*
+	 * @see fr.gestion_contenu.component.interfaces.IConnectFacadeRequest#leave(fr.gestion_contenu.node.interfaces.PeerNodeAddressI)
+	 *
 	 */
 	@Override
-	public  void leave(PeerNodeAddressI a) throws Exception {
-		System.out.println("leave " + a.getNodeIdentifier());
+	public synchronized void leave(PeerNodeAddressI a) throws Exception {
+		getOwner().traceMessage("leave " + a.getNodeIdentifier());
 		connectToNode.remove(a);
-		if(connectNodeRoot.containsKey(a)) {
-			OutPortContentManagement portAncien =  connectNodeRoot.get(a);
+		if (connectNodeRoot.containsKey(a)) {
+			OutPortContentManagement portAncien = connectNodeRoot.get(a);
 			portAncien.doDisconnection();
 			portAncien.unpublishPort();
 			portAncien.destroyPort();
-			
-			
+
 			connectNodeRoot.remove(a);
-			if(connectToNode.size() == 0) {
-				return ;
+			if (connectToNode.size() == 0) {
+				return;
 			}
-			
+
 			List<PeerNodeAddressI> resultList = new ArrayList<>(connectToNode);
 			Collections.shuffle(resultList);
 			OutPortContentManagement port = new OutPortContentManagement(getOwner());
 			port.publishPort();
-			getOwner().doPortConnection(port.getPortURI(), ((ContentNodeAddressI) resultList.get(0)).getContentManagementURI(),
+			getOwner().doPortConnection(port.getPortURI(),
+					((ContentNodeAddressI) resultList.get(0)).getContentManagementURI(),
 					ConnectorContentManagement.class.getCanonicalName());
-			
+
 			connectNodeRoot.put(resultList.get(0), port);
 		}
-		
+
 	}
-	
-	
+
 	@Override
 	public void finalise() throws Exception {
 
-		for (Map.Entry<PeerNodeAddressI, OutPortContentManagement> port : connectNodeRoot.entrySet()) 
+		for (Map.Entry<PeerNodeAddressI, OutPortContentManagement> port : connectNodeRoot.entrySet())
 			port.getValue().doDisconnection();
 		super.finalise();
 	}
-	
+
 	@Override
 	public void uninstall() throws Exception {
 		this.facadePortNodeManagement.unpublishPort();
@@ -141,6 +139,5 @@ public class FacadeNodeManagementPlugin extends AbstractPlugin implements IConne
 		}
 		super.uninstall();
 	}
-	
-	
+
 }

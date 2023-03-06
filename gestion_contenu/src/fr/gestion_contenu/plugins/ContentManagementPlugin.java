@@ -46,31 +46,31 @@ public class ContentManagementPlugin extends ConnectionNodePlugin implements ICo
 	}
 
 	public ContentDescriptorI find(ContentTemplateI cd, int hops) throws Exception {
-		System.out.println("start find node" + cd);
+		getOwner().traceMessage("start find node" + cd);
 		if (hops == 0) {
-			System.out.println("fin find node" + cd);
+			getOwner().traceMessage("fin find node" + cd);
 			return null;
 		}
 		ContentDescriptorI contentDescriptor;
 		if ((contentDescriptor = ((AbstractNodeComponent) getOwner()).match(cd)) != null) {
-			System.out.println("fin find node" + cd);
+			getOwner().traceMessage("fin find node" + cd);
 			return contentDescriptor;
 		}
 		ContentDescriptorI tmp;
 		for (OutPortContentManagement port : connectNodeContent.values()) {
 
 			if ((tmp = port.find(cd, hops - 1)) != null) {
-				System.out.println("fin find node" + cd);
+				getOwner().traceMessage("fin find node" + cd);
 				return tmp;
 			}
 		}
-		System.out.println("fin find node" + cd);
+		getOwner().traceMessage("fin find node" + cd);
 		return null;
 	}
 
 	public Set<ContentDescriptorI> match(ContentTemplateI cd, Set<ContentDescriptorI> matched, int hops)
 			throws Exception {
-		System.out.println("start match node" + cd);
+		getOwner().traceMessage("start match node" + cd);
 
 		for (OutPortContentManagement op : connectNodeContent.values()) {
 			ContentDescriptorI contentDescriptor;
@@ -79,11 +79,11 @@ public class ContentManagementPlugin extends ConnectionNodePlugin implements ICo
 				if (!matched.contains(contentDescriptor))
 					matched.add(contentDescriptor);
 			}
-			System.out.println("loop match node");
+			getOwner().traceMessage("loop match node");
 			if (hops != 0)
 				matched = op.match(cd, matched, hops - 1);
 		}
-		System.out.println("fin match node" + cd);
+		getOwner().traceMessage("fin match node" + cd);
 
 		return matched;
 	}
