@@ -9,6 +9,7 @@ import fr.gestion_contenu.node.informations.ApplicationNodeAddress;
 import fr.gestion_contenu.ports.InPortContentManagement;
 import fr.gestion_contenu.ports.OutPortContentManagement;
 import fr.gestion_contenu.ports.interfaces.ContentManagementCI;
+import fr.gestion_contenu.ports.interfaces.ReturnResultCI;
 import fr.sorbonne_u.components.ComponentI;
 
 public class FacadeContentManagementPlugin extends FacadeNodeManagementPlugin implements IContentRequest {
@@ -29,6 +30,7 @@ public class FacadeContentManagementPlugin extends FacadeNodeManagementPlugin im
 		super.installOn(owner);
 		this.addOfferedInterface(ContentManagementCI.class);
 		this.addRequiredInterface(ContentManagementCI.class);
+		this.addRequiredInterface(ReturnResultCI.class);
 
 	}
 
@@ -47,17 +49,12 @@ public class FacadeContentManagementPlugin extends FacadeNodeManagementPlugin im
 	 *
 	 */
 	@Override
-	public ContentDescriptorI find(ContentTemplateI cd, int hops) throws Exception {
-		getOwner().traceMessage("start find facade" + cd);
-		ContentDescriptorI c;
+	public void find(ContentTemplateI cd, int hops,String uriReturn) throws Exception {
+		getOwner().traceMessage("start find facade" + cd + "\n");
 		for (OutPortContentManagement op : connectNodeRoot.values()) {
-			if ((c = op.find(cd, hops)) != null) {
-				getOwner().traceMessage("fin find facade" + cd);
-				return c;
-			}
+				op.find(cd, hops, uriReturn);
 		}
-
-		return null;
+		getOwner().traceMessage("fin find facade" + cd + "\n");
 	}
 
 	/**
@@ -67,16 +64,14 @@ public class FacadeContentManagementPlugin extends FacadeNodeManagementPlugin im
 	 *
 	 */
 	@Override
-	public Set<ContentDescriptorI> match(ContentTemplateI cd, Set<ContentDescriptorI> matched, int hops)
+	public void match(ContentTemplateI cd, Set<ContentDescriptorI> matched, int hops,String uriReturn)
 			throws Exception {
-		getOwner().traceMessage("start match facade" + cd);
+		getOwner().traceMessage("start match facade" + cd + "\n");
 		for (OutPortContentManagement op : connectNodeRoot.values()) {
 			getOwner().traceMessage("loop match facade");
-			op.match(cd, matched, hops);
+			op.match(cd, matched, hops,uriReturn);
 		}
-		getOwner().traceMessage("fin match facade" + cd);
-
-		return matched;
+		getOwner().traceMessage("fin match facade" + cd + "\n");
 	}
 
 	@Override

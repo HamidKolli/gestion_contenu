@@ -19,7 +19,7 @@ public interface IContentRequest {
 	 * @param hops : le nombre de pas pour eviter les appels infinis
 	 * @throws Exception
 	 */
-	public ContentDescriptorI find(ContentTemplateI cd, int hops) throws Exception;
+	public void find(ContentTemplateI cd, int hops,String uriReturn) throws Exception;
 
 	/**
 	 * Methode qui permet de rechercher des contenus similaire a un template
@@ -28,6 +28,6 @@ public interface IContentRequest {
 	 * @param hops : le nombre de pas pour eviter les appels infinis
 	 * @throws Exception
 	 */
-	public Set<ContentDescriptorI> match(ContentTemplateI cd, Set<ContentDescriptorI> matched, int hops)throws Exception;
+	public void match(ContentTemplateI cd, Set<ContentDescriptorI> matched, int hops,String uriReturn)throws Exception;
 	
 }

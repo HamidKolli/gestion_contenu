@@ -35,6 +35,8 @@ public class NodeComponent extends AbstractNodeComponent {
 	private String portFacadeManagementURI;
 	private ClockPlugin pluginClock;
 	private String clockURI;
+	private static int cptX = 0;
+	private static int cptY = 0;
 
 	/**
 	 * 
@@ -52,7 +54,10 @@ public class NodeComponent extends AbstractNodeComponent {
 		this.portFacadeManagementURI = portFacadeManagementURI;
 		this.clockURI = clockURI;
 		this.getTracer().setTitle("Node");
-		this.getTracer().setOrigin(1000, 0);
+		if(cptX % 4 == 0) {
+			cptY++;
+		}
+		this.getTracer().setOrigin(480 * (((cptX++) + 1) % 4), 250 * (cptY % 4));
 	}
 
 	/**
@@ -112,7 +117,6 @@ public class NodeComponent extends AbstractNodeComponent {
 	@Override
 	public void execute() throws Exception {
 
-		
 
 		AcceleratedClock clock = pluginClock.getClock();
 
@@ -131,7 +135,7 @@ public class NodeComponent extends AbstractNodeComponent {
 
 		
 
-		long delay = clock.nanoDelayUntilAcceleratedInstant(instant.plusSeconds(3000));
+		long delay = clock.nanoDelayUntilAcceleratedInstant(instant.plusSeconds(1000));
 
 		this.scheduleTask(o -> {
 			try {
@@ -140,7 +144,6 @@ public class NodeComponent extends AbstractNodeComponent {
 				e.printStackTrace();
 			}
 		}, delay, TimeUnit.NANOSECONDS);
-		System.out.println("sort execute node");
 
 		super.execute();
 	}
@@ -153,7 +156,9 @@ public class NodeComponent extends AbstractNodeComponent {
 	@Override
 	public void leave() throws Exception {
 		
+		plugin.leave();
 		portNodeManagement.leave(contentDescriptorI.getContentNodeAddress());
+		
 		
 		traceMessage("Leave \n");
 	}
@@ -166,7 +171,6 @@ public class NodeComponent extends AbstractNodeComponent {
 	@Override
 	public synchronized void finalise() throws Exception {
 		this.portNodeManagement.doDisconnection();
-		printExecutionLog();
 		super.finalise();
 	}
 

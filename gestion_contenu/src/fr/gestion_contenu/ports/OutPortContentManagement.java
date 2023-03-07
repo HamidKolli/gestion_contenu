@@ -38,8 +38,8 @@ public class OutPortContentManagement extends AbstractOutboundPort implements Co
 	 *
 	 */
 	@Override
-	public ContentDescriptorI find(ContentTemplateI cd, int hops) throws Exception {
-		return ((ConnectorContentManagement) getConnector()).find(cd, hops);
+	public void find(ContentTemplateI cd, int hops,String uriReturn) throws Exception {
+		 ((ConnectorContentManagement) getConnector()).find(cd, hops,uriReturn);
 	}
 
 	/**
@@ -49,9 +49,9 @@ public class OutPortContentManagement extends AbstractOutboundPort implements Co
 	 *
 	 */
 	@Override
-	public Set<ContentDescriptorI> match(ContentTemplateI cd, Set<ContentDescriptorI> matched, int hops)
+	public void match(ContentTemplateI cd, Set<ContentDescriptorI> matched, int hops,String uriReturn)
 			throws Exception {
-		return ((ConnectorContentManagement) getConnector()).match(cd, matched, hops);
+		 ((ConnectorContentManagement) getConnector()).match(cd, matched, hops,uriReturn);
 	}
 
 }

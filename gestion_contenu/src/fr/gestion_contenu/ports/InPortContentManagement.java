@@ -29,9 +29,8 @@ public class InPortContentManagement extends AbstractInboundPort implements Cont
 	 * @param owner : le composant qui le possede
 	 * @throws Exception
 	 */
-	public InPortContentManagement(String uri,  ComponentI owner,
-			String pluginURI) throws Exception {
-		super(uri, ContentManagementCI.class, owner,pluginURI,null);
+	public InPortContentManagement(String uri, ComponentI owner, String pluginURI) throws Exception {
+		super(uri, ContentManagementCI.class, owner, pluginURI, null);
 	}
 
 	/**
@@ -41,15 +40,19 @@ public class InPortContentManagement extends AbstractInboundPort implements Cont
 	 *
 	 */
 	@Override
-	public ContentDescriptorI find(ContentTemplateI cd, int hops) throws Exception {
-		return getOwner().handleRequest(new AbstractComponent.AbstractService<ContentDescriptorI>(this.getPluginURI()) {
-			@Override
-			public ContentDescriptorI call() throws Exception {
+	public void find(ContentTemplateI cd, int hops, String uriReturn) throws Exception {
+		getOwner().runTask(new AbstractComponent.AbstractTask(pluginURI) {
 
-				return ((IContentRequest) getServiceProviderReference()).find(cd, hops);
+			@Override
+			public void run() {
+				try {
+					((IContentRequest) getTaskProviderReference()).find(cd, hops, uriReturn);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
 			}
 		});
-
 	}
 
 	/**
@@ -59,15 +62,22 @@ public class InPortContentManagement extends AbstractInboundPort implements Cont
 	 *
 	 */
 	@Override
-	public Set<ContentDescriptorI> match(ContentTemplateI cd, Set<ContentDescriptorI> matched, int hops)
+	public void match(ContentTemplateI cd, Set<ContentDescriptorI> matched, int hops, String uriReturn)
 			throws Exception {
-		return getOwner().handleRequest(new AbstractComponent.AbstractService<Set<ContentDescriptorI>>(this.getPluginURI()) {
-			@Override
-			public Set<ContentDescriptorI> call() throws Exception {
+		getOwner().runTask(new AbstractComponent.AbstractTask(pluginURI) {
 
-				return ((IContentRequest) getServiceProviderReference()).match(cd, matched, hops);
+			@Override
+			public void run() {
+				try {
+					((IContentRequest) getTaskProviderReference()).match(cd, matched, hops, uriReturn);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 			}
 		});
+
 	}
 
 }

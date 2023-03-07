@@ -32,7 +32,7 @@ public abstract class AbstractClientComponent extends AbstractComponent{
 	 * @return une description du contenu
 	 * @throws Exception
 	 */
-	public abstract ContentDescriptorI find(ContentTemplateI template) throws Exception;
+	public abstract void find(ContentTemplateI template,String uriReturn) throws Exception;
 	
 	/**
 	 * 
@@ -41,6 +41,8 @@ public abstract class AbstractClientComponent extends AbstractComponent{
 	 * @return l'essemble des descriptions du contenu
 	 * @throws Exception
 	 */
-	public abstract Set<ContentDescriptorI> match(ContentTemplateI template) throws Exception;
-
+	public abstract void match(ContentTemplateI template,String uriReturn) throws Exception;
+	
+	public abstract void returnMatch(Set<ContentDescriptorI> descriptors )  throws Exception;
+	public abstract void returnFind(ContentDescriptorI descriptors )  throws Exception;
 }

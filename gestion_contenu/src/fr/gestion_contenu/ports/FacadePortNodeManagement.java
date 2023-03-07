@@ -11,9 +11,8 @@ import fr.sorbonne_u.components.ports.AbstractInboundPort;
 
 /**
  * 
- * @author Hamid KOLLI && Yanis ALAYOUD 
- * Classe qui represente le port entrant
- * d'une facade pour une connexion au reseau
+ * @author Hamid KOLLI && Yanis ALAYOUD Classe qui represente le port entrant
+ *         d'une facade pour une connexion au reseau
  */
 public class FacadePortNodeManagement extends AbstractInboundPort implements NodeManagementCI {
 
@@ -22,13 +21,13 @@ public class FacadePortNodeManagement extends AbstractInboundPort implements Nod
 	/**
 	 * 
 	 * Constructeur FacadePortNodeManagement.java
+	 * 
 	 * @param uri
 	 * @param owner
 	 * @param pluginURI
 	 * @throws Exception
 	 */
-	public FacadePortNodeManagement(String uri,  ComponentI owner,
-			String pluginURI) throws Exception {
+	public FacadePortNodeManagement(String uri, ComponentI owner, String pluginURI) throws Exception {
 		super(uri, NodeManagementCI.class, owner, pluginURI, null);
 
 	}
@@ -41,16 +40,14 @@ public class FacadePortNodeManagement extends AbstractInboundPort implements Nod
 	@Override
 	public Set<PeerNodeAddressI> join(PeerNodeAddressI a) throws Exception {
 
-		return getOwner().handleRequest(new AbstractComponent.AbstractService<Set<PeerNodeAddressI>>(this.getPluginURI()) {
-			@Override
-			public Set<PeerNodeAddressI> call() throws Exception {
-				return ((FacadeContentManagementPlugin) getServiceProviderReference()).join(a);
-			}
-		});
+		return getOwner()
+				.handleRequest(new AbstractComponent.AbstractService<Set<PeerNodeAddressI>>(this.getPluginURI()) {
+					@Override
+					public Set<PeerNodeAddressI> call() throws Exception {
+						return ((FacadeContentManagementPlugin) getServiceProviderReference()).join(a);
+					}
+				});
 	}
-
-
-
 
 	/**
 	 * 
@@ -62,11 +59,11 @@ public class FacadePortNodeManagement extends AbstractInboundPort implements Nod
 		getOwner().runTask(new AbstractComponent.AbstractTask(pluginURI) {
 			@Override
 			public void run() {
-					try {
-						((FacadeContentManagementPlugin) getOwnerPlugin(pluginURI)).leave(a);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+				try {
+					((FacadeContentManagementPlugin) getTaskProviderReference()).leave(a);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
 	}

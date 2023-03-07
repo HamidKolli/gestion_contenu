@@ -1,30 +1,34 @@
 package fr.gestion_contenu.plugins;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import fr.gestion_contenu.component.interfaces.AbstractNodeComponent;
 import fr.gestion_contenu.component.interfaces.IContentRequest;
+import fr.gestion_contenu.connectors.ConnectorResult;
 import fr.gestion_contenu.content.interfaces.ContentDescriptorI;
 import fr.gestion_contenu.content.interfaces.ContentTemplateI;
 import fr.gestion_contenu.node.interfaces.ContentNodeAddressI;
 import fr.gestion_contenu.node.interfaces.PeerNodeAddressI;
 import fr.gestion_contenu.ports.InPortContentManagement;
 import fr.gestion_contenu.ports.OutPortContentManagement;
+import fr.gestion_contenu.ports.ReturnResultOutPort;
 import fr.gestion_contenu.ports.interfaces.ContentManagementCI;
+import fr.gestion_contenu.ports.interfaces.ReturnResultCI;
 import fr.sorbonne_u.components.ComponentI;
 
 public class ContentManagementPlugin extends ConnectionNodePlugin implements IContentRequest {
 
 	private static final long serialVersionUID = 1L;
-	private Map<PeerNodeAddressI, OutPortContentManagement> connectNodeContent;
+	private ConcurrentMap<PeerNodeAddressI, OutPortContentManagement> connectNodeContent;
 	private ContentNodeAddressI contentNodeAddress;
 	private InPortContentManagement inPortContentManagement;
 
 	public ContentManagementPlugin(ContentNodeAddressI contentNodeAddress) {
 		super(contentNodeAddress);
-		connectNodeContent = new HashMap<>();
+		connectNodeContent = new ConcurrentHashMap<>();
 		this.contentNodeAddress = contentNodeAddress;
 	}
 
@@ -33,6 +37,7 @@ public class ContentManagementPlugin extends ConnectionNodePlugin implements ICo
 		super.installOn(owner);
 		this.addOfferedInterface(ContentManagementCI.class);
 		this.addRequiredInterface(ContentManagementCI.class);
+		this.addRequiredInterface(ReturnResultCI.class);
 	}
 
 	@Override
@@ -45,74 +50,105 @@ public class ContentManagementPlugin extends ConnectionNodePlugin implements ICo
 
 	}
 
-	public ContentDescriptorI find(ContentTemplateI cd, int hops) throws Exception {
-		getOwner().traceMessage("start find node" + cd);
+	private void returnFind(ContentDescriptorI cd, String uriReturn) throws Exception {
+		getOwner().traceMessage("fin find node" + cd + "\n");
+		ReturnResultOutPort result = new ReturnResultOutPort(getOwner());
+		result.publishPort();
+		getOwner().doPortConnection(result.getPortURI(), uriReturn, ConnectorResult.class.getCanonicalName());
+		result.returnFind(null);
+		result.doDisconnection();
+		result.unpublishPort();
+		result.destroyPort();
+	}
+
+	@Override
+	public void find(ContentTemplateI cd, int hops, String uriReturn) throws Exception {
+		getOwner().traceMessage("start find node" + cd + "\n");
+
 		if (hops == 0) {
-			getOwner().traceMessage("fin find node" + cd);
-			return null;
+			returnFind(null, uriReturn);
+			return;
 		}
 		ContentDescriptorI contentDescriptor;
 		if ((contentDescriptor = ((AbstractNodeComponent) getOwner()).match(cd)) != null) {
-			getOwner().traceMessage("fin find node" + cd);
-			return contentDescriptor;
+			returnFind(contentDescriptor, uriReturn);
 		}
-		ContentDescriptorI tmp;
 		for (OutPortContentManagement port : connectNodeContent.values()) {
-
-			if ((tmp = port.find(cd, hops - 1)) != null) {
-				getOwner().traceMessage("fin find node" + cd);
-				return tmp;
-			}
+			port.find(cd, hops-1, uriReturn);
 		}
-		getOwner().traceMessage("fin find node" + cd);
-		return null;
+		getOwner().traceMessage("fin find node" + cd + "\n");
+
 	}
 
-	public Set<ContentDescriptorI> match(ContentTemplateI cd, Set<ContentDescriptorI> matched, int hops)
+	@Override
+	public void match(ContentTemplateI cd, Set<ContentDescriptorI> matched, int hops, String uriReturn)
 			throws Exception {
-		getOwner().traceMessage("start match node" + cd);
+		getOwner().traceMessage("start match node" + cd + "\n");
 
-		for (OutPortContentManagement op : connectNodeContent.values()) {
-			ContentDescriptorI contentDescriptor;
-			if ((contentDescriptor = ((AbstractNodeComponent) getOwner()).match(cd)) != null) {
-
-				if (!matched.contains(contentDescriptor))
-					matched.add(contentDescriptor);
-			}
-			getOwner().traceMessage("loop match node");
-			if (hops != 0)
-				matched = op.match(cd, matched, hops - 1);
+		if (hops == 0) {
+			ReturnResultOutPort result = new ReturnResultOutPort(getOwner());
+			result.publishPort();
+			getOwner().doPortConnection(result.getPortURI(), uriReturn, ConnectorResult.class.getCanonicalName());
+			result.returnMatch(matched);
+			result.doDisconnection();
+			result.unpublishPort();
+			result.destroyPort();
+			return;
 		}
-		getOwner().traceMessage("fin match node" + cd);
 
-		return matched;
+		ContentDescriptorI contentDescriptor;
+		if ((contentDescriptor = ((AbstractNodeComponent) getOwner()).match(cd)) != null
+				&& !matched.contains(contentDescriptor)) {
+			matched.add(contentDescriptor);
+		}
+		for (OutPortContentManagement op : connectNodeContent.values()) {
+			op.match(cd, matched, hops-1, uriReturn);
+		}
+		getOwner().traceMessage("fin match node" + cd + "\n");
+
 	}
-
-	public OutPortContentManagement connect(PeerNodeAddressI peer) throws Exception {
+	
+	@Override
+	public synchronized OutPortContentManagement connect(PeerNodeAddressI peer) throws Exception {
+		if(connectNodeContent.containsKey(peer))
+			return null;
 		OutPortContentManagement c = super.connect(peer);
 		connectNodeContent.put(peer, c);
 		return c;
 	}
-
-	public void disconnect(PeerNodeAddressI peer) throws Exception {
+	
+	public synchronized void disconnect(PeerNodeAddressI peer) throws Exception {
+		if(!connectNodeContent.containsKey(peer))
+			return;
 		super.disconnect(peer, connectNodeContent.remove(peer));
 	}
 
 	@Override
-	public OutPortContentManagement connectBack(PeerNodeAddressI peer) throws Exception {
+	public synchronized OutPortContentManagement connectBack(PeerNodeAddressI peer) throws Exception {
+		if(connectNodeContent.containsKey(peer))
+			return null;
 		OutPortContentManagement c = super.connectBack(peer);
 		connectNodeContent.put(peer, c);
 		return c;
 	}
 
 	@Override
-	public void disconnectBack(PeerNodeAddressI peer) throws Exception {
+	public synchronized void disconnectBack(PeerNodeAddressI peer) throws Exception {
+		if(!connectNodeContent.containsKey(peer))
+			return;
 		super.disconnectBack(peer);
-		OutPortContentManagement portContent = connectNodeContent.get(peer);
+		OutPortContentManagement portContent = connectNodeContent.remove(peer);
 		portContent.doDisconnection();
 		portContent.unpublishPort();
 		portContent.destroyPort();
 	}
+	
+	public synchronized void leave() throws Exception {
+		for (Map.Entry<PeerNodeAddressI, OutPortContentManagement>  entry : connectNodeContent.entrySet()) {
+			disconnect(entry.getKey());
+		}
+		getOwner().traceMessage("Fin leave \n");
+	} 
 
 	@Override
 	public void finalise() throws Exception {

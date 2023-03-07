@@ -37,13 +37,14 @@ public class InPortNode extends AbstractInboundPort implements NodeCI {
 	 */
 	@Override
 	public void connect(PeerNodeAddressI a) throws Exception {
-		getOwner().handleRequest(new AbstractComponent.AbstractService<Void>(this.getPluginURI()) {
-			@Override
-			public Void call() throws Exception {
-				((ContentManagementPlugin) getServiceProviderReference()).connectBack(a);
-				return null;
+		getOwner().runTask((q) -> {
+			try {
+				((ContentManagementPlugin) getOwnerPlugin(pluginURI)).connectBack(a);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		});
+		
 	}
 
 	/**
@@ -53,11 +54,11 @@ public class InPortNode extends AbstractInboundPort implements NodeCI {
 	 */
 	@Override
 	public void disconnect(PeerNodeAddressI a) throws Exception {
-		getOwner().handleRequest(new AbstractComponent.AbstractService<Void>(this.getPluginURI()) {
-			@Override
-			public Void call() throws Exception {
-				((ContentManagementPlugin) getServiceProviderReference()).disconnectBack(a);
-				return null;
+		getOwner().runTask((q) -> {
+			try {
+				((ContentManagementPlugin) getOwnerPlugin(pluginURI)).disconnectBack(a);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		});
 

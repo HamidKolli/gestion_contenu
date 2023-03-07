@@ -2,11 +2,12 @@ package fr.gestion_contenu.plugins;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import fr.gestion_contenu.component.interfaces.IConnectFacadeRequest;
 import fr.gestion_contenu.connectors.ConnectorContentManagement;
@@ -22,7 +23,7 @@ public class FacadeNodeManagementPlugin extends AbstractPlugin implements IConne
 
 	private static final long serialVersionUID = 1L;
 	protected Set<PeerNodeAddressI> connectToNode;
-	protected Map<PeerNodeAddressI, OutPortContentManagement> connectNodeRoot;
+	protected ConcurrentMap<PeerNodeAddressI, OutPortContentManagement> connectNodeRoot;
 	private FacadePortNodeManagement facadePortNodeManagement;
 	private String facadePortNodeManagementURI;
 	private final int numberRootNode;
@@ -32,7 +33,7 @@ public class FacadeNodeManagementPlugin extends AbstractPlugin implements IConne
 		super();
 		this.facadePortNodeManagementURI = facadePortNodeManagementURI;
 		connectToNode = new HashSet<>();
-		connectNodeRoot = new HashMap<>();
+		connectNodeRoot = new ConcurrentHashMap<>();
 		this.numberRootNode = nbRoot;
 	}
 
@@ -58,7 +59,7 @@ public class FacadeNodeManagementPlugin extends AbstractPlugin implements IConne
 	 */
 	@Override
 	public Set<PeerNodeAddressI> join(PeerNodeAddressI a) throws Exception {
-		getOwner().traceMessage("join " + a.getNodeIdentifier());
+		getOwner().traceMessage("join " + a.getNodeIdentifier() + "\n");
 		if (connectNodeRoot.size() < numberRootNode) {
 			OutPortContentManagement port = new OutPortContentManagement(getOwner());
 			port.publishPort();
@@ -72,7 +73,7 @@ public class FacadeNodeManagementPlugin extends AbstractPlugin implements IConne
 
 		if (connectToNode.size() < NODE_RETURN) {
 			result = new HashSet<>(connectToNode);
-			getOwner().traceMessage("fin join " + a.getNodeIdentifier() + "size result " + result.size());
+			getOwner().traceMessage("fin join " + a.getNodeIdentifier() + "\n");
 			return result;
 		}
 
@@ -82,7 +83,7 @@ public class FacadeNodeManagementPlugin extends AbstractPlugin implements IConne
 		Collections.shuffle(resultList);
 
 		result.addAll(resultList.subList(0, Math.max(NODE_RETURN, resultList.size())));
-		getOwner().traceMessage("fin join " + a.getNodeIdentifier() + "size result " + result.size());
+		getOwner().traceMessage("fin join " + a.getNodeIdentifier() + "\n");
 
 		return result;
 	}
@@ -94,28 +95,32 @@ public class FacadeNodeManagementPlugin extends AbstractPlugin implements IConne
 	 */
 	@Override
 	public synchronized void leave(PeerNodeAddressI a) throws Exception {
-		getOwner().traceMessage("leave " + a.getNodeIdentifier());
+		getOwner().traceMessage("leave " + a.getNodeIdentifier() + "\n");
 		connectToNode.remove(a);
 		if (connectNodeRoot.containsKey(a)) {
-			OutPortContentManagement portAncien = connectNodeRoot.get(a);
+			getOwner().traceMessage("leave racine " + a.getNodeIdentifier() + "\n");
+			OutPortContentManagement portAncien = connectNodeRoot.remove(a);
 			portAncien.doDisconnection();
 			portAncien.unpublishPort();
 			portAncien.destroyPort();
 
-			connectNodeRoot.remove(a);
 			if (connectToNode.size() == 0) {
 				return;
 			}
 
-			List<PeerNodeAddressI> resultList = new ArrayList<>(connectToNode);
-			Collections.shuffle(resultList);
-			OutPortContentManagement port = new OutPortContentManagement(getOwner());
-			port.publishPort();
-			getOwner().doPortConnection(port.getPortURI(),
-					((ContentNodeAddressI) resultList.get(0)).getContentManagementURI(),
-					ConnectorContentManagement.class.getCanonicalName());
+			for (PeerNodeAddressI p : connectToNode) {
+				if (connectNodeRoot.containsKey(p))
+					continue;
 
-			connectNodeRoot.put(resultList.get(0), port);
+				getOwner().traceMessage("leave add racine " + p.getNodeIdentifier() + "\n");
+				OutPortContentManagement port = new OutPortContentManagement(getOwner());
+				port.publishPort();
+				getOwner().doPortConnection(port.getPortURI(), ((ContentNodeAddressI) p).getContentManagementURI(),
+						ConnectorContentManagement.class.getCanonicalName());
+
+				connectNodeRoot.put(p, port);
+				return;
+			}
 		}
 
 	}

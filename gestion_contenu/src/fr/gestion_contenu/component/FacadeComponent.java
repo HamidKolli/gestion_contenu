@@ -53,9 +53,6 @@ public class FacadeComponent extends AbstractFacadeComponent {
 		super.start();
 	}
 
-	@Override
-	public synchronized void finalise() throws Exception {
-		super.finalise();
-	}
+
 
 }
