@@ -10,7 +10,7 @@ import fr.sorbonne_u.components.AbstractComponent;
  * 
  * @author Hamid KOLLI && Yanis ALAYOUD
  * 
- * Classe abstraite qu'un client doit heriter pour effectuer des requettes
+ * Classe abstraite qu'un client doit heriter pour effectuer des requetes
  */
 public abstract class AbstractClientComponent extends AbstractComponent{
 
@@ -27,7 +27,7 @@ public abstract class AbstractClientComponent extends AbstractComponent{
 	
 	/**
 	 * 
-	 * Methode qui permet a un client de lancer une requette find
+	 * Methode qui permet a un client de lancer une requete find
 	 * @param template : le template du contenu rechercher 
 	 * @return une description du contenu
 	 * @throws Exception
@@ -36,13 +36,26 @@ public abstract class AbstractClientComponent extends AbstractComponent{
 	
 	/**
 	 * 
-	 * Methode qui permet a un client de lancer une requette match
+	 * Methode qui permet a un client de lancer une requete match
 	 * @param template : le template du contenu rechercher 
 	 * @return l'essemble des descriptions du contenu
 	 * @throws Exception
 	 */
 	public abstract void match(ContentTemplateI template,String uriReturn) throws Exception;
 	
+	/**
+	 * 
+	 * Methode permettant d'afficher les differents descriptors qui correspondent au match.
+	 * @param descriptors : les descriptors retournés par le match
+	 * @throws Exception
+	 */
 	public abstract void returnMatch(Set<ContentDescriptorI> descriptors )  throws Exception;
+	
+	/**
+	 * 
+	 * Methode permettant d'afficher le descriptor retourné par le find.
+	 * @param descriptors : le descriptor retourné par le find
+	 * @throws Exception
+	 */
 	public abstract void returnFind(ContentDescriptorI descriptors )  throws Exception;
 }

@@ -161,6 +161,10 @@ public class ClientComponent extends AbstractClientComponent {
 		super.shutdown();
 	}
 
+	
+	/**
+	 * @see fr.gestion_contenu.component.interfaces.AbstractClientComponent#returnMatch(Set)
+	 */
 	@Override
 	public void returnMatch(Set<ContentDescriptorI> descriptors) throws Exception {
 		if (descriptors == null || descriptors.isEmpty())
@@ -172,6 +176,9 @@ public class ClientComponent extends AbstractClientComponent {
 
 	}
 
+	/**
+	 * @see fr.gestion_contenu.component.interfaces.AbstractClientComponent#returnFind(ContentDescriptorI)
+	 */
 	@Override
 	public void returnFind(ContentDescriptorI descriptor) throws Exception {
 		if (descriptor == null)

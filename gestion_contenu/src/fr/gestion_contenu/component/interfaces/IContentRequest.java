@@ -9,7 +9,7 @@ import fr.gestion_contenu.content.interfaces.ContentTemplateI;
  * 
  * @author Hamid KOLLI && Yanis ALAYOUD
  * 
- * Contrat pour effectuer des requettes de contenu 
+ * Contrat pour effectuer des requetes de contenu 
  */
 public interface IContentRequest {
 

@@ -19,6 +19,10 @@ public class ReturnResultInPort extends AbstractInboundPort implements ReturnRes
 		super(ReturnResultCI.class, owner);
 	}
 
+	
+	/**
+	 * @see fr.gestion_contenu.component.interfaces.AbstractClientComponent#returnFind(ContentDescriptorI)
+	 */
 	@Override
 	public void returnFind(ContentDescriptorI cd) throws Exception {
 		getOwner().runTask(a -> {
@@ -30,7 +34,11 @@ public class ReturnResultInPort extends AbstractInboundPort implements ReturnRes
 		});
 
 	}
-
+	
+	
+	/**
+	 * @see fr.gestion_contenu.component.interfaces.AbstractClientComponent#returnMatch(Set)
+	 */
 	@Override
 	public void returnMatch(Set<ContentDescriptorI> matched)
 			throws Exception {
