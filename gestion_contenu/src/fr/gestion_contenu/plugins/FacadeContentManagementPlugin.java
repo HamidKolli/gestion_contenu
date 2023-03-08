@@ -12,6 +12,12 @@ import fr.gestion_contenu.ports.interfaces.ContentManagementCI;
 import fr.gestion_contenu.ports.interfaces.ReturnResultCI;
 import fr.sorbonne_u.components.ComponentI;
 
+/**
+ * @author Hamid KOLLI && Yanis ALAYOUD
+ * 
+ *         Plugin s'occupant des differentes operations de match et find
+ *         liees aux connexions de ContentManagement au niveau de la facade
+ */
 public class FacadeContentManagementPlugin extends FacadeNodeManagementPlugin implements IContentRequest {
 
 	private static final long serialVersionUID = 1L;
@@ -19,11 +25,19 @@ public class FacadeContentManagementPlugin extends FacadeNodeManagementPlugin im
 	private String contentManagementURI;
 	private InPortContentManagement portContentManagement;
 
+	/**
+	 * Constructeur
+	 * @param application
+	 * @param nbRoot
+	 */
 	public FacadeContentManagementPlugin(ApplicationNodeAddress application, int nbRoot) {
 		super(application.getNodeManagementURI(), nbRoot);
 		this.contentManagementURI = application.getContentManagementURI();
 	}
 
+	/**
+	 * @see fr.sorbonne_u.components.PluginI#installOn(ComponentI)
+	 */
 	@Override
 	public void installOn(ComponentI owner) throws Exception {
 
@@ -34,6 +48,9 @@ public class FacadeContentManagementPlugin extends FacadeNodeManagementPlugin im
 
 	}
 
+	/**
+	 * @see fr.sorbonne_u.components.PluginI#initialise()
+	 */
 	@Override
 	public void initialise() throws Exception {
 		super.initialise();
@@ -74,6 +91,9 @@ public class FacadeContentManagementPlugin extends FacadeNodeManagementPlugin im
 		getOwner().traceMessage("fin match facade" + cd + "\n");
 	}
 
+	/**
+	 * @see fr.sorbonne_u.components.PluginI#uninstall()
+	 */
 	@Override
 	public void uninstall() throws Exception {
 		portContentManagement.unpublishPort();

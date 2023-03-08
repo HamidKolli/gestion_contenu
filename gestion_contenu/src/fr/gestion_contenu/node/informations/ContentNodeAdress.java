@@ -2,6 +2,12 @@ package fr.gestion_contenu.node.informations;
 
 import fr.gestion_contenu.node.interfaces.ContentNodeAddressI;
 
+/**
+ * 
+ * @author Hamid KOLLI && Yanis ALAYOUD
+ *
+ *        Classe aui gere les addresses des ports pour un noeud
+ */
 public class ContentNodeAdress implements ContentNodeAddressI {
 
 	private String nodeURI;
@@ -28,33 +34,51 @@ public class ContentNodeAdress implements ContentNodeAddressI {
 		this.isPeer = isPeer;
 	}
 
+	
+	/**
+	 *getter
+	 *@return String
+	 */
 	@Override
 	public String getNodeURI() {
-		// TODO Auto-generated method stub
 		return nodeURI;
 	}
 
+	
+	/**
+	 *getter
+	 *@return String
+	 */
 	@Override
 	public String getNodeIdentifier() {
-		// TODO Auto-generated method stub
 		return nodeIdentifier;
 	}
 
+	/**
+	 *getter
+	 *@return boolean
+	 */
 	@Override
 	public boolean isFacade() {
-		// TODO Auto-generated method stub
 		return isFacade;
 	}
 
+	/**
+	 *getter
+	 *@return boolean
+	 */
 	@Override
 	public boolean isPeer() {
-		// TODO Auto-generated method stub
 		return isPeer;
 	}
 
+	
+	/**
+	 *getter
+	 *@return String
+	 */
 	@Override
 	public String getContentManagementURI() {
-		// TODO Auto-generated method stub
 		return contentManagementURI;
 	}
 

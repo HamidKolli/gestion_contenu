@@ -8,7 +8,8 @@ import fr.sorbonne_u.components.exceptions.ComponentStartException;
 
 /**
  * 
- * @author Hamid KOLLI && Yanis ALAYOUD Classe conctrete qui gere les facades
+ * @author Hamid KOLLI && Yanis ALAYOUD 
+ * Classe concrete qui gere les facades
  *
  */
 public class FacadeComponent extends AbstractFacadeComponent {

@@ -21,7 +21,7 @@ public class TestReadHashMap {
 
 		Set<ContentDescriptorI> descriptors = new HashSet<>();
 		for (int i = 0; i < 10; i++) {
-			try (FileInputStream f = new FileInputStream("data/descriptors" + i + ".dat")) {
+			try (FileInputStream f = new FileInputStream("gestion_contenu/data/descriptors" + i + ".dat")) {
 				try (ObjectInputStream of = new ObjectInputStream(f)) {
 					HashMap<String, Object> data = (HashMap<String, Object>) (of.readObject());
 
@@ -49,7 +49,7 @@ public class TestReadHashMap {
 
 		Set<ContentTemplateI> descriptors = new HashSet<>();
 		for (int i = 0; i < 2; i++) {
-			try (FileInputStream f = new FileInputStream("data/templates" + i + ".dat")) {
+			try (FileInputStream f = new FileInputStream("gestion_contenu/data/templates" + i + ".dat")) {
 				try (ObjectInputStream of = new ObjectInputStream(f)) {
 					HashMap<String, Object> data = (HashMap<String, Object>) (of.readObject());
 					

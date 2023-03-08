@@ -19,6 +19,12 @@ import fr.gestion_contenu.ports.interfaces.ContentManagementCI;
 import fr.gestion_contenu.ports.interfaces.ReturnResultCI;
 import fr.sorbonne_u.components.ComponentI;
 
+/**
+ * @author Hamid KOLLI && Yanis ALAYOUD
+ *
+ *         Plugin s'occupant des differentes operations de connexion, deconnexion, match et find
+ *         liees aux connexions de ContentManagement
+ */
 public class ContentManagementPlugin extends ConnectionNodePlugin implements IContentRequest {
 
 	private static final long serialVersionUID = 1L;
@@ -26,12 +32,20 @@ public class ContentManagementPlugin extends ConnectionNodePlugin implements ICo
 	private ContentNodeAddressI contentNodeAddress;
 	private InPortContentManagement inPortContentManagement;
 
+	/**
+	 * Constructeur
+	 * @param contentNodeAddress : l'addresse du noeud en question
+	 */
 	public ContentManagementPlugin(ContentNodeAddressI contentNodeAddress) {
 		super(contentNodeAddress);
 		connectNodeContent = new ConcurrentHashMap<>();
 		this.contentNodeAddress = contentNodeAddress;
 	}
 
+	
+	/**
+	 * @see fr.sorbonne_u.components.AbstractPlugin#installOn(fr.sorbonne_u.components.ComponentI)
+	 */
 	@Override
 	public void installOn(ComponentI owner) throws Exception {
 		super.installOn(owner);
@@ -40,6 +54,9 @@ public class ContentManagementPlugin extends ConnectionNodePlugin implements ICo
 		this.addRequiredInterface(ReturnResultCI.class);
 	}
 
+	/**
+	 * @see fr.sorbonne_u.components.PluginI#initialise()
+	 */
 	@Override
 	public void initialise() throws Exception {
 
@@ -50,6 +67,16 @@ public class ContentManagementPlugin extends ConnectionNodePlugin implements ICo
 
 	}
 
+	
+	/**
+	 * Methode appelee si le hop du find est a 0 ou si le contenu est trouve : 
+	 * en mode asynchrone on cree directement un port sortant sur le noeud courant pour etablir une connexion vers le client
+	 * et transmettre direct l'info du find
+	 * 
+	 * @param cd : le contentDescriptor qui a ete trouve
+	 * @param uriReturn : l'uri du client ayant fait la requete
+	 * @throws Exception
+	 */
 	private void returnFind(ContentDescriptorI cd, String uriReturn) throws Exception {
 		getOwner().traceMessage("fin find node" + cd + "\n");
 		ReturnResultOutPort result = new ReturnResultOutPort(getOwner());
@@ -61,6 +88,15 @@ public class ContentManagementPlugin extends ConnectionNodePlugin implements ICo
 		result.destroyPort();
 	}
 
+	/**
+	 * Methode cherchant si le Template passe en parametre correspond a la Description
+	 * de contenu du noeud courant
+	 * 
+	 * @param cd : le contentTemplate que l'on cherche
+	 * @param hops : le nombre de sauts restant avant de mettre un terme a la recherche
+	 * @param uriReturn : l'uri du client ayant fait la requete
+	 * @throws Exception
+	 */
 	@Override
 	public void find(ContentTemplateI cd, int hops, String uriReturn) throws Exception {
 		getOwner().traceMessage("start find node" + cd + "\n");
@@ -80,11 +116,27 @@ public class ContentManagementPlugin extends ConnectionNodePlugin implements ICo
 
 	}
 
+
+	/**
+	 * Methode cherchant si le Template passe en parametre match avec la Description
+	 * de contenu du noeud courant.
+	 * 
+	 * @param cd : le contentTemplate que l'on compare
+	 * @param matched : l'ensemble des ContentDescriptor qui matchent jusqu'a present
+	 * @param hops : le nombre de sauts restant avant de mettre un terme a la recherche
+	 * @param uriReturn : l'uri du client ayant fait la requete
+	 * @throws Exception
+	 */
 	@Override
 	public void match(ContentTemplateI cd, Set<ContentDescriptorI> matched, int hops, String uriReturn)
 			throws Exception {
 		getOwner().traceMessage("start match node" + cd + "\n");
 
+		/*
+		 * On ne s'arrete que lorsque le hop arrive a 0. Ici en appel asynchrone on va comme pour le find,
+		 * creer une connexion entre le noeud courant et le client ayant fait la requete pour lui transmettre directement
+		 * le resultat du match
+		 */
 		if (hops == 0) {
 			ReturnResultOutPort result = new ReturnResultOutPort(getOwner());
 			result.publishPort();
@@ -108,6 +160,10 @@ public class ContentManagementPlugin extends ConnectionNodePlugin implements ICo
 
 	}
 	
+	
+	/**
+	 * @see ConnectionNodePlugin#connect(PeerNodeAddressI)
+	 */
 	@Override
 	public synchronized OutPortContentManagement connect(PeerNodeAddressI peer) throws Exception {
 		if(connectNodeContent.containsKey(peer))
@@ -117,12 +173,21 @@ public class ContentManagementPlugin extends ConnectionNodePlugin implements ICo
 		return c;
 	}
 	
+
+	/**
+	 * Methode effectuant la deconnexion du noeud courant au noeud passe en parametre
+	 * @param peer : noeud pair auquel on se deconnecte
+	 * @throws Exception
+	 */
 	public synchronized void disconnect(PeerNodeAddressI peer) throws Exception {
 		if(!connectNodeContent.containsKey(peer))
 			return;
 		super.disconnect(peer, connectNodeContent.remove(peer));
 	}
 
+	/**
+	 * @see ConnectionNodePlugin#connectBack(PeerNodeAddressI)
+	 */
 	@Override
 	public synchronized OutPortContentManagement connectBack(PeerNodeAddressI peer) throws Exception {
 		if(connectNodeContent.containsKey(peer))
@@ -132,6 +197,10 @@ public class ContentManagementPlugin extends ConnectionNodePlugin implements ICo
 		return c;
 	}
 
+	
+	/**
+	 * @see ConnectionNodePlugin#disconnectBack(PeerNodeAddressI)
+	 */
 	@Override
 	public synchronized void disconnectBack(PeerNodeAddressI peer) throws Exception {
 		if(!connectNodeContent.containsKey(peer))
@@ -143,6 +212,10 @@ public class ContentManagementPlugin extends ConnectionNodePlugin implements ICo
 		portContent.destroyPort();
 	}
 	
+	/**
+	 * Methode effectuant la deconnexion avec tous les ports de ContentManagement auxquels on est connecte
+	 * @throws Exception
+	 */
 	public synchronized void leave() throws Exception {
 		for (Map.Entry<PeerNodeAddressI, OutPortContentManagement>  entry : connectNodeContent.entrySet()) {
 			disconnect(entry.getKey());
@@ -150,6 +223,9 @@ public class ContentManagementPlugin extends ConnectionNodePlugin implements ICo
 		getOwner().traceMessage("Fin leave \n");
 	} 
 
+	/**
+	 * @see ConnectionNodePlugin#finalise()
+	 */
 	@Override
 	public void finalise() throws Exception {
 		for (Map.Entry<PeerNodeAddressI, OutPortContentManagement> port : connectNodeContent.entrySet()) {
@@ -158,6 +234,9 @@ public class ContentManagementPlugin extends ConnectionNodePlugin implements ICo
 		super.finalise();
 	}
 
+	/**
+	 * @see ConnectionNodePlugin#uninstall()
+	 */
 	@Override
 	public void uninstall() throws Exception {
 		inPortContentManagement.unpublishPort();

@@ -19,6 +19,11 @@ import fr.gestion_contenu.ports.interfaces.NodeManagementCI;
 import fr.sorbonne_u.components.AbstractPlugin;
 import fr.sorbonne_u.components.ComponentI;
 
+/**
+ * @author Hamid KOLLI && Yanis ALAYOUD
+ *
+ *         Plugin s'occupant des differentes connexions et deconnexions entre une façade et les noeuds pairs racines
+ */
 public class FacadeNodeManagementPlugin extends AbstractPlugin implements IConnectFacadeRequest {
 
 	private static final long serialVersionUID = 1L;
@@ -29,6 +34,11 @@ public class FacadeNodeManagementPlugin extends AbstractPlugin implements IConne
 	private final int numberRootNode;
 	public static final int NODE_RETURN = 2;
 
+	/**
+	 * Constructeur
+	 * @param facadePortNodeManagementURI
+	 * @param nbRoot
+	 */
 	public FacadeNodeManagementPlugin(String facadePortNodeManagementURI, int nbRoot) {
 		super();
 		this.facadePortNodeManagementURI = facadePortNodeManagementURI;
@@ -37,6 +47,9 @@ public class FacadeNodeManagementPlugin extends AbstractPlugin implements IConne
 		this.numberRootNode = nbRoot;
 	}
 
+	/**
+	 * @see fr.sorbonne_u.components.PluginI#installOn(ComponentI)
+	 */
 	@Override
 	public void installOn(ComponentI owner) throws Exception {
 		super.installOn(owner);
@@ -44,6 +57,9 @@ public class FacadeNodeManagementPlugin extends AbstractPlugin implements IConne
 		this.addRequiredInterface(NodeManagementCI.class);
 	}
 
+	/**
+	 * @see fr.sorbonne_u.components.PluginI#initialise()
+	 */
 	@Override
 	public void initialise() throws Exception {
 		super.initialise();
@@ -125,6 +141,9 @@ public class FacadeNodeManagementPlugin extends AbstractPlugin implements IConne
 
 	}
 
+	/**
+	 * @see fr.sorbonne_u.components.PluginI#finalise()
+	 */
 	@Override
 	public void finalise() throws Exception {
 
@@ -133,6 +152,9 @@ public class FacadeNodeManagementPlugin extends AbstractPlugin implements IConne
 		super.finalise();
 	}
 
+	/**
+	 * @see fr.sorbonne_u.components.PluginI#uninstall()
+	 */
 	@Override
 	public void uninstall() throws Exception {
 		this.facadePortNodeManagement.unpublishPort();

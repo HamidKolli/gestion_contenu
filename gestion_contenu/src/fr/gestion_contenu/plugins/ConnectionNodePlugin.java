@@ -18,6 +18,12 @@ import fr.gestion_contenu.ports.interfaces.NodeCI;
 import fr.sorbonne_u.components.AbstractPlugin;
 import fr.sorbonne_u.components.ComponentI;
 
+/**
+ * @author Hamid KOLLI && Yanis ALAYOUD
+ *
+ *         Plugin s'occupant des differentes operations de connexion et deconnexion 
+ *         entre noeuds pairs
+ */
 public class ConnectionNodePlugin extends AbstractPlugin {
 
 	private static final long serialVersionUID = 1L;
@@ -26,6 +32,10 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 	private ConcurrentMap<PeerNodeAddressI, OutPortNode> connectOutPort;
 	private InPortNode connectInPort;
 
+	/**
+	 * Constructeur
+	 * @param nodeAddresses : l'addresse du noeud pair concerne
+	 */
 	public ConnectionNodePlugin(PeerNodeAddressI nodeAddresses) {
 		super();
 		this.nodeAddresses = nodeAddresses;
@@ -45,6 +55,9 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 		this.addOfferedInterface(NodeCI.class);
 	}
 
+	/**
+	 * @see fr.sorbonne_u.components.PluginI#initialise()
+	 */
 	@Override
 	public void initialise() throws Exception {
 		super.initialise();
@@ -54,6 +67,12 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 
 	}
 
+	/**
+	 * Methode effectuant la connexion au noeud pair passe en parametre
+	 * @param peer : le noeud pair auquel se connecter
+	 * @return OutPortContentManagement : le port sortant cree pour la connexion
+	 * @throws Exception
+	 */
 	protected OutPortContentManagement connect(PeerNodeAddressI peer) throws Exception {
 		getOwner().traceMessage("connect to " + peer.getNodeIdentifier() + "\n");
 		OutPortNode port = new OutPortNode(getOwner());
@@ -70,6 +89,12 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 		return portContent;
 	}
 
+	/**
+	 * Methode effectuant la deconnexion au noeud pair passe en parametre
+	 * @param peer : le noeud pair auquel se deconnecter
+	 * @param portContent : le port sortant du noeud pair qui se deconnecte
+	 * @throws Exception
+	 */
 	protected void disconnect(PeerNodeAddressI peer, OutPortContentManagement portContent) throws Exception {
 		if(!connectOutPort.containsKey(peer))
 			return;
@@ -88,6 +113,12 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 
 	}
 
+	/**
+	 * Methode appelee suite a un connect afin d'effectuer la connexion dans l'autre sens
+	 * @param peer : le noeud pair auquel se conneecter en retour
+	 * @return OutPortContentManagement : le port sortant cree pour la connexion
+	 * @throws Exception
+	 */
 	protected OutPortContentManagement connectBack(PeerNodeAddressI peer) throws Exception {
 		if(connectOutPort.containsKey(peer))
 			return null;
@@ -106,6 +137,11 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 
 	}
 
+	/**
+	 * Methode appelee suite a un disconnect afin d'effectuer la deconnexion dans l'autre sens
+	 * @param peer : le noeud pair auquel se deconnecter
+	 * @throws Exception
+	 */
 	protected void disconnectBack(PeerNodeAddressI peer) throws Exception {
 		if(!connectOutPort.containsKey(peer))
 			return;
@@ -119,6 +155,10 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 
 	}
 
+	
+	/**
+	 * @see fr.sorbonne_u.components.PluginI#finalise()
+	 */
 	@Override
 	public void finalise() throws Exception {
 		List<Map.Entry<PeerNodeAddressI, OutPortNode>> ports = new ArrayList<>(connectOutPort.entrySet());
@@ -127,6 +167,9 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 		super.finalise();
 	}
 
+	/**
+	 * @see fr.sorbonne_u.components.PluginI#uninstall()
+	 */
 	@Override
 	public void uninstall() throws Exception {
 		List<Map.Entry<PeerNodeAddressI, OutPortNode>> ports = new ArrayList<>(connectOutPort.entrySet());
