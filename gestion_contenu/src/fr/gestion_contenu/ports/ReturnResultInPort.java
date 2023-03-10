@@ -8,6 +8,14 @@ import fr.gestion_contenu.ports.interfaces.ReturnResultCI;
 import fr.sorbonne_u.components.ComponentI;
 import fr.sorbonne_u.components.ports.AbstractInboundPort;
 
+
+/**
+ * 
+ * @author Hamid KOLLI && Yanis ALAYOUD
+ *
+ *         Classe qui represente le port entrant d'un client pour recuperer
+ *         les resultats des requetes find et match
+ */
 public class ReturnResultInPort extends AbstractInboundPort implements ReturnResultCI {
 
 	/**
@@ -15,6 +23,12 @@ public class ReturnResultInPort extends AbstractInboundPort implements ReturnRes
 	 */
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Constructeur
+	 * 
+	 * @param owner : le Composant qui possede le port
+	 * @throws Exception
+	 */
 	public ReturnResultInPort( ComponentI owner) throws Exception {
 		super(ReturnResultCI.class, owner);
 	}

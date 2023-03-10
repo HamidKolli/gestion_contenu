@@ -14,7 +14,7 @@ import fr.sorbonne_u.components.ports.AbstractOutboundPort;
  * @author Hamid KOLLI && Yanis ALAYOUD
  * 
  *         Classe qui represente le port sortant d'un noeud/facade pour les
- *         requettes sur les contenus
+ *         requetes sur les contenus
  */
 public class OutPortContentManagement extends AbstractOutboundPort implements ContentManagementCI {
 

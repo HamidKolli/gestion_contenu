@@ -1,0 +1,12 @@
+fr.gestion_contenu.component
+fr.gestion_contenu.component.interfaces
+fr.gestion_contenu.connectors
+fr.gestion_contenu.content.classes
+fr.gestion_contenu.content.interfaces
+fr.gestion_contenu.cvm
+fr.gestion_contenu.node.informations
+fr.gestion_contenu.node.interfaces
+fr.gestion_contenu.plugins
+fr.gestion_contenu.ports
+fr.gestion_contenu.ports.interfaces
+fr.gestion_contenu.tools

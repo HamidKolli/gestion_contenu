@@ -10,7 +10,9 @@ import fr.sorbonne_u.components.ports.AbstractOutboundPort;
 
 /**
  * 
- * @author Hamid KOLLI && Yanis ALAYOUD Classe qui represente le port sorant
+ * @author Hamid KOLLI && Yanis ALAYOUD 
+ * 
+ * 		   Classe qui represente le port sorant
  *         d'un noeud pour une connexion au reseau
  */
 public class NodePortNodeManagement extends AbstractOutboundPort implements NodeManagementCI {

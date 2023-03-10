@@ -15,8 +15,21 @@ import fr.gestion_contenu.content.interfaces.ContentTemplateI;
 import fr.gestion_contenu.node.informations.ContentNodeAdress;
 import fr.sorbonne_u.components.AbstractPort;
 
+/**
+ * @author Hamid KOLLI && Yanis ALAYOUD
+ *
+ *        Classe aui permet de lire les fichiers test et de retourner
+ *        l'ensemble des Descriptors et Templates pour ensuite creer les composants
+ *        dans la CVM
+ */
 public class TestReadHashMap {
 
+	/**
+	 * Methode statique qui lis les fichiers descriptors test
+	 * et retourne l'ensemble des ContentDescriptors trouves
+	 * 
+	 * @return Set<ContentDescriptorI> : l'ensemble des Descriptions lues
+	 */
 	public static Set<ContentDescriptorI> readDescriptors() {
 
 		Set<ContentDescriptorI> descriptors = new HashSet<>();
@@ -45,6 +58,12 @@ public class TestReadHashMap {
 		return descriptors;
 	}
 	
+	/**
+	 * Methode statique qui lis les fichiers templates test
+	 * et retourne l'ensemble des ContentTemplates trouves
+	 * 
+	 * @return Set<ContentDescriptorI> : l'ensemble des Templates lus
+	 */
 	public static Set<ContentTemplateI> readTemplate() {
 
 		Set<ContentTemplateI> descriptors = new HashSet<>();

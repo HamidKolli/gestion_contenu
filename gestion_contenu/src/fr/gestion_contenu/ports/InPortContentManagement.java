@@ -15,7 +15,7 @@ import fr.sorbonne_u.components.ports.AbstractInboundPort;
  * @author Hamid KOLLI && Yanis ALAYOUD
  * 
  *         Classe qui represente le port entrant d'un noeud/facade pour les
- *         requettes sur les contenus
+ *         requetes sur les contenus
  */
 public class InPortContentManagement extends AbstractInboundPort implements ContentManagementCI {
 
@@ -71,7 +71,6 @@ public class InPortContentManagement extends AbstractInboundPort implements Cont
 				try {
 					((IContentRequest) getTaskProviderReference()).match(cd, matched, hops, uriReturn);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
