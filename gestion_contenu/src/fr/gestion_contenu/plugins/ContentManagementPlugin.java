@@ -1,5 +1,8 @@
 package fr.gestion_contenu.plugins;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -26,7 +29,7 @@ import fr.sorbonne_u.components.ComponentI;
  *         liees aux connexions de ContentManagement
  */
 public class ContentManagementPlugin extends ConnectionNodePlugin implements IContentRequest {
-
+	private static final int NBV_REQ = 1;
 	private static final long serialVersionUID = 1L;
 	private ConcurrentMap<PeerNodeAddressI, OutPortContentManagement> connectNodeContent;
 	private ContentNodeAddressI contentNodeAddress;
@@ -109,7 +112,9 @@ public class ContentManagementPlugin extends ConnectionNodePlugin implements ICo
 		if ((contentDescriptor = ((AbstractNodeComponent) getOwner()).match(cd)) != null) {
 			returnFind(contentDescriptor, uriReturn);
 		}
-		for (OutPortContentManagement port : connectNodeContent.values()) {
+		List<OutPortContentManagement> listTmp = new ArrayList<>(connectNodeContent.values());
+		Collections.shuffle(listTmp);
+		for (OutPortContentManagement port : listTmp.subList(0, NBV_REQ)) {
 			port.find(cd, hops-1, uriReturn);
 		}
 		getOwner().traceMessage("fin find node" + cd + "\n");
@@ -153,7 +158,9 @@ public class ContentManagementPlugin extends ConnectionNodePlugin implements ICo
 				&& !matched.contains(contentDescriptor)) {
 			matched.add(contentDescriptor);
 		}
-		for (OutPortContentManagement op : connectNodeContent.values()) {
+		List<OutPortContentManagement> listTmp = new ArrayList<>(connectNodeContent.values());
+		Collections.shuffle(listTmp);
+		for (OutPortContentManagement op : listTmp.subList(0, NBV_REQ)) {
 			op.match(cd, matched, hops-1, uriReturn);
 		}
 		getOwner().traceMessage("fin match node" + cd + "\n");

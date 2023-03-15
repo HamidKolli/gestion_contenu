@@ -68,8 +68,8 @@ public class CVM extends AbstractCVM {
 			TestReadHashMap.readDescriptors();
 			
 			CVM cvm = new CVM();
-			cvm.startStandardLifeCycle(20000L);
-			Thread.sleep(1000L);
+			cvm.startStandardLifeCycle(200000L);
+			Thread.sleep(10000L);
 			System.exit(0);
 		} catch (Exception e) {
 			e.printStackTrace();

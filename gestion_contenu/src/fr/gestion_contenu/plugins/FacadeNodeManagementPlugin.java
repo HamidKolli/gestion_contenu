@@ -22,7 +22,7 @@ import fr.sorbonne_u.components.ComponentI;
 /**
  * @author Hamid KOLLI && Yanis ALAYOUD
  *
- *         Plugin s'occupant des differentes connexions et deconnexions entre une façade et les noeuds pairs racines
+ *         Plugin s'occupant des differentes connexions et deconnexions entre une faï¿½ade et les noeuds pairs racines
  */
 public class FacadeNodeManagementPlugin extends AbstractPlugin implements IConnectFacadeRequest {
 
@@ -32,7 +32,7 @@ public class FacadeNodeManagementPlugin extends AbstractPlugin implements IConne
 	private FacadePortNodeManagement facadePortNodeManagement;
 	private String facadePortNodeManagementURI;
 	private final int numberRootNode;
-	public static final int NODE_RETURN = 2;
+	public static final int NODE_RETURN = 3;
 
 	/**
 	 * Constructeur
