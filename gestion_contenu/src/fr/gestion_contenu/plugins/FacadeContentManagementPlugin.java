@@ -1,5 +1,8 @@
 package fr.gestion_contenu.plugins;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import fr.gestion_contenu.component.interfaces.IContentRequest;
@@ -21,7 +24,7 @@ import fr.sorbonne_u.components.ComponentI;
 public class FacadeContentManagementPlugin extends FacadeNodeManagementPlugin implements IContentRequest {
 
 	private static final long serialVersionUID = 1L;
-
+	private  final int NB_ROOT_REQ;
 	private String contentManagementURI;
 	private InPortContentManagement portContentManagement;
 
@@ -33,6 +36,7 @@ public class FacadeContentManagementPlugin extends FacadeNodeManagementPlugin im
 	public FacadeContentManagementPlugin(ApplicationNodeAddress application, int nbRoot) {
 		super(application.getNodeManagementURI(), nbRoot);
 		this.contentManagementURI = application.getContentManagementURI();
+		NB_ROOT_REQ = nbRoot/2;
 	}
 
 	/**
@@ -68,7 +72,9 @@ public class FacadeContentManagementPlugin extends FacadeNodeManagementPlugin im
 	@Override
 	public void find(ContentTemplateI cd, int hops,String uriReturn) throws Exception {
 		getOwner().traceMessage("start find facade" + cd + "\n");
-		for (OutPortContentManagement op : connectNodeRoot.values()) {
+		List<OutPortContentManagement> listTmp = new ArrayList<>(connectNodeRoot.values());
+		Collections.shuffle(listTmp);
+		for (OutPortContentManagement op : listTmp.subList(0, NB_ROOT_REQ)) {
 				op.find(cd, hops, uriReturn);
 		}
 		getOwner().traceMessage("fin find facade" + cd + "\n");
@@ -84,7 +90,9 @@ public class FacadeContentManagementPlugin extends FacadeNodeManagementPlugin im
 	public void match(ContentTemplateI cd, Set<ContentDescriptorI> matched, int hops,String uriReturn)
 			throws Exception {
 		getOwner().traceMessage("start match facade" + cd + "\n");
-		for (OutPortContentManagement op : connectNodeRoot.values()) {
+		List<OutPortContentManagement> listTmp = new ArrayList<>(connectNodeRoot.values());
+		Collections.shuffle(listTmp);
+		for (OutPortContentManagement op : listTmp.subList(0, NB_ROOT_REQ))  {
 			getOwner().traceMessage("loop match facade");
 			op.match(cd, matched, hops,uriReturn);
 		}
