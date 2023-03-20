@@ -5,6 +5,7 @@ import java.util.Set;
 import fr.gestion_contenu.component.interfaces.IContentRequest;
 import fr.gestion_contenu.content.interfaces.ContentDescriptorI;
 import fr.gestion_contenu.content.interfaces.ContentTemplateI;
+import fr.gestion_contenu.node.interfaces.NodeAddressI;
 import fr.gestion_contenu.ports.interfaces.ContentManagementCI;
 import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.ComponentI;
@@ -40,13 +41,13 @@ public class InPortContentManagement extends AbstractInboundPort implements Cont
 	 *
 	 */
 	@Override
-	public void find(ContentTemplateI cd, int hops, String uriReturn) throws Exception {
+	public void find(ContentTemplateI cd, int hops, NodeAddressI facade, String requestURI) throws Exception {
 		getOwner().runTask(new AbstractComponent.AbstractTask(pluginURI) {
 
 			@Override
 			public void run() {
 				try {
-					((IContentRequest) getTaskProviderReference()).find(cd, hops, uriReturn);
+					((IContentRequest) getTaskProviderReference()).find(cd, hops, facade, requestURI);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -62,14 +63,14 @@ public class InPortContentManagement extends AbstractInboundPort implements Cont
 	 *
 	 */
 	@Override
-	public void match(ContentTemplateI cd, Set<ContentDescriptorI> matched, int hops, String uriReturn)
-			throws Exception {
+	public void match(ContentTemplateI cd, int hops, NodeAddressI facade, String requestURI,
+			Set<ContentDescriptorI> matched) throws Exception {
 		getOwner().runTask(new AbstractComponent.AbstractTask(pluginURI) {
 
 			@Override
 			public void run() {
 				try {
-					((IContentRequest) getTaskProviderReference()).match(cd, matched, hops, uriReturn);
+					((IContentRequest) getTaskProviderReference()).match(cd, hops, facade, requestURI, matched);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

@@ -1,8 +1,6 @@
 package fr.gestion_contenu.ports;
 
-import java.util.Set;
-
-import fr.gestion_contenu.connectors.ConnectorNodeManagement;
+import fr.gestion_contenu.node.interfaces.FacadeNodeAddressI;
 import fr.gestion_contenu.node.interfaces.PeerNodeAddressI;
 import fr.gestion_contenu.ports.interfaces.NodeManagementCI;
 import fr.sorbonne_u.components.ComponentI;
@@ -36,9 +34,8 @@ public class NodePortNodeManagement extends AbstractOutboundPort implements Node
 	 *
 	 */
 	@Override
-	public Set<PeerNodeAddressI> join(PeerNodeAddressI a) throws Exception {
-
-		return ((ConnectorNodeManagement) getConnector()).join(a);
+	public void join(PeerNodeAddressI a) throws Exception {
+		((NodeManagementCI) getConnector()).join(a);
 	}
 
 	/**
@@ -48,7 +45,19 @@ public class NodePortNodeManagement extends AbstractOutboundPort implements Node
 	 */
 	@Override
 	public void leave(PeerNodeAddressI a) throws Exception {
-		((ConnectorNodeManagement) getConnector()).leave(a);
+		((NodeManagementCI) getConnector()).leave(a);
+	}
+
+	@Override
+	public void acceptProbed(PeerNodeAddressI peer, String requestURI) throws Exception {
+		((NodeManagementCI) getConnector()).acceptProbed(peer, requestURI);
+		
+	}
+
+	@Override
+	public void probe(int remaingHops, FacadeNodeAddressI facade, String request) throws Exception {
+		((NodeManagementCI) getConnector()).probe(remaingHops, facade, request);
+		
 	}
 
 }

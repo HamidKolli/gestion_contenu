@@ -5,6 +5,7 @@ import java.util.Set;
 import fr.gestion_contenu.connectors.ConnectorContentManagement;
 import fr.gestion_contenu.content.interfaces.ContentDescriptorI;
 import fr.gestion_contenu.content.interfaces.ContentTemplateI;
+import fr.gestion_contenu.node.interfaces.NodeAddressI;
 import fr.gestion_contenu.ports.interfaces.ContentManagementCI;
 import fr.sorbonne_u.components.ComponentI;
 import fr.sorbonne_u.components.ports.AbstractOutboundPort;
@@ -38,8 +39,8 @@ public class OutPortContentManagement extends AbstractOutboundPort implements Co
 	 *
 	 */
 	@Override
-	public void find(ContentTemplateI cd, int hops,String uriReturn) throws Exception {
-		 ((ConnectorContentManagement) getConnector()).find(cd, hops,uriReturn);
+	public void find(ContentTemplateI cd, int hops,NodeAddressI facade,String requestURI) throws Exception {
+		 ((ContentManagementCI) getConnector()).find(cd, hops,facade,requestURI);
 	}
 
 	/**
@@ -49,9 +50,9 @@ public class OutPortContentManagement extends AbstractOutboundPort implements Co
 	 *
 	 */
 	@Override
-	public void match(ContentTemplateI cd, Set<ContentDescriptorI> matched, int hops,String uriReturn)
+	public void match(ContentTemplateI cd, int hops,NodeAddressI facade,String requestURI, Set<ContentDescriptorI> matched)
 			throws Exception {
-		 ((ConnectorContentManagement) getConnector()).match(cd, matched, hops,uriReturn);
+		 ((ContentManagementCI) getConnector()).match(cd, hops,facade,requestURI,matched);
 	}
 
 }

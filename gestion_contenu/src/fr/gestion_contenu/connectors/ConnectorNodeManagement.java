@@ -1,9 +1,7 @@
 package fr.gestion_contenu.connectors;
 
-import java.util.Set;
-
+import fr.gestion_contenu.node.interfaces.FacadeNodeAddressI;
 import fr.gestion_contenu.node.interfaces.PeerNodeAddressI;
-import fr.gestion_contenu.ports.FacadePortNodeManagement;
 import fr.gestion_contenu.ports.interfaces.NodeManagementCI;
 import fr.sorbonne_u.components.connectors.AbstractConnector;
 
@@ -21,8 +19,8 @@ public class ConnectorNodeManagement extends AbstractConnector implements NodeMa
 	*
 	 */
 	@Override
-	public Set<PeerNodeAddressI> join(PeerNodeAddressI a) throws Exception{
-		return ((FacadePortNodeManagement)this.offering).join(a);
+	public void join(PeerNodeAddressI a) throws Exception{
+		 ((NodeManagementCI)this.offering).join(a);
 	}
 
 	/**
@@ -32,7 +30,17 @@ public class ConnectorNodeManagement extends AbstractConnector implements NodeMa
 	 */
 	@Override
 	public void leave(PeerNodeAddressI a) throws Exception{
-		((FacadePortNodeManagement)this.offering).leave(a);
+		((NodeManagementCI)this.offering).leave(a);
+	}
+
+	@Override
+	public void acceptProbed(PeerNodeAddressI peer, String requestURI)throws Exception  {
+		((NodeManagementCI)this.offering).acceptProbed(peer, requestURI);		
+	}
+
+	@Override
+	public void probe(int remaingHops, FacadeNodeAddressI facade, String request) throws Exception {
+		((NodeManagementCI)this.offering).probe(remaingHops, facade, request);	
 	}
 
 }

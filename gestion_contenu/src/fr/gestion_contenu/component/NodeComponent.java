@@ -2,6 +2,7 @@ package fr.gestion_contenu.component;
 
 import java.time.Instant;
 import java.util.Set;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
 import fr.gestion_contenu.component.interfaces.AbstractNodeComponent;
@@ -35,6 +36,7 @@ public class NodeComponent extends AbstractNodeComponent {
 	private String portFacadeManagementURI;
 	private ClockPlugin pluginClock;
 	private String clockURI;
+	private Set<PeerNodeAddressI> neighbours;
 	private static int cptX = 0;
 	private static int cptY = 0;
 
@@ -77,7 +79,7 @@ public class NodeComponent extends AbstractNodeComponent {
 			pluginClock = new ClockPlugin(clockURI);
 			pluginClock.setPluginURI(AbstractPort.generatePortURI());
 			this.installPlugin(pluginClock);
-
+			
 			super.start();
 		} catch (Exception e) {
 			throw new ComponentStartException(e);
@@ -91,12 +93,13 @@ public class NodeComponent extends AbstractNodeComponent {
 	 *
 	 */
 	@Override
-	public synchronized Set<PeerNodeAddressI> join() throws Exception {
+	public synchronized void join() throws Exception {
 		traceMessage("Join \n");
+		assert !this.portNodeManagement.connected();
 		doPortConnection(this.portNodeManagement.getPortURI(), this.portFacadeManagementURI,
 				ConnectorNodeManagement.class.getCanonicalName());
-		Set<PeerNodeAddressI> peersVoisins = portNodeManagement.join(contentDescriptorI.getContentNodeAddress());
-		return peersVoisins;
+		portNodeManagement.join(contentDescriptorI.getContentNodeAddress());
+	
 	}
 
 	/**
@@ -114,6 +117,7 @@ public class NodeComponent extends AbstractNodeComponent {
 	 * @see fr.sorbonne_u.components.AbstractComponent#execute()
 	 *
 	 */
+	Semaphore sem = new Semaphore(0);
 	@Override
 	public void execute() throws Exception {
 
@@ -121,13 +125,10 @@ public class NodeComponent extends AbstractNodeComponent {
 		AcceleratedClock clock = pluginClock.getClock();
 
 		Instant instant = clock.getStartInstant();
-
 		clock.waitUntilStart();
-
-		
-		Set<PeerNodeAddressI> peersVoisins;
-		peersVoisins = join();
-		for (PeerNodeAddressI peerNodeAddressI : peersVoisins) {
+		join();
+		sem.acquire();
+		for (PeerNodeAddressI peerNodeAddressI : neighbours) {
 			if (!peerNodeAddressI.equals(contentDescriptorI.getContentNodeAddress())) {
 				plugin.connect(peerNodeAddressI);
 			}
@@ -188,6 +189,12 @@ public class NodeComponent extends AbstractNodeComponent {
 			throw new ComponentShutdownException(e);
 		}
 		super.shutdown();
+	}
+
+	@Override
+	public void acceptNeighbours(Set<PeerNodeAddressI> neighbours) {
+		this.neighbours = neighbours;
+		sem.release();
 	}
 
 }

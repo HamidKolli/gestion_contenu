@@ -1,7 +1,6 @@
 package fr.gestion_contenu.ports;
 
-import java.util.Set;
-
+import fr.gestion_contenu.node.interfaces.FacadeNodeAddressI;
 import fr.gestion_contenu.node.interfaces.PeerNodeAddressI;
 import fr.gestion_contenu.plugins.FacadeContentManagementPlugin;
 import fr.gestion_contenu.ports.interfaces.NodeManagementCI;
@@ -38,13 +37,19 @@ public class FacadePortNodeManagement extends AbstractInboundPort implements Nod
 	 *
 	 */
 	@Override
-	public Set<PeerNodeAddressI> join(PeerNodeAddressI a) throws Exception {
+	public void join(PeerNodeAddressI a) throws Exception {
 
-		return getOwner()
-				.handleRequest(new AbstractComponent.AbstractService<Set<PeerNodeAddressI>>(this.getPluginURI()) {
+		 getOwner()
+				.runTask(new AbstractComponent.AbstractTask(getPluginURI()) {
+					
 					@Override
-					public Set<PeerNodeAddressI> call() throws Exception {
-						return ((FacadeContentManagementPlugin) getServiceProviderReference()).join(a);
+					public void run() {
+						try {
+							((FacadeContentManagementPlugin) getTaskProviderReference()).join(a);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						
 					}
 				});
 	}
@@ -66,6 +71,18 @@ public class FacadePortNodeManagement extends AbstractInboundPort implements Nod
 				}
 			}
 		});
+	}
+
+	@Override
+	public void acceptProbed(PeerNodeAddressI peer, String requestURI) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void probe(int remaingHops, FacadeNodeAddressI facade, String request) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

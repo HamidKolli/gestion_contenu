@@ -7,9 +7,10 @@ import fr.sorbonne_u.components.interfaces.RequiredCI;
 /**
  * @author Hamid KOLLI && Yanis ALAYOUD
  *
- *			Contrat implante par les ports s'occupant de la connexion entre les noeuds (ports sortants)
- *			et les interfaces (ports entrants) de la facade
+ *         Contrat implante par les ports s'occupant de la connexion entre les
+ *         noeuds (ports sortants) et les interfaces (ports entrants) de la
+ *         facade
  */
-public interface NodeManagementCI extends OfferedCI, RequiredCI ,IConnectFacadeRequest{
+public interface NodeManagementCI extends OfferedCI, RequiredCI, IConnectFacadeRequest,ProbingCI {
 	
 }

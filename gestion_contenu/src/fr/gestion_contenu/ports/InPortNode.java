@@ -1,5 +1,8 @@
 package fr.gestion_contenu.ports;
 
+import java.util.Set;
+
+import fr.gestion_contenu.node.interfaces.FacadeNodeAddressI;
 import fr.gestion_contenu.node.interfaces.PeerNodeAddressI;
 import fr.gestion_contenu.plugins.ContentManagementPlugin;
 import fr.gestion_contenu.ports.interfaces.NodeCI;
@@ -45,6 +48,7 @@ public class InPortNode extends AbstractInboundPort implements NodeCI {
 			}
 		});
 		
+		
 	}
 
 	/**
@@ -62,6 +66,36 @@ public class InPortNode extends AbstractInboundPort implements NodeCI {
 			}
 		});
 
+	}
+
+	@Override
+	public void acceptNeighbours(Set<PeerNodeAddressI> neighbours) throws Exception {
+		getOwner().runTask((q) -> {
+			try {
+				((ContentManagementPlugin) getOwnerPlugin(pluginURI)).acceptNeighbours(neighbours);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+		
+	}
+
+	@Override
+	public void acceptConnected(PeerNodeAddressI neighbour) throws Exception {
+		getOwner().runTask((q) -> {
+			try {
+				((ContentManagementPlugin) getOwnerPlugin(pluginURI)).acceptConnected(neighbour);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+		
+	}
+
+	@Override
+	public void probe(int remaingHops, FacadeNodeAddressI facade, String request) throws Exception {
+		//TODO
+		
 	}
 
 }

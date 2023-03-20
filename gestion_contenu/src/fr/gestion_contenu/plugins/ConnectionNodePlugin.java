@@ -73,7 +73,7 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 	 * @return OutPortContentManagement : le port sortant cree pour la connexion
 	 * @throws Exception
 	 */
-	protected OutPortContentManagement connect(PeerNodeAddressI peer) throws Exception {
+	protected OutPortContentManagement connectNode(PeerNodeAddressI peer) throws Exception {
 		getOwner().traceMessage("connect to " + peer.getNodeIdentifier() + "\n");
 		OutPortNode port = new OutPortNode(getOwner());
 		port.publishPort();
@@ -126,6 +126,7 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 		OutPortNode port = new OutPortNode(getOwner());
 		port.publishPort();
 		getOwner().doPortConnection(port.getPortURI(), peer.getNodeURI(), ConnectorNode.class.getCanonicalName());
+		port.acceptConnected(nodeAddresses);
 		connectOutPort.put(peer, port);
 		OutPortContentManagement portContent = new OutPortContentManagement(getOwner());
 		portContent.publishPort();

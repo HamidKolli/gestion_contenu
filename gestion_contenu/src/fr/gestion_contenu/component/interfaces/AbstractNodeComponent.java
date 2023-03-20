@@ -2,8 +2,8 @@ package fr.gestion_contenu.component.interfaces;
 
 import java.util.Set;
 
-import fr.gestion_contenu.content.interfaces.ContentTemplateI;
 import fr.gestion_contenu.content.interfaces.ContentDescriptorI;
+import fr.gestion_contenu.content.interfaces.ContentTemplateI;
 import fr.gestion_contenu.node.interfaces.PeerNodeAddressI;
 import fr.gestion_contenu.ports.interfaces.ContentManagementCI;
 import fr.gestion_contenu.ports.interfaces.NodeCI;
@@ -43,9 +43,12 @@ public abstract class AbstractNodeComponent extends AbstractComponent  {
 	 */
 	public abstract void leave() throws Exception;
 	
+		
 	/**
 	* Methode qui permet de joindre un reseau
 	* @throws Exception
 	*/
-	public abstract Set<PeerNodeAddressI> join() throws Exception;
+	public abstract void join() throws Exception;
+
+	public abstract void acceptNeighbours(Set<PeerNodeAddressI> neighbours);
 }

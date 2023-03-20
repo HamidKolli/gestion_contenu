@@ -1,7 +1,5 @@
 package fr.gestion_contenu.component.interfaces;
 
-import java.util.Set;
-
 import fr.gestion_contenu.node.interfaces.PeerNodeAddressI;
 
 /**
@@ -19,7 +17,7 @@ public interface IConnectFacadeRequest {
 	 * @return Set<PeerNodeAddressI> l'essemble des addresses des ports entrants des noeuds proposes par la facade 
 	 * @throws Exception
 	 */
-	public abstract Set<PeerNodeAddressI> join(PeerNodeAddressI a) throws Exception;
+	public abstract void join(PeerNodeAddressI a) throws Exception;
 
 	/**
 	 * 
@@ -28,4 +26,6 @@ public interface IConnectFacadeRequest {
 	 * @throws Exception
 	 */
 	public abstract void leave(PeerNodeAddressI a) throws Exception;
+	
+	public void acceptProbed(PeerNodeAddressI peer, String requestURI) throws Exception;
 }

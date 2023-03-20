@@ -4,6 +4,7 @@ import java.util.Set;
 
 import fr.gestion_contenu.content.interfaces.ContentDescriptorI;
 import fr.gestion_contenu.content.interfaces.ContentTemplateI;
+import fr.gestion_contenu.node.interfaces.NodeAddressI;
 import fr.gestion_contenu.ports.InPortContentManagement;
 import fr.gestion_contenu.ports.interfaces.ContentManagementCI;
 import fr.sorbonne_u.components.connectors.AbstractConnector;
@@ -23,8 +24,8 @@ public class ConnectorContentManagement extends AbstractConnector implements Con
 	 *
 	 */
 	@Override
-	public void find(ContentTemplateI cd, int hops, String uriReturn) throws Exception {
-		((InPortContentManagement) this.offering).find(cd, hops, uriReturn);
+	public void find(ContentTemplateI cd, int hops, NodeAddressI facade, String requestURI) throws Exception {
+		((InPortContentManagement) this.offering).find(cd, hops, facade, requestURI);
 	}
 
 	/**
@@ -34,10 +35,10 @@ public class ConnectorContentManagement extends AbstractConnector implements Con
 	 *
 	 */
 	@Override
-	public void match(ContentTemplateI cd, Set<ContentDescriptorI> matched, int hops, String uriReturn)
-			throws Exception {
+	public void match(ContentTemplateI cd, int hops, NodeAddressI facade, String requestURI,
+			Set<ContentDescriptorI> matched) throws Exception {
 
-		((InPortContentManagement) this.offering).match(cd, matched, hops, uriReturn);
+		((InPortContentManagement) this.offering).match(cd, hops, facade,requestURI,matched);
 	}
 
 }

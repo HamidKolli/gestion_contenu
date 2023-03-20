@@ -1,5 +1,7 @@
 package fr.gestion_contenu.component.interfaces;
 
+import java.util.Set;
+
 import fr.gestion_contenu.node.interfaces.PeerNodeAddressI;
 
 /**
@@ -22,4 +24,8 @@ public interface IConnectNodeRequest {
 	 * @throws Exception
 	 */
 	public void disconnect(PeerNodeAddressI peer) throws Exception;
+	
+	public void acceptNeighbours(Set<PeerNodeAddressI> neighbours) throws Exception;
+	public void acceptConnected(PeerNodeAddressI neighbour) throws Exception;
+	
 }
