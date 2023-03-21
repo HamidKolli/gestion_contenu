@@ -18,7 +18,7 @@ import fr.sorbonne_u.components.exceptions.ComponentShutdownException;
 import fr.sorbonne_u.components.exceptions.ComponentStartException;
 import fr.sorbonne_u.utils.aclocks.AcceleratedClock;
 
-@RequiredInterfaces(required = { ContentManagementCI.class ,FacadeContentManagementCI.class})
+@RequiredInterfaces(required = { ContentManagementCI.class, FacadeContentManagementCI.class })
 
 /**
  * 
@@ -80,7 +80,7 @@ public class ClientComponent extends AbstractClientComponent {
 	 */
 	@Override
 	public void find(ContentTemplateI template) throws Exception {
-		this.portContentManagement.find(template, 2);
+		traceMessage(String.format("resultat du find : %s\n", portContentManagement.find(template, 2)));
 
 	}
 
@@ -91,7 +91,9 @@ public class ClientComponent extends AbstractClientComponent {
 	 */
 	@Override
 	public void match(ContentTemplateI template) throws Exception {
-		this.portContentManagement.match(template, 2, new HashSet<>());
+
+		traceMessage(
+				String.format("resultat du match : %s\n", portContentManagement.match(template, 2, new HashSet<>())));
 
 	}
 
@@ -153,7 +155,5 @@ public class ClientComponent extends AbstractClientComponent {
 		}
 		super.shutdown();
 	}
-
-
 
 }

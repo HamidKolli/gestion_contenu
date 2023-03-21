@@ -2,10 +2,10 @@ package fr.gestion_contenu.plugins;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Semaphore;
 
 import fr.gestion_contenu.component.interfaces.IContentRequestFacade;
@@ -25,7 +25,7 @@ import fr.sorbonne_u.components.ComponentI;
  *         Plugin s'occupant des differentes operations de match et find liees
  *         aux connexions de ContentManagement au niveau de la facade
  */
-public class FacadeContentManagementPlugin extends FacadeNodeManagementPlugin implements IContentRequestFacade{
+public class FacadeContentManagementPlugin extends FacadeNodeManagementPlugin implements IContentRequestFacade {
 
 	private static final long serialVersionUID = 1L;
 	private final int NB_ROOT_REQ;
@@ -43,9 +43,9 @@ public class FacadeContentManagementPlugin extends FacadeNodeManagementPlugin im
 	 */
 	public FacadeContentManagementPlugin(ApplicationNodeAddress application, int nbRoot) {
 		super(application, nbRoot);
-		requestClient = new HashMap<>();
-		resultFind = new HashMap<>();
-		resultMatch = new HashMap<>();
+		requestClient = new ConcurrentHashMap<>();
+		resultFind = new ConcurrentHashMap<>();
+		resultMatch = new ConcurrentHashMap<>();
 		this.application = application;
 		NB_ROOT_REQ = nbRoot / 2;
 	}
@@ -122,13 +122,18 @@ public class FacadeContentManagementPlugin extends FacadeNodeManagementPlugin im
 	}
 
 	public void acceptFound(ContentDescriptorI found, String requestURI) {
-		resultFind.put(requestURI, found);
+		assert requestURI != null;
+		if (found != null)
+			resultFind.put(requestURI, found);
 		requestClient.get(requestURI).release();
 
 	}
 
+	@SuppressWarnings("null")
 	public void acceptMatched(Set<ContentDescriptorI> matched, String requestURI) {
-		resultMatch.put(requestURI, matched);
+		assert requestURI != null;
+		if (matched != null || !(matched.isEmpty()))
+			resultMatch.put(requestURI, matched);
 		requestClient.get(requestURI).release();
 	}
 
