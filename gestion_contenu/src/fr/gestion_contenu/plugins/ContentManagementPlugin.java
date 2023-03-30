@@ -16,7 +16,6 @@ import fr.gestion_contenu.content.interfaces.ContentDescriptorI;
 import fr.gestion_contenu.content.interfaces.ContentTemplateI;
 import fr.gestion_contenu.node.interfaces.ApplicationNodeAddressI;
 import fr.gestion_contenu.node.interfaces.ContentNodeAddressI;
-import fr.gestion_contenu.node.interfaces.FacadeNodeAddressI;
 import fr.gestion_contenu.node.interfaces.NodeAddressI;
 import fr.gestion_contenu.node.interfaces.PeerNodeAddressI;
 import fr.gestion_contenu.ports.InPortContentManagement;
@@ -38,6 +37,7 @@ public class ContentManagementPlugin extends ConnectionNodePlugin implements ICo
 	private ConcurrentMap<PeerNodeAddressI, OutPortContentManagement> connectNodeContent;
 	private ContentNodeAddressI contentNodeAddress;
 	private InPortContentManagement inPortContentManagement;
+	private OutPortContentManagementFacade result;
 
 	/**
 	 * Constructeur
@@ -71,6 +71,8 @@ public class ContentManagementPlugin extends ConnectionNodePlugin implements ICo
 		inPortContentManagement = new InPortContentManagement(contentNodeAddress.getContentManagementURI(), getOwner(),
 				getPluginURI());
 		inPortContentManagement.publishPort();
+		result = new OutPortContentManagementFacade(getOwner());
+		result.publishPort();
 
 	}
 
@@ -85,14 +87,12 @@ public class ContentManagementPlugin extends ConnectionNodePlugin implements ICo
 	 */
 	private void returnFind(ContentDescriptorI cd, String uriReturn, String requestURI) throws Exception {
 		getOwner().traceMessage("fin find node" + cd + "\n");
-		OutPortContentManagementFacade result = new OutPortContentManagementFacade(getOwner());
-		result.publishPort();
+
 		getOwner().doPortConnection(result.getPortURI(), uriReturn,
 				ConnectorContentManagementFacade.class.getCanonicalName());
 		result.acceptFound(cd, requestURI);
 		result.doDisconnection();
-		result.unpublishPort();
-		result.destroyPort();
+		
 	}
 
 	/**
@@ -152,14 +152,11 @@ public class ContentManagementPlugin extends ConnectionNodePlugin implements ICo
 		 * ayant fait la requete pour lui transmettre directement le resultat du match
 		 */
 		if (hops == 0) {
-			OutPortContentManagementFacade result = new OutPortContentManagementFacade(getOwner());
-			result.publishPort();
-			getOwner().doPortConnection(result.getPortURI(), ((ApplicationNodeAddressI)facade).getContentManagementURI(),
+			getOwner().doPortConnection(result.getPortURI(),
+					((ApplicationNodeAddressI) facade).getContentManagementURI(),
 					ConnectorContentManagementFacade.class.getCanonicalName());
 			result.acceptMatched(matched, requestURI);
 			result.doDisconnection();
-			result.unpublishPort();
-			result.destroyPort();
 			return;
 		}
 
@@ -258,6 +255,8 @@ public class ContentManagementPlugin extends ConnectionNodePlugin implements ICo
 	public void uninstall() throws Exception {
 		inPortContentManagement.unpublishPort();
 		inPortContentManagement.destroyPort();
+		result.unpublishPort();
+		result.destroyPort();
 		for (Map.Entry<PeerNodeAddressI, OutPortContentManagement> port : connectNodeContent.entrySet()) {
 			port.getValue().unpublishPort();
 			port.getValue().destroyPort();
