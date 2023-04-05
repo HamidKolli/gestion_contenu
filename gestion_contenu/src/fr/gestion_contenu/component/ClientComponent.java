@@ -4,11 +4,9 @@ import java.util.HashSet;
 import java.util.concurrent.TimeUnit;
 
 import fr.gestion_contenu.component.interfaces.AbstractClientComponent;
-import fr.gestion_contenu.connectors.ConnectorContentManagement;
 import fr.gestion_contenu.connectors.ConnectorContentManagementFacade;
 import fr.gestion_contenu.content.interfaces.ContentTemplateI;
 import fr.gestion_contenu.plugins.ClockPlugin;
-import fr.gestion_contenu.ports.InPortContentManagementFacade;
 import fr.gestion_contenu.ports.OutPortContentManagementFacade;
 import fr.gestion_contenu.ports.interfaces.ContentManagementCI;
 import fr.gestion_contenu.ports.interfaces.FacadeContentManagementCI;
@@ -80,7 +78,7 @@ public class ClientComponent extends AbstractClientComponent {
 	 */
 	@Override
 	public void find(ContentTemplateI template) throws Exception {
-		traceMessage(String.format("resultat du find : %s\n", portContentManagement.find(template, 2)));
+		traceMessage(String.format("resultat du find : %s\n", portContentManagement.find(template, 20)));
 
 	}
 
@@ -93,7 +91,7 @@ public class ClientComponent extends AbstractClientComponent {
 	public void match(ContentTemplateI template) throws Exception {
 
 		traceMessage(
-				String.format("resultat du match : %s\n", portContentManagement.match(template, 2, new HashSet<>())));
+				String.format("resultat du match : %s\n", portContentManagement.match(template, 20, new HashSet<>())));
 
 	}
 
@@ -113,7 +111,7 @@ public class ClientComponent extends AbstractClientComponent {
 
 		clock.waitUntilStart();
 
-		long delay = TimeUnit.SECONDS.toNanos(3);
+		long delay = TimeUnit.SECONDS.toNanos(5);
 
 		this.scheduleTask(o -> {
 			try {

@@ -2,7 +2,6 @@ package fr.gestion_contenu.ports;
 
 import java.util.Set;
 
-import fr.gestion_contenu.connectors.ConnectorNode;
 import fr.gestion_contenu.node.interfaces.FacadeNodeAddressI;
 import fr.gestion_contenu.node.interfaces.PeerNodeAddressI;
 import fr.gestion_contenu.ports.interfaces.NodeCI;

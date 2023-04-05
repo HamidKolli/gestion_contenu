@@ -28,10 +28,11 @@ public class InPortContentManagement extends AbstractInboundPort implements Cont
 	 * 
 	 * @param uri   : l'URI du port
 	 * @param owner : le composant qui le possede
+	 * @param uriContentManagement 
 	 * @throws Exception
 	 */
-	public InPortContentManagement(String uri, ComponentI owner, String pluginURI) throws Exception {
-		super(uri, ContentManagementCI.class, owner, pluginURI, null);
+	public InPortContentManagement(String uri, ComponentI owner, String pluginURI, String uriContentManagement) throws Exception {
+		super(uri, ContentManagementCI.class, owner, pluginURI, uriContentManagement);
 	}
 
 	/**
@@ -42,7 +43,7 @@ public class InPortContentManagement extends AbstractInboundPort implements Cont
 	 */
 	@Override
 	public void find(ContentTemplateI cd, int hops, NodeAddressI facade, String requestURI) throws Exception {
-		getOwner().runTask(new AbstractComponent.AbstractTask(pluginURI) {
+		getOwner().runTask(getExecutorServiceIndex(),new AbstractComponent.AbstractTask(pluginURI) {
 
 			@Override
 			public void run() {
@@ -65,7 +66,7 @@ public class InPortContentManagement extends AbstractInboundPort implements Cont
 	@Override
 	public void match(ContentTemplateI cd, int hops, NodeAddressI facade, String requestURI,
 			Set<ContentDescriptorI> matched) throws Exception {
-		getOwner().runTask(new AbstractComponent.AbstractTask(pluginURI) {
+		getOwner().runTask(getExecutorServiceIndex(),new AbstractComponent.AbstractTask(pluginURI) {
 
 			@Override
 			public void run() {

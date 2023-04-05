@@ -6,7 +6,6 @@ import fr.gestion_contenu.node.interfaces.FacadeNodeAddressI;
 import fr.gestion_contenu.node.interfaces.PeerNodeAddressI;
 import fr.gestion_contenu.plugins.ContentManagementPlugin;
 import fr.gestion_contenu.ports.interfaces.NodeCI;
-import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.ComponentI;
 import fr.sorbonne_u.components.ports.AbstractInboundPort;
 
@@ -27,10 +26,11 @@ public class InPortNode extends AbstractInboundPort implements NodeCI {
 	 * 
 	 * @param uri   : l'URI du port
 	 * @param owner : le composant qui le possede
+	 * @param uriConnection 
 	 * @throws Exception
 	 */
-	public InPortNode(String uri, ComponentI owner, String pluginURI) throws Exception {
-		super(uri, NodeCI.class, owner, pluginURI, null);
+	public InPortNode(String uri, ComponentI owner, String pluginURI, String uriConnection) throws Exception {
+		super(uri, NodeCI.class, owner, pluginURI, uriConnection);
 	}
 
 	/**
@@ -40,7 +40,7 @@ public class InPortNode extends AbstractInboundPort implements NodeCI {
 	 */
 	@Override
 	public void connect(PeerNodeAddressI a) throws Exception {
-		getOwner().runTask((q) -> {
+		getOwner().runTask(getExecutorServiceIndex(),(q) -> {
 			try {
 				((ContentManagementPlugin) getOwnerPlugin(pluginURI)).connectBack(a);
 			} catch (Exception e) {
@@ -58,7 +58,7 @@ public class InPortNode extends AbstractInboundPort implements NodeCI {
 	 */
 	@Override
 	public void disconnect(PeerNodeAddressI a) throws Exception {
-		getOwner().runTask((q) -> {
+		getOwner().runTask(getExecutorServiceIndex(),(q) -> {
 			try {
 				((ContentManagementPlugin) getOwnerPlugin(pluginURI)).disconnectBack(a);
 			} catch (Exception e) {
@@ -70,7 +70,7 @@ public class InPortNode extends AbstractInboundPort implements NodeCI {
 
 	@Override
 	public void acceptNeighbours(Set<PeerNodeAddressI> neighbours) throws Exception {
-		getOwner().runTask((q) -> {
+		getOwner().runTask(getExecutorServiceIndex(),(q) -> {
 			try {
 				((ContentManagementPlugin) getOwnerPlugin(pluginURI)).acceptNeighbours(neighbours);
 			} catch (Exception e) {
@@ -82,7 +82,7 @@ public class InPortNode extends AbstractInboundPort implements NodeCI {
 
 	@Override
 	public void acceptConnected(PeerNodeAddressI neighbour) throws Exception {
-		getOwner().runTask((q) -> {
+		getOwner().runTask(getExecutorServiceIndex(),(q) -> {
 			try {
 				((ContentManagementPlugin) getOwnerPlugin(pluginURI)).acceptConnected(neighbour);
 			} catch (Exception e) {
@@ -94,7 +94,13 @@ public class InPortNode extends AbstractInboundPort implements NodeCI {
 
 	@Override
 	public void probe(int remaingHops, FacadeNodeAddressI facade, String request) throws Exception {
-		//TODO
+		getOwner().runTask((q) -> {
+			try {
+				((ContentManagementPlugin) getOwnerPlugin(pluginURI)).probe( remaingHops,  facade,  request);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
 		
 	}
 

@@ -27,14 +27,14 @@ public class InPortContentManagementFacade extends AbstractInboundPort implement
 
 	
 	public InPortContentManagementFacade( String uri,ComponentI owner,
-			String pluginURI) throws Exception {
-		super(uri,FacadeContentManagementCI.class, owner, pluginURI, null);
+			String pluginURI, String contentManagementURI) throws Exception {
+		super(uri,FacadeContentManagementCI.class, owner, pluginURI, contentManagementURI);
 	}
 
 
 	@Override
 	public void acceptFound(ContentDescriptorI found, String requestURI) throws Exception {
-		getOwner().runTask(new AbstractComponent.AbstractTask(getPluginURI()) {
+		getOwner().runTask(getExecutorServiceIndex(),new AbstractComponent.AbstractTask(getPluginURI()) {
 
 			@Override
 			public void run() {
@@ -50,7 +50,7 @@ public class InPortContentManagementFacade extends AbstractInboundPort implement
 
 	@Override
 	public void acceptMatched(Set<ContentDescriptorI> matched, String requestURI) throws Exception {
-		getOwner().runTask(new AbstractComponent.AbstractTask(getPluginURI()) {
+		getOwner().runTask(getExecutorServiceIndex(),new AbstractComponent.AbstractTask(getPluginURI()) {
 
 			@Override
 			public void run() {

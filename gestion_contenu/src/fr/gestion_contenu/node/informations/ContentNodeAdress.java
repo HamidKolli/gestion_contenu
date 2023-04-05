@@ -82,4 +82,13 @@ public class ContentNodeAdress implements ContentNodeAddressI {
 		return contentManagementURI;
 	}
 
+
+	@Override
+	public String toString() {
+		return "ContentNodeAdress [nodeURI=" + nodeURI + ", nodeIdentifier=" + nodeIdentifier
+				+ ", contentManagementURI=" + contentManagementURI + "]";
+	}
+	
+	
+
 }

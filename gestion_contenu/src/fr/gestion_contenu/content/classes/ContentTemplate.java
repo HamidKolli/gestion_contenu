@@ -8,7 +8,7 @@ import fr.gestion_contenu.content.interfaces.ContentTemplateI;
  * 
  * @author Hamid KOLLI && Yanis ALAYOUD
  *
- *        Classe representant un ContentTemplate
+ *         Classe representant un ContentTemplate
  */
 public class ContentTemplate implements ContentTemplateI {
 	private String title;
@@ -33,7 +33,7 @@ public class ContentTemplate implements ContentTemplateI {
 	}
 
 	/**
-	 *@see fr.gestion_contenu.content.interfaces.ContentTemplateI#getTitle()
+	 * @see fr.gestion_contenu.content.interfaces.ContentTemplateI#getTitle()
 	 */
 	@Override
 	public String getTitle() {
@@ -42,7 +42,7 @@ public class ContentTemplate implements ContentTemplateI {
 	}
 
 	/**
-	 *@see fr.gestion_contenu.content.interfaces.ContentTemplateI#getAlbumTitle()
+	 * @see fr.gestion_contenu.content.interfaces.ContentTemplateI#getAlbumTitle()
 	 */
 	@Override
 	public String getAlbumTitle() {
@@ -51,7 +51,7 @@ public class ContentTemplate implements ContentTemplateI {
 	}
 
 	/**
-	 *@see fr.gestion_contenu.content.interfaces.ContentTemplateI#getInterpreters()
+	 * @see fr.gestion_contenu.content.interfaces.ContentTemplateI#getInterpreters()
 	 */
 	@Override
 	public Set<String> getInterpreters() {
@@ -60,7 +60,7 @@ public class ContentTemplate implements ContentTemplateI {
 	}
 
 	/**
-	 *@see fr.gestion_contenu.content.interfaces.ContentTemplateI#getComposers()
+	 * @see fr.gestion_contenu.content.interfaces.ContentTemplateI#getComposers()
 	 */
 	@Override
 	public Set<String> getComposers() {
@@ -70,15 +70,16 @@ public class ContentTemplate implements ContentTemplateI {
 
 	/**
 	 * Methode equals
-	 *@param obj : l'objet a comparer
-	 *@return boolean : le resultat de l'egalite
+	 * 
+	 * @param obj : l'objet a comparer
+	 * @return boolean : le resultat de l'egalite
 	 */
 	@Override
 	public boolean equals(Object obj) {
 
 		if (obj == null)
 			return false;
-		
+
 		if (!(obj instanceof ContentTemplate))
 			return false;
 
@@ -87,14 +88,16 @@ public class ContentTemplate implements ContentTemplateI {
 				&& o.getInterpreters().equals(getInterpreters()) && o.getComposers().equals(getComposers());
 
 	}
-	
+
 	/**
 	 * Methode toString
-	 *@return String : l'affichage du contenu du ContentTemplate
+	 * 
+	 * @return String : l'affichage du contenu du ContentTemplate
 	 */
 	@Override
 	public String toString() {
-		return "Template >>>> titre : "+ getTitle() + "| Album : "+ getAlbumTitle();
+		return "\n Template >>>> \n titre : " + getTitle() + "\n Album : " + getAlbumTitle() + "\n Composers : "
+				+ getComposers() + "\n Interpreters : " + getInterpreters();
 	}
 
 }

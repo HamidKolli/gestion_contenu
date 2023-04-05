@@ -11,7 +11,7 @@ import java.util.concurrent.Semaphore;
 import fr.gestion_contenu.component.interfaces.IContentRequestFacade;
 import fr.gestion_contenu.content.interfaces.ContentDescriptorI;
 import fr.gestion_contenu.content.interfaces.ContentTemplateI;
-import fr.gestion_contenu.node.informations.ApplicationNodeAddress;
+import fr.gestion_contenu.node.interfaces.ApplicationNodeAddressI;
 import fr.gestion_contenu.ports.InPortContentManagementFacade;
 import fr.gestion_contenu.ports.OutPortContentManagement;
 import fr.gestion_contenu.ports.interfaces.ContentManagementCI;
@@ -29,24 +29,29 @@ public class FacadeContentManagementPlugin extends FacadeNodeManagementPlugin im
 
 	private static final long serialVersionUID = 1L;
 	private final int NB_ROOT_REQ;
-	private ApplicationNodeAddress application;
+	private ApplicationNodeAddressI application;
 	private InPortContentManagementFacade portContentManagement;
 	private Map<String, Semaphore> requestClient;
 	private Map<String, ContentDescriptorI> resultFind;
 	private Map<String, Set<ContentDescriptorI>> resultMatch;
+	private String contentManagementURI;
 
 	/**
 	 * Constructeur
 	 * 
-	 * @param application
+	 * @param applicationNodeAddress
 	 * @param nbRoot
+	 * @param uriContentManagement
+	 * @param uriNodeManagement
 	 */
-	public FacadeContentManagementPlugin(ApplicationNodeAddress application, int nbRoot) {
-		super(application, nbRoot);
+	public FacadeContentManagementPlugin(ApplicationNodeAddressI applicationNodeAddress, int nbRoot, String uriNodeManagement,
+			String uriContentManagement,ApplicationNodeAddressI uriFacadeSuivante) {
+		super(applicationNodeAddress, nbRoot, uriNodeManagement, uriFacadeSuivante);
 		requestClient = new ConcurrentHashMap<>();
 		resultFind = new ConcurrentHashMap<>();
 		resultMatch = new ConcurrentHashMap<>();
-		this.application = application;
+		this.application = applicationNodeAddress;
+		this.contentManagementURI = uriContentManagement;
 		NB_ROOT_REQ = nbRoot / 2;
 	}
 
@@ -70,7 +75,7 @@ public class FacadeContentManagementPlugin extends FacadeNodeManagementPlugin im
 	public void initialise() throws Exception {
 		super.initialise();
 		portContentManagement = new InPortContentManagementFacade(application.getContentManagementURI(), getOwner(),
-				getPluginURI());
+				getPluginURI(), contentManagementURI);
 		portContentManagement.publishPort();
 
 	}
@@ -82,8 +87,13 @@ public class FacadeContentManagementPlugin extends FacadeNodeManagementPlugin im
 		String requestURI = AbstractPort.generatePortURI();
 		Semaphore sem = new Semaphore(0);
 		requestClient.put(requestURI, sem);
-		for (OutPortContentManagement op : listTmp.subList(0, NB_ROOT_REQ)) {
-
+		
+		if(listTmp.size()> NB_ROOT_REQ) {
+			listTmp =  listTmp.subList(0, NB_ROOT_REQ);
+		}
+			
+		
+		for (OutPortContentManagement op :listTmp) {
 			op.find(cd, hops, application, requestURI);
 		}
 

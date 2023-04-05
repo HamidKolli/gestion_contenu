@@ -24,10 +24,11 @@ public class FacadePortNodeManagement extends AbstractInboundPort implements Nod
 	 * @param uri
 	 * @param owner
 	 * @param pluginURI
+	 * @param contentManagementURI 
 	 * @throws Exception
 	 */
-	public FacadePortNodeManagement(String uri, ComponentI owner, String pluginURI) throws Exception {
-		super(uri, NodeManagementCI.class, owner, pluginURI, null);
+	public FacadePortNodeManagement(String uri, ComponentI owner, String pluginURI, String contentManagementURI) throws Exception {
+		super(uri, NodeManagementCI.class, owner, pluginURI, contentManagementURI);
 
 	}
 
@@ -40,7 +41,7 @@ public class FacadePortNodeManagement extends AbstractInboundPort implements Nod
 	public void join(PeerNodeAddressI a) throws Exception {
 
 		 getOwner()
-				.runTask(new AbstractComponent.AbstractTask(getPluginURI()) {
+				.runTask(getExecutorServiceIndex(),new AbstractComponent.AbstractTask(getPluginURI()) {
 					
 					@Override
 					public void run() {
@@ -61,7 +62,7 @@ public class FacadePortNodeManagement extends AbstractInboundPort implements Nod
 	 */
 	@Override
 	public void leave(PeerNodeAddressI a) throws Exception {
-		getOwner().runTask(new AbstractComponent.AbstractTask(pluginURI) {
+		getOwner().runTask(getExecutorServiceIndex(),new AbstractComponent.AbstractTask(pluginURI) {
 			@Override
 			public void run() {
 				try {
@@ -74,14 +75,32 @@ public class FacadePortNodeManagement extends AbstractInboundPort implements Nod
 	}
 
 	@Override
-	public void acceptProbed(PeerNodeAddressI peer, String requestURI) {
-		// TODO Auto-generated method stub
+	public void acceptProbed(PeerNodeAddressI peer, String requestURI) throws Exception {
+		getOwner().runTask(getExecutorServiceIndex(),new AbstractComponent.AbstractTask(pluginURI) {
+			@Override
+			public void run() {
+				try {
+					((FacadeContentManagementPlugin) getTaskProviderReference()).acceptProbed(peer, requestURI);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 		
 	}
 
 	@Override
-	public void probe(int remaingHops, FacadeNodeAddressI facade, String request) {
-		// TODO Auto-generated method stub
+	public void probe(int remaingHops, FacadeNodeAddressI facade, String request) throws Exception {
+		getOwner().runTask(getExecutorServiceIndex(),new AbstractComponent.AbstractTask(pluginURI) {
+			@Override
+			public void run() {
+				try {
+					((FacadeContentManagementPlugin) getTaskProviderReference()).probe(remaingHops,facade,request);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 		
 	}
 

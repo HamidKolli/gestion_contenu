@@ -1,6 +1,8 @@
 package fr.gestion_contenu.component;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
@@ -39,6 +41,12 @@ public class NodeComponent extends AbstractNodeComponent {
 	private Set<PeerNodeAddressI> neighbours;
 	private static int cptX = 0;
 	private static int cptY = 0;
+	private static int cptID;
+	private final int id;
+
+	private final int nombreThreadNodeManagement;
+	private final int nombreThreadContentManagement;
+	private Semaphore sem = new Semaphore(0);
 
 	/**
 	 * 
@@ -49,17 +57,24 @@ public class NodeComponent extends AbstractNodeComponent {
 	 *                                demander de joindre le reseau)
 	 * @throws Exception
 	 */
-	protected NodeComponent(String clockURI, ContentDescriptorI contentDescriptorI, String portFacadeManagementURI)
-			throws Exception {
+	protected NodeComponent(String clockURI, ContentDescriptorI contentDescriptorI, String portFacadeManagementURI,
+			int nombreThreadNodeManagement, int nombreThreadContentManagement) throws Exception {
 		super(3, 1);
+
+		id = ++cptID;
 		this.contentDescriptorI = contentDescriptorI;
 		this.portFacadeManagementURI = portFacadeManagementURI;
 		this.clockURI = clockURI;
-		this.getTracer().setTitle("Node");
-		if(cptX % 4 == 0) {
+		this.nombreThreadNodeManagement = nombreThreadNodeManagement;
+
+		this.nombreThreadContentManagement = nombreThreadContentManagement;
+		this.getTracer().setTitle("Node "+ id);
+		if (cptX % 4 == 0) {
 			cptY++;
 		}
+
 		this.getTracer().setOrigin(480 * (((cptX++) + 1) % 4), 250 * (cptY % 4));
+
 	}
 
 	/**
@@ -71,15 +86,21 @@ public class NodeComponent extends AbstractNodeComponent {
 		try {
 			this.portNodeManagement = new NodePortNodeManagement(this);
 			this.portNodeManagement.publishPort();
+			String uriConnection = AbstractPort.generatePortURI();
+			String uriContentManagement = AbstractPort.generatePortURI();
 
-			plugin = new ContentManagementPlugin(contentDescriptorI.getContentNodeAddress());
+			createNewExecutorService(uriConnection, nombreThreadNodeManagement, false);
+			createNewExecutorService(uriContentManagement, nombreThreadContentManagement, false);
+
+			plugin = new ContentManagementPlugin(contentDescriptorI.getContentNodeAddress(), uriConnection,
+					uriContentManagement);
 			plugin.setPluginURI(AbstractPort.generatePortURI());
 			this.installPlugin(plugin);
 
 			pluginClock = new ClockPlugin(clockURI);
 			pluginClock.setPluginURI(AbstractPort.generatePortURI());
 			this.installPlugin(pluginClock);
-			
+
 			super.start();
 		} catch (Exception e) {
 			throw new ComponentStartException(e);
@@ -99,7 +120,7 @@ public class NodeComponent extends AbstractNodeComponent {
 		doPortConnection(this.portNodeManagement.getPortURI(), this.portFacadeManagementURI,
 				ConnectorNodeManagement.class.getCanonicalName());
 		portNodeManagement.join(contentDescriptorI.getContentNodeAddress());
-	
+
 	}
 
 	/**
@@ -117,26 +138,24 @@ public class NodeComponent extends AbstractNodeComponent {
 	 * @see fr.sorbonne_u.components.AbstractComponent#execute()
 	 *
 	 */
-	Semaphore sem = new Semaphore(0);
 	@Override
 	public void execute() throws Exception {
-
 
 		AcceleratedClock clock = pluginClock.getClock();
 
 		Instant instant = clock.getStartInstant();
 		clock.waitUntilStart();
-		join();
-		sem.acquire();
-		for (PeerNodeAddressI peerNodeAddressI : neighbours) {
-			if (!peerNodeAddressI.equals(contentDescriptorI.getContentNodeAddress())) {
-				plugin.connect(peerNodeAddressI);
-			}
-		}
 
 		
-
-		long delay = clock.nanoDelayUntilAcceleratedInstant(instant.plusSeconds(1000));
+		join();
+		sem.acquire();
+		List<PeerNodeAddressI> peerNodeAddress = new ArrayList<>(neighbours);
+		for (int i = 0;i< peerNodeAddress.size();i++) {
+			if (!peerNodeAddress.get(i).equals(contentDescriptorI.getContentNodeAddress())) {
+				plugin.connect(peerNodeAddress.get(i));
+			}
+		}
+		long delay = clock.nanoDelayUntilAcceleratedInstant(instant.plusSeconds(1000 + id * 100));
 
 		this.scheduleTask(o -> {
 			try {
@@ -156,11 +175,10 @@ public class NodeComponent extends AbstractNodeComponent {
 	 */
 	@Override
 	public void leave() throws Exception {
-		
+
 		plugin.leave();
 		portNodeManagement.leave(contentDescriptorI.getContentNodeAddress());
-		
-		
+
 		traceMessage("Leave \n");
 	}
 
