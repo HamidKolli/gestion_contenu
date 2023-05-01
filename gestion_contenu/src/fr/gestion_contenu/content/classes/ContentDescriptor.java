@@ -30,6 +30,8 @@ public class ContentDescriptor extends ContentTemplate implements ContentDescrip
 	public ContentDescriptor(String title, String albumTitle, Set<String> interpreters, Set<String> composers,
 			ContentNodeAddressI nodeAdress, long size) {
 		super(title, albumTitle, interpreters, composers);
+		
+		assert nodeAdress != null;
 		this.nodeAdress = nodeAdress;
 		this.size = size;
 	}
@@ -65,6 +67,7 @@ public class ContentDescriptor extends ContentTemplate implements ContentDescrip
 	 */
 	@Override
 	public boolean match(ContentTemplateI t) {
+		
 		if (t == null)
 			return false;
 		boolean result = true;
@@ -72,10 +75,17 @@ public class ContentDescriptor extends ContentTemplate implements ContentDescrip
 			result = result && t.getTitle().equals(getTitle());
 		if (t.getAlbumTitle() != null)
 			result = result && t.getAlbumTitle().equals(getAlbumTitle());
-		if (t.getComposers() != null)
-			result = result && t.getComposers().equals(getComposers());
+		
+		if (t.getComposers() != null) {
+			for (String com : t.getComposers()) {
+				result &= getComposers().contains(com);
+				
+			}
+		}
 		if (t.getInterpreters() != null)
-			result = result && t.getInterpreters().equals(getInterpreters());
+			for (String inter : t.getInterpreters()) {
+				result &= getInterpreters().contains(inter);
+			}
 		return result;
 	}
 	

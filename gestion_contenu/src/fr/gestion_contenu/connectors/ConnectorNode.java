@@ -50,8 +50,8 @@ public class ConnectorNode extends AbstractConnector implements NodeCI{
 	}
 
 	@Override
-	public void probe(int remaingHops, FacadeNodeAddressI facade, String request) throws Exception {
-		((NodeCI)this.offering).probe(remaingHops, facade, request);
+	public void probe(int remaingHops, FacadeNodeAddressI facade, String request,int nbVoisin, PeerNodeAddressI addressNode) throws Exception {
+		((NodeCI)this.offering).probe(remaingHops, facade, request,nbVoisin,addressNode);
 		
 	}
 

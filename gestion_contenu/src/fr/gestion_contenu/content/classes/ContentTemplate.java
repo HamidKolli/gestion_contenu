@@ -26,6 +26,7 @@ public class ContentTemplate implements ContentTemplateI {
 	 */
 	public ContentTemplate(String title, String albumTitle, Set<String> interpreters, Set<String> composers) {
 		super();
+		
 		this.title = title;
 		this.albumTitle = albumTitle;
 		this.interpreters = interpreters;
@@ -68,26 +69,10 @@ public class ContentTemplate implements ContentTemplateI {
 		return composers;
 	}
 
-	/**
-	 * Methode equals
-	 * 
-	 * @param obj : l'objet a comparer
-	 * @return boolean : le resultat de l'egalite
-	 */
-	@Override
-	public boolean equals(Object obj) {
-
-		if (obj == null)
-			return false;
-
-		if (!(obj instanceof ContentTemplate))
-			return false;
-
-		ContentTemplate o = (ContentTemplate) obj;
-		return o.getAlbumTitle().equals(getAlbumTitle()) && o.getTitle().equals(getTitle())
-				&& o.getInterpreters().equals(getInterpreters()) && o.getComposers().equals(getComposers());
-
-	}
+	
+	
+	
+	
 
 	/**
 	 * Methode toString
@@ -98,6 +83,38 @@ public class ContentTemplate implements ContentTemplateI {
 	public String toString() {
 		return "\n Template >>>> \n titre : " + getTitle() + "\n Album : " + getAlbumTitle() + "\n Composers : "
 				+ getComposers() + "\n Interpreters : " + getInterpreters();
+	}
+
+	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!(obj instanceof ContentTemplate))
+			return false;
+		ContentTemplate other = (ContentTemplate) obj;
+		if (albumTitle == null) {
+			if (other.albumTitle != null)
+				return false;
+		} else if (!albumTitle.equals(other.albumTitle))
+			return false;
+		if (composers == null) {
+			if (other.composers != null)
+				return false;
+		} else if (!composers.equals(other.composers))
+			return false;
+		if (interpreters == null) {
+			if (other.interpreters != null)
+				return false;
+		} else if (!interpreters.equals(other.interpreters))
+			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
+		return true;
 	}
 
 }

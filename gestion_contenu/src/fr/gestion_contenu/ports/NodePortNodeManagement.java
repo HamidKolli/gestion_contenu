@@ -55,8 +55,8 @@ public class NodePortNodeManagement extends AbstractOutboundPort implements Node
 	}
 
 	@Override
-	public void probe(int remaingHops, FacadeNodeAddressI facade, String request) throws Exception {
-		((NodeManagementCI) getConnector()).probe(remaingHops, facade, request);
+	public void probe(int remaingHops, FacadeNodeAddressI facade, String request,int nbVoisin, PeerNodeAddressI addressNode) throws Exception {
+		((NodeManagementCI) getConnector()).probe(remaingHops, facade, request,nbVoisin,addressNode);
 		
 	}
 

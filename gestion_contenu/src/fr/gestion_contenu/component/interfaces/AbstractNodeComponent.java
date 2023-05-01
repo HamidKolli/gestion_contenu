@@ -1,5 +1,6 @@
 package fr.gestion_contenu.component.interfaces;
 
+import java.util.List;
 import java.util.Set;
 
 import fr.gestion_contenu.content.interfaces.ContentDescriptorI;
@@ -33,7 +34,7 @@ public abstract class AbstractNodeComponent extends AbstractComponent  {
 	 * @param template 
 	 * @return le descripteur si ca match ,null sinon
 	 */
-	public abstract ContentDescriptorI match(ContentTemplateI template);
+	public abstract List<ContentDescriptorI> match(ContentTemplateI template);
 	
 
 	/**

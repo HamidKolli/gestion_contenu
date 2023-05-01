@@ -6,15 +6,10 @@ import fr.gestion_contenu.node.interfaces.ApplicationNodeAddressI;
  * 
  * @author Hamid KOLLI && Yanis ALAYOUD
  *
- *        Classe aui gere les addresses des ports entrants pour une facade
+ *         Classe aui gere les addresses des ports entrants pour une facade
  */
-public class ApplicationNodeAddress implements ApplicationNodeAddressI{
+public class ApplicationNodeAddress extends AbstractAddress implements ApplicationNodeAddressI {
 	private String nodeManagementURI;
-	private String nodeIdentifier;
-	private String contentManagementURI;
-	private boolean isFacade;
-	private boolean isPeer;
-	
 
 	/**
 	 * Constructeur
@@ -22,59 +17,41 @@ public class ApplicationNodeAddress implements ApplicationNodeAddressI{
 	 * @param managementURI
 	 * @param nodeIdentifier
 	 * @param contentManagementURI
-	 * @param isFacade
-	 * @param isNode
 	 */
-	public ApplicationNodeAddress(String managementURI, String nodeIdentifier, String contentManagementURI,
-			boolean isFacade, boolean isNode) {
-		super();
+	public ApplicationNodeAddress(String managementURI, String nodeIdentifier, String contentManagementURI) {
+		super(nodeIdentifier, contentManagementURI, true);
+		assert managementURI != null;
 		this.nodeManagementURI = managementURI;
-		this.nodeIdentifier = nodeIdentifier;
-		this.contentManagementURI = contentManagementURI;
-		this.isFacade = isFacade;
-		this.isPeer = isNode;
+
 	}
 
 	/**
-	 *@see fr.gestion_contenu.node.interfaces.FacadeNodeAddressI#getNodeManagementURI()
+	 * @see fr.gestion_contenu.node.interfaces.FacadeNodeAddressI#getNodeManagementURI()
 	 */
 	@Override
 	public String getNodeManagementURI() {
 		return nodeManagementURI;
 	}
 
-	/**
-	 *@see fr.gestion_contenu.node.interfaces.NodeAddressI#getNodeIdentifier()
-	 */
-	@Override
-	public String getNodeIdentifier() {
-		return nodeIdentifier;
-	}
 
-	/**
-	 *@see fr.gestion_contenu.node.interfaces.NodeAddressI#isFacade()
-	 */
 	@Override
-	public boolean isFacade() {
-		return isFacade;
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (!(obj instanceof ApplicationNodeAddress))
+			return false;
+		ApplicationNodeAddress other = (ApplicationNodeAddress) obj;
+		if (nodeManagementURI == null) {
+			if (other.nodeManagementURI != null)
+				return false;
+		} else if (!nodeManagementURI.equals(other.nodeManagementURI))
+			return false;
+		return true;
 	}
-
-	/**
-	 *getter
-	 *@see fr.gestion_contenu.node.interfaces.NodeAddressI#isPeer()
-	 */
-	@Override
-	public boolean isPeer() {
-		return isPeer;
-	}
-
-	/**
-	 *getter
-	 *@return String
-	 */
-	@Override
-	public String getContentManagementURI() {
-		return contentManagementURI;
-	}
+	
+	
+	
 
 }

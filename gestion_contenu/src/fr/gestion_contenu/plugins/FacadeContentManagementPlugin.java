@@ -1,21 +1,23 @@
 package fr.gestion_contenu.plugins;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.Semaphore;
 
-import fr.gestion_contenu.component.interfaces.IContentRequestFacade;
 import fr.gestion_contenu.content.interfaces.ContentDescriptorI;
 import fr.gestion_contenu.content.interfaces.ContentTemplateI;
 import fr.gestion_contenu.node.interfaces.ApplicationNodeAddressI;
+import fr.gestion_contenu.node.interfaces.PeerNodeAddressI;
 import fr.gestion_contenu.ports.InPortContentManagementFacade;
 import fr.gestion_contenu.ports.OutPortContentManagement;
 import fr.gestion_contenu.ports.interfaces.ContentManagementCI;
 import fr.gestion_contenu.ports.interfaces.FacadeContentManagementCI;
+import fr.sorbonne_u.components.AbstractPlugin;
 import fr.sorbonne_u.components.AbstractPort;
 import fr.sorbonne_u.components.ComponentI;
 
@@ -25,12 +27,13 @@ import fr.sorbonne_u.components.ComponentI;
  *         Plugin s'occupant des differentes operations de match et find liees
  *         aux connexions de ContentManagement au niveau de la facade
  */
-public class FacadeContentManagementPlugin extends FacadeNodeManagementPlugin implements IContentRequestFacade {
+public class FacadeContentManagementPlugin extends AbstractPlugin {
 
 	private static final long serialVersionUID = 1L;
 	private final int NB_ROOT_REQ;
 	private ApplicationNodeAddressI application;
 	private InPortContentManagementFacade portContentManagement;
+	private ConcurrentMap<PeerNodeAddressI, OutPortContentManagement> connectNodeRoot;
 	private Map<String, Semaphore> requestClient;
 	private Map<String, ContentDescriptorI> resultFind;
 	private Map<String, Set<ContentDescriptorI>> resultMatch;
@@ -42,17 +45,19 @@ public class FacadeContentManagementPlugin extends FacadeNodeManagementPlugin im
 	 * @param applicationNodeAddress
 	 * @param nbRoot
 	 * @param uriContentManagement
-	 * @param uriNodeManagement
+
 	 */
-	public FacadeContentManagementPlugin(ApplicationNodeAddressI applicationNodeAddress, int nbRoot, String uriNodeManagement,
-			String uriContentManagement,ApplicationNodeAddressI uriFacadeSuivante) {
-		super(applicationNodeAddress, nbRoot, uriNodeManagement, uriFacadeSuivante);
+	public FacadeContentManagementPlugin(ApplicationNodeAddressI applicationNodeAddress, int nbRoot, String uriContentManagement, ApplicationNodeAddressI uriFacadeSuivante,
+			ConcurrentMap<PeerNodeAddressI, OutPortContentManagement> connectNodeRoot) {
+		super();
 		requestClient = new ConcurrentHashMap<>();
 		resultFind = new ConcurrentHashMap<>();
 		resultMatch = new ConcurrentHashMap<>();
 		this.application = applicationNodeAddress;
 		this.contentManagementURI = uriContentManagement;
 		NB_ROOT_REQ = nbRoot / 2;
+		// On garde la ref pour pouvoir partager les donnees entre le plugin et le composant
+		this.connectNodeRoot = connectNodeRoot;
 	}
 
 	/**
@@ -81,44 +86,70 @@ public class FacadeContentManagementPlugin extends FacadeNodeManagementPlugin im
 	}
 
 	public ContentDescriptorI find(ContentTemplateI cd, int hops) throws Exception {
-		getOwner().traceMessage("start find facade" + cd + "\n");
-		List<OutPortContentManagement> listTmp = new ArrayList<>(connectNodeRoot.values());
-		Collections.shuffle(listTmp);
+		getOwner().traceMessage("find " + cd + "\n");
+		getOwner().logMessage("find | debut  cd = " + cd + "\n");
+
 		String requestURI = AbstractPort.generatePortURI();
 		Semaphore sem = new Semaphore(0);
 		requestClient.put(requestURI, sem);
-		
-		if(listTmp.size()> NB_ROOT_REQ) {
-			listTmp =  listTmp.subList(0, NB_ROOT_REQ);
+
+		Random rand = new Random();
+		List<OutPortContentManagement> listTmp = new ArrayList<>(connectNodeRoot.values());
+
+		List<OutPortContentManagement> listTmp2 = listTmp;
+
+		if (listTmp.size() > NB_ROOT_REQ) {
+			listTmp2 = new ArrayList<>();
+			int firstIndex = rand.nextInt(listTmp.size());
+			for (int i = 0; i < NB_ROOT_REQ; i++) {
+				listTmp2.add(listTmp.get((i + firstIndex) % listTmp.size()));
+			}
 		}
-			
-		
-		for (OutPortContentManagement op :listTmp) {
+
+		for (OutPortContentManagement op : listTmp2) {
 			op.find(cd, hops, application, requestURI);
 		}
 
 		sem.acquire();
-		getOwner().traceMessage("fin find facade" + cd + "\n");
+		getOwner().logMessage("find | fin cd = " + cd + "\n");
 		return resultFind.remove(requestURI);
 	}
 
 	public Set<ContentDescriptorI> match(ContentTemplateI cd, int hops, Set<ContentDescriptorI> matched)
 			throws Exception {
 
-		getOwner().traceMessage("start match facade" + cd + "\n");
-		List<OutPortContentManagement> listTmp = new ArrayList<>(connectNodeRoot.values());
-		Collections.shuffle(listTmp);
+		getOwner().traceMessage("match" + cd + "\n");
+		getOwner().logMessage("match | debut  cd = " + cd + "\n");
 
 		String requestURI = AbstractPort.generatePortURI();
 		Semaphore sem = new Semaphore(0);
 		requestClient.put(requestURI, sem);
-		for (OutPortContentManagement op : listTmp.subList(0, NB_ROOT_REQ)) {
-			getOwner().traceMessage("loop match facade");
+
+		Random rand = new Random();
+		List<OutPortContentManagement> listTmp = new ArrayList<>(connectNodeRoot.values());
+		List<OutPortContentManagement> listTmp2 = listTmp;
+
+		if (listTmp.size() > NB_ROOT_REQ) {
+			listTmp2 = new ArrayList<>();
+			int firstIndex = rand.nextInt(listTmp.size());
+
+			for (int i = 0; i < NB_ROOT_REQ; i++) {
+				listTmp2.add(listTmp.get((i + firstIndex) % listTmp.size()));
+			}
+		}
+
+		for (OutPortContentManagement op : listTmp2) {
 			op.match(cd, hops, application, requestURI, matched);
 		}
 		sem.acquire();
-		getOwner().traceMessage("fin match facade" + cd + "\n");
+
+		getOwner().logMessage("match | fin  cd = " + cd + "\n");
 		return resultMatch.remove(requestURI);
+	}
+
+	@Override
+	public void finalise() throws Exception {
+		super.finalise();
 	}
 
 	/**
@@ -132,6 +163,8 @@ public class FacadeContentManagementPlugin extends FacadeNodeManagementPlugin im
 	}
 
 	public void acceptFound(ContentDescriptorI found, String requestURI) {
+		getOwner().logMessage("acceptFound |  cd = " + found + " request = " + requestURI + "\n");
+
 		assert requestURI != null;
 		if (found != null)
 			resultFind.put(requestURI, found);
@@ -141,6 +174,8 @@ public class FacadeContentManagementPlugin extends FacadeNodeManagementPlugin im
 
 	@SuppressWarnings("null")
 	public void acceptMatched(Set<ContentDescriptorI> matched, String requestURI) {
+		getOwner().logMessage("acceptMatched | request = " + requestURI + "\n");
+
 		assert requestURI != null;
 		if (matched != null || !(matched.isEmpty()))
 			resultMatch.put(requestURI, matched);

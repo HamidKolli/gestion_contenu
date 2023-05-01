@@ -1,8 +1,5 @@
 package fr.gestion_contenu.component.interfaces;
 
-import java.util.Set;
-
-import fr.gestion_contenu.content.interfaces.ContentDescriptorI;
 import fr.gestion_contenu.content.interfaces.ContentTemplateI;
 import fr.sorbonne_u.components.AbstractComponent;
 

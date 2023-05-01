@@ -1,16 +1,18 @@
 package fr.gestion_contenu.component;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import fr.gestion_contenu.component.interfaces.AbstractNodeComponent;
 import fr.gestion_contenu.connectors.ConnectorNodeManagement;
 import fr.gestion_contenu.content.interfaces.ContentDescriptorI;
 import fr.gestion_contenu.content.interfaces.ContentTemplateI;
+import fr.gestion_contenu.node.interfaces.ContentNodeAddressI;
 import fr.gestion_contenu.node.interfaces.PeerNodeAddressI;
 import fr.gestion_contenu.plugins.ClockPlugin;
 import fr.gestion_contenu.plugins.ContentManagementPlugin;
@@ -32,21 +34,26 @@ import fr.sorbonne_u.utils.aclocks.AcceleratedClock;
  */
 public class NodeComponent extends AbstractNodeComponent {
 
-	private ContentDescriptorI contentDescriptorI;
+	public static final String DIR_LOGGER_NAME = "loggers/nodes/";
+	public static final String FILE_LOGGER_NAME = "node";
+	public static final int NB_THREAD_CONTENT_MANAGEMENT = 20;
+	public static final int NB_THREAD_NODE_MANAGEMENT = 20;
+	public static final int TIME_IN_NETWORK = 30;
+	public static final int MIN_TIME_TO_JOIN = 1;
+	public static final int MAX_TIME_TO_JOIN = 5;
+	private Set<ContentDescriptorI> contentDescriptorI;
+	private ContentNodeAddressI nodeAddress;
 	private NodePortNodeManagement portNodeManagement;
 	private ContentManagementPlugin plugin;
 	private String portFacadeManagementURI;
 	private ClockPlugin pluginClock;
 	private String clockURI;
-	private Set<PeerNodeAddressI> neighbours;
-	private static int cptX = 0;
-	private static int cptY = 0;
-	private static int cptID;
-	private final int id;
+	private List<PeerNodeAddressI> neighbours;
 
-	private final int nombreThreadNodeManagement;
-	private final int nombreThreadContentManagement;
 	private Semaphore sem = new Semaphore(0);
+	
+	private final int id;
+	private static int cpt = 0;
 
 	/**
 	 * 
@@ -57,24 +64,14 @@ public class NodeComponent extends AbstractNodeComponent {
 	 *                                demander de joindre le reseau)
 	 * @throws Exception
 	 */
-	protected NodeComponent(String clockURI, ContentDescriptorI contentDescriptorI, String portFacadeManagementURI,
-			int nombreThreadNodeManagement, int nombreThreadContentManagement) throws Exception {
-		super(3, 1);
-
-		id = ++cptID;
+	protected NodeComponent(String clockURI, Set<ContentDescriptorI> contentDescriptorI, String portFacadeManagementURI,
+			ContentNodeAddressI nodeAddress) throws Exception {
+		super(1, 1);
+		id = ++cpt;
 		this.contentDescriptorI = contentDescriptorI;
+		this.nodeAddress = nodeAddress;
 		this.portFacadeManagementURI = portFacadeManagementURI;
 		this.clockURI = clockURI;
-		this.nombreThreadNodeManagement = nombreThreadNodeManagement;
-
-		this.nombreThreadContentManagement = nombreThreadContentManagement;
-		this.getTracer().setTitle("Node "+ id);
-		if (cptX % 4 == 0) {
-			cptY++;
-		}
-
-		this.getTracer().setOrigin(480 * (((cptX++) + 1) % 4), 250 * (cptY % 4));
-
 	}
 
 	/**
@@ -89,11 +86,10 @@ public class NodeComponent extends AbstractNodeComponent {
 			String uriConnection = AbstractPort.generatePortURI();
 			String uriContentManagement = AbstractPort.generatePortURI();
 
-			createNewExecutorService(uriConnection, nombreThreadNodeManagement, false);
-			createNewExecutorService(uriContentManagement, nombreThreadContentManagement, false);
+			createNewExecutorService(uriConnection, NB_THREAD_NODE_MANAGEMENT, false);
+			createNewExecutorService(uriContentManagement, NB_THREAD_CONTENT_MANAGEMENT, false);
 
-			plugin = new ContentManagementPlugin(contentDescriptorI.getContentNodeAddress(), uriConnection,
-					uriContentManagement);
+			plugin = new ContentManagementPlugin(nodeAddress, uriConnection, uriContentManagement,id);
 			plugin.setPluginURI(AbstractPort.generatePortURI());
 			this.installPlugin(plugin);
 
@@ -115,11 +111,11 @@ public class NodeComponent extends AbstractNodeComponent {
 	 */
 	@Override
 	public synchronized void join() throws Exception {
-		traceMessage("Join \n");
+		logMessage("Join \n");
 		assert !this.portNodeManagement.connected();
 		doPortConnection(this.portNodeManagement.getPortURI(), this.portFacadeManagementURI,
 				ConnectorNodeManagement.class.getCanonicalName());
-		portNodeManagement.join(contentDescriptorI.getContentNodeAddress());
+		portNodeManagement.join(nodeAddress);
 
 	}
 
@@ -129,8 +125,9 @@ public class NodeComponent extends AbstractNodeComponent {
 	 *
 	 */
 	@Override
-	public ContentDescriptorI match(ContentTemplateI template) {
-		return (contentDescriptorI.match(template) ? contentDescriptorI : null);
+	public List<ContentDescriptorI> match(ContentTemplateI template) {
+		return contentDescriptorI.stream().filter((e) -> e.match(template))
+				.collect(Collectors.toCollection(ArrayList::new));
 	}
 
 	/**
@@ -142,21 +139,27 @@ public class NodeComponent extends AbstractNodeComponent {
 	public void execute() throws Exception {
 
 		AcceleratedClock clock = pluginClock.getClock();
-
-		Instant instant = clock.getStartInstant();
 		clock.waitUntilStart();
 
+		Random r = new Random();
+		int timeToStart = MIN_TIME_TO_JOIN + r.nextInt(MAX_TIME_TO_JOIN);
+		long delay = TimeUnit.SECONDS.toNanos(timeToStart);
 		
-		join();
-		sem.acquire();
-		List<PeerNodeAddressI> peerNodeAddress = new ArrayList<>(neighbours);
-		for (int i = 0;i< peerNodeAddress.size();i++) {
-			if (!peerNodeAddress.get(i).equals(contentDescriptorI.getContentNodeAddress())) {
-				plugin.connect(peerNodeAddress.get(i));
+		this.scheduleTask(o -> {
+			try {
+				join();
+				sem.acquire();
+				for (PeerNodeAddressI peerAddress : neighbours) {
+					plugin.connect(peerAddress);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-		}
-		long delay = clock.nanoDelayUntilAcceleratedInstant(instant.plusSeconds(1000 + id * 100));
-
+		}, delay, TimeUnit.NANOSECONDS);
+		
+		
+		
+		delay = TimeUnit.SECONDS.toNanos(timeToStart + TIME_IN_NETWORK);
 		this.scheduleTask(o -> {
 			try {
 				((NodeComponent) o).leave();
@@ -177,9 +180,9 @@ public class NodeComponent extends AbstractNodeComponent {
 	public void leave() throws Exception {
 
 		plugin.leave();
-		portNodeManagement.leave(contentDescriptorI.getContentNodeAddress());
+		portNodeManagement.leave(nodeAddress);
 
-		traceMessage("Leave \n");
+		
 	}
 
 	/**
@@ -190,7 +193,9 @@ public class NodeComponent extends AbstractNodeComponent {
 	@Override
 	public synchronized void finalise() throws Exception {
 		this.portNodeManagement.doDisconnection();
+		
 		super.finalise();
+		
 	}
 
 	/**
@@ -211,8 +216,9 @@ public class NodeComponent extends AbstractNodeComponent {
 
 	@Override
 	public void acceptNeighbours(Set<PeerNodeAddressI> neighbours) {
-		this.neighbours = neighbours;
+		this.neighbours = new ArrayList<>(neighbours) ;
 		sem.release();
+
 	}
 
 }

@@ -1,10 +1,14 @@
 package fr.gestion_contenu.component;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import fr.gestion_contenu.component.interfaces.AbstractClientComponent;
 import fr.gestion_contenu.connectors.ConnectorContentManagementFacade;
+import fr.gestion_contenu.content.interfaces.ContentDescriptorI;
 import fr.gestion_contenu.content.interfaces.ContentTemplateI;
 import fr.gestion_contenu.plugins.ClockPlugin;
 import fr.gestion_contenu.ports.OutPortContentManagementFacade;
@@ -25,12 +29,18 @@ import fr.sorbonne_u.utils.aclocks.AcceleratedClock;
  *         Un exemple de classe de client
  */
 public class ClientComponent extends AbstractClientComponent {
-	private ContentTemplateI template;
+	public static final String DIR_LOGGER_NAME = "loggers/clients/";
+	public static final String FILE_LOGGER_NAME = "client";
+	public static final int MIN_TIME_REQUEST = 5;
+	public static final int MAX_TIME_REQUEST = 10;
+
+	private List<ContentTemplateI> templates;
 	private String uriContentManagementFacade;
 	private OutPortContentManagementFacade portContentManagement;
 	private ClockPlugin pluginClock;
 	private String clockURI;
 	private static int cpt = 0;
+	private final int id;
 
 	/**
 	 * 
@@ -40,14 +50,15 @@ public class ClientComponent extends AbstractClientComponent {
 	 * @param template                   : la template du client
 	 * @throws Exception
 	 */
-	protected ClientComponent(String clockURI, String uriContentManagementFacade, ContentTemplateI template)
+	protected ClientComponent(String clockURI, String uriContentManagementFacade, List<ContentTemplateI> template)
 			throws Exception {
 		super(1, 1);
 		this.uriContentManagementFacade = uriContentManagementFacade;
-		this.template = template;
+		this.templates = template;
 		this.clockURI = clockURI;
 		this.getTracer().setTitle("Client");
-		this.getTracer().setOrigin(500 * (++cpt), 0);
+		id = ++cpt;
+//		this.getTracer().setOrigin(500 * (++cpt), 0);
 	}
 
 	/**
@@ -78,7 +89,9 @@ public class ClientComponent extends AbstractClientComponent {
 	 */
 	@Override
 	public void find(ContentTemplateI template) throws Exception {
-		traceMessage(String.format("resultat du find : %s\n", portContentManagement.find(template, 20)));
+		ContentDescriptorI descriptor = portContentManagement.find(template, 5);
+		traceMessage(String.format("resultat du find %s : %s\n", template, descriptor));
+		logMessage(String.format("@@@@@@@@@@@@@@@@@@@@@@@@@@@@\nresultat du find %s : %s\n", template, descriptor));
 
 	}
 
@@ -89,10 +102,9 @@ public class ClientComponent extends AbstractClientComponent {
 	 */
 	@Override
 	public void match(ContentTemplateI template) throws Exception {
-
-		traceMessage(
-				String.format("resultat du match : %s\n", portContentManagement.match(template, 20, new HashSet<>())));
-
+		Set<ContentDescriptorI> descriptors = new HashSet<>(portContentManagement.match(template, 5, new HashSet<>()));
+		traceMessage(String.format("resultat du find %s : %s\n", template, descriptors));
+		logMessage(String.format("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\nresultat du match %s : %s\n", template, descriptors));
 	}
 
 	/**
@@ -111,20 +123,28 @@ public class ClientComponent extends AbstractClientComponent {
 
 		clock.waitUntilStart();
 
-		long delay = TimeUnit.SECONDS.toNanos(5);
+		Random rand = new Random();
+		long delay;
+		for (ContentTemplateI template : templates) {
 
-		this.scheduleTask(o -> {
-			try {
-				((ClientComponent) o).traceMessage("find " + template + "\n");
-				find(template);
-				((ClientComponent) o).traceMessage("match " + template + "\n");
-				match(template);
+			delay = TimeUnit.SECONDS.toNanos(MIN_TIME_REQUEST + rand.nextInt(MAX_TIME_REQUEST));
 
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}, delay, TimeUnit.NANOSECONDS);
-
+			this.scheduleTask(o -> {
+				try {
+					if (((double) rand.nextInt()) / Integer.MAX_VALUE < 0.5) {
+						traceMessage("find " + template + "\n");
+						logMessage("##############################\nfind " + template + "\n");
+						find(template);
+					} else {
+						traceMessage("match " + template + "\n");
+						logMessage("##############################\nmatch " + template + "\n");
+						match(template);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}, delay, TimeUnit.NANOSECONDS);
+		}
 		super.execute();
 	}
 
@@ -136,6 +156,7 @@ public class ClientComponent extends AbstractClientComponent {
 	@Override
 	public synchronized void finalise() throws Exception {
 		doPortDisconnection(this.portContentManagement.getPortURI());
+		printExecutionLogOnFile(DIR_LOGGER_NAME + FILE_LOGGER_NAME + id);
 		super.finalise();
 	}
 

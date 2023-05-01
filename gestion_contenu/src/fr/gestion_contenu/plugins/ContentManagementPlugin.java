@@ -9,8 +9,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import fr.gestion_contenu.component.interfaces.AbstractNodeComponent;
-import fr.gestion_contenu.component.interfaces.IConnectNodeRequest;
-import fr.gestion_contenu.component.interfaces.IContentRequest;
 import fr.gestion_contenu.connectors.ConnectorContentManagement;
 import fr.gestion_contenu.connectors.ConnectorContentManagementFacade;
 import fr.gestion_contenu.content.interfaces.ContentDescriptorI;
@@ -32,8 +30,8 @@ import fr.sorbonne_u.components.ComponentI;
  *         Plugin s'occupant des differentes operations de connexion,
  *         deconnexion, match et find liees aux connexions de ContentManagement
  */
-public class ContentManagementPlugin extends ConnectionNodePlugin implements IContentRequest, IConnectNodeRequest {
-	private static final int NBV_REQ = 1;
+public class ContentManagementPlugin extends ConnectionNodePlugin {
+	private static final int NBV_REQ = 2;
 	private static final long serialVersionUID = 1L;
 	private ConcurrentMap<PeerNodeAddressI, OutPortContentManagement> connectNodeContent;
 	private final ContentNodeAddressI contentNodeAddress;
@@ -44,15 +42,18 @@ public class ContentManagementPlugin extends ConnectionNodePlugin implements ICo
 	/**
 	 * Constructeur
 	 * 
-	 * @param contentNodeAddress : l'addresse du noeud en question
-	 * @param uriContentManagement 
-	 * @param uriConnection 
+	 * @param contentNodeAddress   : l'addresse du noeud en question
+	 * @param uriContentManagement
+	 * @param uriConnection
+	 * @param id 
 	 */
-	public ContentManagementPlugin(ContentNodeAddressI contentNodeAddress, String uriConnection, String uriContentManagement) {
-		super(contentNodeAddress,uriConnection);
+	public ContentManagementPlugin(ContentNodeAddressI contentNodeAddress, String uriConnection,
+			String uriContentManagement, int id) {
+		super(contentNodeAddress, uriConnection,id);
 		connectNodeContent = new ConcurrentHashMap<>();
 		this.contentNodeAddress = contentNodeAddress;
 		this.uriContentManagement = uriContentManagement;
+
 	}
 
 	/**
@@ -60,6 +61,7 @@ public class ContentManagementPlugin extends ConnectionNodePlugin implements ICo
 	 */
 	@Override
 	public void installOn(ComponentI owner) throws Exception {
+		assert owner instanceof AbstractNodeComponent;
 		super.installOn(owner);
 		this.addOfferedInterface(ContentManagementCI.class);
 		this.addRequiredInterface(ContentManagementCI.class);
@@ -74,7 +76,7 @@ public class ContentManagementPlugin extends ConnectionNodePlugin implements ICo
 
 		super.initialise();
 		inPortContentManagement = new InPortContentManagement(contentNodeAddress.getContentManagementURI(), getOwner(),
-				getPluginURI(),uriContentManagement);
+				getPluginURI(), uriContentManagement);
 		inPortContentManagement.publishPort();
 		result = new OutPortContentManagementFacade(getOwner());
 		result.publishPort();
@@ -91,13 +93,12 @@ public class ContentManagementPlugin extends ConnectionNodePlugin implements ICo
 	 * @throws Exception
 	 */
 	private void returnFind(ContentDescriptorI cd, String uriReturn, String requestURI) throws Exception {
-		getOwner().traceMessage("fin find node" + cd + "\n");
 
 		getOwner().doPortConnection(result.getPortURI(), uriReturn,
 				ConnectorContentManagementFacade.class.getCanonicalName());
 		result.acceptFound(cd, requestURI);
 		result.doDisconnection();
-		
+
 	}
 
 	/**
@@ -110,28 +111,28 @@ public class ContentManagementPlugin extends ConnectionNodePlugin implements ICo
 	 * @param uriReturn : l'uri du client ayant fait la requete
 	 * @throws Exception
 	 */
-	@Override
+
 	public void find(ContentTemplateI cd, int hops, NodeAddressI facade, String requestURI) throws Exception {
-		getOwner().traceMessage("start find node" + cd + "\n");
+		getOwner().logMessage("find | start find node tamplate = " + cd + "\n");
 
 		assert facade.isFacade();
+
+		List<ContentDescriptorI> contentDescriptor = ((AbstractNodeComponent) getOwner()).match(cd);
+		if (contentDescriptor.size() > 0) {
+			returnFind(contentDescriptor.get(0), ((ApplicationNodeAddressI) facade).getContentManagementURI(),
+					requestURI);
+		}
 
 		if (hops == 0) {
 			returnFind(null, ((ApplicationNodeAddressI) facade).getContentManagementURI(), requestURI);
 			return;
 		}
-		ContentDescriptorI contentDescriptor;
-		if ((contentDescriptor = ((AbstractNodeComponent) getOwner()).match(cd)) != null) {
-			returnFind(contentDescriptor, ((ApplicationNodeAddressI) facade).getContentManagementURI(), requestURI);
-		}
-		
-		
+
 		List<OutPortContentManagement> listTmp = new ArrayList<>(connectNodeContent.values());
 		Collections.shuffle(listTmp);
-		for (OutPortContentManagement port : listTmp.subList(0, NBV_REQ)) {
+		for (OutPortContentManagement port : listTmp.subList(0, Math.min(listTmp.size(), NBV_REQ))) {
 			port.find(cd, hops - 1, facade, requestURI);
 		}
-		getOwner().traceMessage("fin find node" + cd + "\n");
 
 	}
 
@@ -147,11 +148,16 @@ public class ContentManagementPlugin extends ConnectionNodePlugin implements ICo
 	 * @param uriReturn : l'uri du client ayant fait la requete
 	 * @throws Exception
 	 */
-	@Override
+
 	public void match(ContentTemplateI cd, int hops, NodeAddressI facade, String requestURI,
 			Set<ContentDescriptorI> matched) throws Exception {
 		assert facade.isFacade();
-		getOwner().traceMessage("start match node" + cd + "\n");
+		getOwner().logMessage("match | start match node tamplate = "+cd+"\n");
+
+		List<ContentDescriptorI> contentDescriptor = ((AbstractNodeComponent) getOwner()).match(cd);
+		if (contentDescriptor.size() > 0 && !matched.containsAll(contentDescriptor)) {
+			matched.addAll(contentDescriptor);
+		}
 
 		/*
 		 * On ne s'arrete que lorsque le hop arrive a 0. Ici en appel asynchrone on va
@@ -164,27 +170,22 @@ public class ContentManagementPlugin extends ConnectionNodePlugin implements ICo
 					ConnectorContentManagementFacade.class.getCanonicalName());
 			result.acceptMatched(matched, requestURI);
 			result.doDisconnection();
+
 			return;
 		}
 
-		ContentDescriptorI contentDescriptor;
-		if ((contentDescriptor = ((AbstractNodeComponent) getOwner()).match(cd)) != null
-				&& !matched.contains(contentDescriptor)) {
-			matched.add(contentDescriptor);
-		}
 		List<OutPortContentManagement> listTmp = new ArrayList<>(connectNodeContent.values());
 		Collections.shuffle(listTmp);
-		for (OutPortContentManagement op : listTmp.subList(0, NBV_REQ)) {
+		for (OutPortContentManagement op : listTmp.subList(0, Math.min(listTmp.size(), NBV_REQ))) {
 			op.match(cd, hops - 1, facade, requestURI, matched);
 		}
-		getOwner().traceMessage("fin match node" + cd + "\n");
 
 	}
 
 	/**
 	 * @see ConnectionNodePlugin#connect(PeerNodeAddressI)
 	 */
-	@Override
+
 	public synchronized void connect(PeerNodeAddressI peer) throws Exception {
 		if (connectNodeContent.containsKey(peer))
 			return;
@@ -194,7 +195,7 @@ public class ContentManagementPlugin extends ConnectionNodePlugin implements ICo
 		getOwner().doPortConnection(portContent.getPortURI(), ((ContentNodeAddressI) peer).getContentManagementURI(),
 				ConnectorContentManagement.class.getCanonicalName());
 		getOwner().traceMessage("connect reussi " + peer.getNodeIdentifier() + "\n");
-		
+
 		connectNodeContent.put(peer, portContent);
 	}
 
@@ -209,8 +210,8 @@ public class ContentManagementPlugin extends ConnectionNodePlugin implements ICo
 		if (!connectNodeContent.containsKey(peer))
 			return;
 		super.disconnect(peer);
-		
-		OutPortContentManagement portContent =  connectNodeContent.remove(peer);
+
+		OutPortContentManagement portContent = connectNodeContent.remove(peer);
 		portContent.doDisconnection();
 		portContent.unpublishPort();
 		portContent.destroyPort();
@@ -220,7 +221,7 @@ public class ContentManagementPlugin extends ConnectionNodePlugin implements ICo
 	/**
 	 * @see ConnectionNodePlugin#connectBack(PeerNodeAddressI)
 	 */
-	
+
 	public synchronized OutPortContentManagement connectBack(PeerNodeAddressI peer) throws Exception {
 		if (connectNodeContent.containsKey(peer))
 			return null;
@@ -255,12 +256,10 @@ public class ContentManagementPlugin extends ConnectionNodePlugin implements ICo
 	 * @throws Exception
 	 */
 	public synchronized void leave() throws Exception {
-		getOwner().traceMessage("Debut leave \n");
+		getOwner().logMessage("leave \n");
 		for (Map.Entry<PeerNodeAddressI, OutPortContentManagement> entry : connectNodeContent.entrySet()) {
-			getOwner().traceMessage("disconnect " + "\n");
 			disconnect(entry.getKey());
 		}
-		getOwner().traceMessage("Fin leave \n");
 	}
 
 	/**
@@ -290,16 +289,12 @@ public class ContentManagementPlugin extends ConnectionNodePlugin implements ICo
 		super.uninstall();
 	}
 
-	@Override
 	public void acceptNeighbours(Set<PeerNodeAddressI> neighbours) {
 		((AbstractNodeComponent) getOwner()).acceptNeighbours(neighbours);
 	}
 
-	@Override
 	public void acceptConnected(PeerNodeAddressI neighbour) {
-		getOwner().traceMessage("Accept connect " + neighbour.getNodeIdentifier() + "\n");
+		getOwner().logMessage("acceptConnected | Accept connect " + neighbour.getNodeIdentifier() + "\n");
 	}
-
-	
 
 }

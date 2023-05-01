@@ -93,10 +93,10 @@ public class InPortNode extends AbstractInboundPort implements NodeCI {
 	}
 
 	@Override
-	public void probe(int remaingHops, FacadeNodeAddressI facade, String request) throws Exception {
+	public void probe(int remaingHops, FacadeNodeAddressI facade, String request,int nbVoisin, PeerNodeAddressI addressNode) throws Exception {
 		getOwner().runTask((q) -> {
 			try {
-				((ContentManagementPlugin) getOwnerPlugin(pluginURI)).probe( remaingHops,  facade,  request);
+				((ContentManagementPlugin) getOwnerPlugin(pluginURI)).probe( remaingHops,  facade,  request,nbVoisin,addressNode );
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

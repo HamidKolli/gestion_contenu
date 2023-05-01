@@ -2,10 +2,10 @@ package fr.gestion_contenu.ports;
 
 import java.util.Set;
 
-import fr.gestion_contenu.component.interfaces.IContentRequest;
 import fr.gestion_contenu.content.interfaces.ContentDescriptorI;
 import fr.gestion_contenu.content.interfaces.ContentTemplateI;
 import fr.gestion_contenu.node.interfaces.NodeAddressI;
+import fr.gestion_contenu.plugins.ContentManagementPlugin;
 import fr.gestion_contenu.ports.interfaces.ContentManagementCI;
 import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.ComponentI;
@@ -48,7 +48,7 @@ public class InPortContentManagement extends AbstractInboundPort implements Cont
 			@Override
 			public void run() {
 				try {
-					((IContentRequest) getTaskProviderReference()).find(cd, hops, facade, requestURI);
+					((ContentManagementPlugin) getTaskProviderReference()).find(cd, hops, facade, requestURI);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -71,7 +71,7 @@ public class InPortContentManagement extends AbstractInboundPort implements Cont
 			@Override
 			public void run() {
 				try {
-					((IContentRequest) getTaskProviderReference()).match(cd, hops, facade, requestURI, matched);
+					((ContentManagementPlugin) getTaskProviderReference()).match(cd, hops, facade, requestURI, matched);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

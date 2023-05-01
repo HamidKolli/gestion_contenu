@@ -39,8 +39,8 @@ public class ConnectorNodeManagement extends AbstractConnector implements NodeMa
 	}
 
 	@Override
-	public void probe(int remaingHops, FacadeNodeAddressI facade, String request) throws Exception {
-		((NodeManagementCI)this.offering).probe(remaingHops, facade, request);	
+	public void probe(int remaingHops, FacadeNodeAddressI facade, String request,int nbVoisin, PeerNodeAddressI addressNode) throws Exception {
+		((NodeManagementCI)this.offering).probe(remaingHops, facade, request,nbVoisin,addressNode);	
 	}
 
 }
