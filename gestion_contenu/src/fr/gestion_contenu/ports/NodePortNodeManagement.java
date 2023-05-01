@@ -1,8 +1,6 @@
 package fr.gestion_contenu.ports;
 
-import java.util.Set;
-
-import fr.gestion_contenu.connectors.ConnectorNodeManagement;
+import fr.gestion_contenu.node.interfaces.FacadeNodeAddressI;
 import fr.gestion_contenu.node.interfaces.PeerNodeAddressI;
 import fr.gestion_contenu.ports.interfaces.NodeManagementCI;
 import fr.sorbonne_u.components.ComponentI;
@@ -10,7 +8,9 @@ import fr.sorbonne_u.components.ports.AbstractOutboundPort;
 
 /**
  * 
- * @author Hamid KOLLI && Yanis ALAYOUD Classe qui represente le port sorant
+ * @author Hamid KOLLI && Yanis ALAYOUD 
+ * 
+ * 		   Classe qui represente le port sorant
  *         d'un noeud pour une connexion au reseau
  */
 public class NodePortNodeManagement extends AbstractOutboundPort implements NodeManagementCI {
@@ -34,9 +34,8 @@ public class NodePortNodeManagement extends AbstractOutboundPort implements Node
 	 *
 	 */
 	@Override
-	public Set<PeerNodeAddressI> join(PeerNodeAddressI a) throws Exception {
-
-		return ((ConnectorNodeManagement) getConnector()).join(a);
+	public void join(PeerNodeAddressI a) throws Exception {
+		((NodeManagementCI) getConnector()).join(a);
 	}
 
 	/**
@@ -46,7 +45,19 @@ public class NodePortNodeManagement extends AbstractOutboundPort implements Node
 	 */
 	@Override
 	public void leave(PeerNodeAddressI a) throws Exception {
-		((ConnectorNodeManagement) getConnector()).leave(a);
+		((NodeManagementCI) getConnector()).leave(a);
+	}
+
+	@Override
+	public void acceptProbed(PeerNodeAddressI peer, String requestURI) throws Exception {
+		((NodeManagementCI) getConnector()).acceptProbed(peer, requestURI);
+		
+	}
+
+	@Override
+	public void probe(int remaingHops, FacadeNodeAddressI facade, String request,int nbVoisin, PeerNodeAddressI addressNode) throws Exception {
+		((NodeManagementCI) getConnector()).probe(remaingHops, facade, request,nbVoisin,addressNode);
+		
 	}
 
 }

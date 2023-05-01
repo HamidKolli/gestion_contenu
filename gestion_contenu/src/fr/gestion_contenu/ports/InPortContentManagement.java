@@ -2,9 +2,10 @@ package fr.gestion_contenu.ports;
 
 import java.util.Set;
 
-import fr.gestion_contenu.component.interfaces.IContentRequest;
 import fr.gestion_contenu.content.interfaces.ContentDescriptorI;
 import fr.gestion_contenu.content.interfaces.ContentTemplateI;
+import fr.gestion_contenu.node.interfaces.NodeAddressI;
+import fr.gestion_contenu.plugins.ContentManagementPlugin;
 import fr.gestion_contenu.ports.interfaces.ContentManagementCI;
 import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.ComponentI;
@@ -15,7 +16,7 @@ import fr.sorbonne_u.components.ports.AbstractInboundPort;
  * @author Hamid KOLLI && Yanis ALAYOUD
  * 
  *         Classe qui represente le port entrant d'un noeud/facade pour les
- *         requettes sur les contenus
+ *         requetes sur les contenus
  */
 public class InPortContentManagement extends AbstractInboundPort implements ContentManagementCI {
 
@@ -27,10 +28,11 @@ public class InPortContentManagement extends AbstractInboundPort implements Cont
 	 * 
 	 * @param uri   : l'URI du port
 	 * @param owner : le composant qui le possede
+	 * @param uriContentManagement 
 	 * @throws Exception
 	 */
-	public InPortContentManagement(String uri, ComponentI owner) throws Exception {
-		super(uri, ContentManagementCI.class, owner);
+	public InPortContentManagement(String uri, ComponentI owner, String pluginURI, String uriContentManagement) throws Exception {
+		super(uri, ContentManagementCI.class, owner, pluginURI, uriContentManagement);
 	}
 
 	/**
@@ -40,15 +42,19 @@ public class InPortContentManagement extends AbstractInboundPort implements Cont
 	 *
 	 */
 	@Override
-	public ContentDescriptorI find(ContentTemplateI cd, int hops) throws Exception {
-		return getOwner().handleRequest(new AbstractComponent.AbstractService<ContentDescriptorI>() {
-			@Override
-			public ContentDescriptorI call() throws Exception {
+	public void find(ContentTemplateI cd, int hops, NodeAddressI facade, String requestURI) throws Exception {
+		getOwner().runTask(getExecutorServiceIndex(),new AbstractComponent.AbstractTask(pluginURI) {
 
-				return ((IContentRequest) getOwner()).find(cd, hops);
+			@Override
+			public void run() {
+				try {
+					((ContentManagementPlugin) getTaskProviderReference()).find(cd, hops, facade, requestURI);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
 			}
 		});
-
 	}
 
 	/**
@@ -58,15 +64,21 @@ public class InPortContentManagement extends AbstractInboundPort implements Cont
 	 *
 	 */
 	@Override
-	public Set<ContentDescriptorI> match(ContentTemplateI cd, Set<ContentDescriptorI> matched, int hops)
-			throws Exception {
-		return getOwner().handleRequest(new AbstractComponent.AbstractService<Set<ContentDescriptorI>>() {
-			@Override
-			public Set<ContentDescriptorI> call() throws Exception {
+	public void match(ContentTemplateI cd, int hops, NodeAddressI facade, String requestURI,
+			Set<ContentDescriptorI> matched) throws Exception {
+		getOwner().runTask(getExecutorServiceIndex(),new AbstractComponent.AbstractTask(pluginURI) {
 
-				return ((IContentRequest) getOwner()).match(cd, matched, hops);
+			@Override
+			public void run() {
+				try {
+					((ContentManagementPlugin) getTaskProviderReference()).match(cd, hops, facade, requestURI, matched);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
 			}
 		});
+
 	}
 
 }

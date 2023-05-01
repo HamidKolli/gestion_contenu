@@ -1,6 +1,8 @@
 package fr.gestion_contenu.ports;
 
-import fr.gestion_contenu.connectors.ConnectorNode;
+import java.util.Set;
+
+import fr.gestion_contenu.node.interfaces.FacadeNodeAddressI;
 import fr.gestion_contenu.node.interfaces.PeerNodeAddressI;
 import fr.gestion_contenu.ports.interfaces.NodeCI;
 import fr.sorbonne_u.components.ComponentI;
@@ -35,7 +37,7 @@ public class OutPortNode extends AbstractOutboundPort implements NodeCI {
 	 */
 	@Override
 	public void connect(PeerNodeAddressI a) throws Exception {
-		((ConnectorNode) getConnector()).connect(a);
+		((NodeCI) getConnector()).connect(a);
 	}
 
 	/**
@@ -45,7 +47,25 @@ public class OutPortNode extends AbstractOutboundPort implements NodeCI {
 	 */
 	@Override
 	public void disconnect(PeerNodeAddressI a) throws Exception {
-		((ConnectorNode) getConnector()).disconnect(a);
+		((NodeCI) getConnector()).disconnect(a);
+	}
+
+	@Override
+	public void acceptNeighbours(Set<PeerNodeAddressI> neighbours) throws Exception {
+		((NodeCI) getConnector()).acceptNeighbours(neighbours);
+		
+	}
+
+	@Override
+	public void acceptConnected(PeerNodeAddressI neighbour) throws Exception {
+		((NodeCI) getConnector()).acceptConnected(neighbour);
+		
+	}
+
+	@Override
+	public void probe(int remaingHops, FacadeNodeAddressI facade, String request,int nbVoisin, PeerNodeAddressI addressNode) throws Exception {
+		((NodeCI) getConnector()).probe(remaingHops,facade,request,nbVoisin,addressNode);
+		
 	}
 
 }

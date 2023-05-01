@@ -1,9 +1,34 @@
 package fr.gestion_contenu.ports.interfaces;
 
-import fr.gestion_contenu.component.interfaces.IConnectFacadeRequest;
+import fr.gestion_contenu.node.interfaces.PeerNodeAddressI;
 import fr.sorbonne_u.components.interfaces.OfferedCI;
 import fr.sorbonne_u.components.interfaces.RequiredCI;
 
-public interface NodeManagementCI extends OfferedCI, RequiredCI ,IConnectFacadeRequest{
+/**
+ * @author Hamid KOLLI && Yanis ALAYOUD
+ *
+ *         Contrat implante par les ports s'occupant de la connexion entre les
+ *         noeuds (ports sortants) et les interfaces (ports entrants) de la
+ *         facade
+ */
+public interface NodeManagementCI extends OfferedCI, RequiredCI,ProbingCI {
+	/**
+	 * 
+	 * Methode offerte pour les noeuds, elle est appelle quand un noeud veut joindre le reseau 
+	 * @param a : les addresses des ports entrants du noeud
+	 * @return Set<PeerNodeAddressI> l'essemble des addresses des ports entrants des noeuds proposes par la facade 
+	 * @throws Exception
+	 */
+	public abstract void join(PeerNodeAddressI a) throws Exception;
+
+	/**
+	 * 
+	 * Methode offerte aux noeuds, elle permet de quitter le reseau
+	 * @param a : les addresses des ports entrants du noeud
+	 * @throws Exception
+	 */
+	public abstract void leave(PeerNodeAddressI a) throws Exception;
 	
+	public void acceptProbed(PeerNodeAddressI peer, String requestURI) throws Exception;
+
 }

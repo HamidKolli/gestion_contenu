@@ -1,8 +1,7 @@
 package fr.gestion_contenu.tools;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -12,61 +11,65 @@ import fr.gestion_contenu.content.classes.ContentDescriptor;
 import fr.gestion_contenu.content.classes.ContentTemplate;
 import fr.gestion_contenu.content.interfaces.ContentDescriptorI;
 import fr.gestion_contenu.content.interfaces.ContentTemplateI;
-import fr.gestion_contenu.node.informations.ContentNodeAdress;
-import fr.sorbonne_u.components.AbstractPort;
+import fr.gestion_contenu.node.interfaces.ContentNodeAddressI;
+import fr.sorbonne_u.cps.p2Pcm.dataread.ContentDataManager;
 
+/**
+ * @author Hamid KOLLI && Yanis ALAYOUD
+ *
+ *         Classe aui permet de lire les fichiers test et de retourner
+ *         l'ensemble des Descriptors et Templates pour ensuite creer les
+ *         composants dans la CVM
+ */
 public class TestReadHashMap {
 
-	public static Set<ContentDescriptorI> readDescriptors() {
+	/**
+	 * Methode statique qui lis les fichiers descriptors test et retourne l'ensemble
+	 * des ContentDescriptors trouves
+	 * 
+	 * @return Set<ContentDescriptorI> : l'ensemble des Descriptions lues
+	 * @throws IOException 
+	 * @throws ClassNotFoundException 
+	 */
+	@SuppressWarnings("unchecked")
+	public static Set<ContentDescriptorI> readDescriptors(ContentNodeAddressI contentNodeAddressI, int number) throws ClassNotFoundException, IOException {
 
-		Set<ContentDescriptorI> descriptors = new HashSet<>();
-		for (int i = 0; i < 10; i++) {
-			try (FileInputStream f = new FileInputStream("data/descriptors" + i + ".dat")) {
-				try (ObjectInputStream of = new ObjectInputStream(f)) {
-					HashMap<String, Object> data = (HashMap<String, Object>) (of.readObject());
 
-					descriptors.add(new ContentDescriptor(((String) data.get("title")),
-							(String) data.get("album-title"), 
-							new HashSet<>((List) data.get("interpreters")),
-							new HashSet<>((List) data.get("composers")),
-							new ContentNodeAdress(AbstractPort.generatePortURI(), AbstractPort.generatePortURI(),
-									AbstractPort.generatePortURI(), false, true),
-							(Long)data.get("size")));
-				} catch (IOException | ClassNotFoundException e) {
-
-					e.printStackTrace();
-				}
-
-			} catch (IOException e) {
-				e.printStackTrace();
+			ArrayList<HashMap<String, Object>> descriptorsMaps = ContentDataManager.readDescriptors(number);
+			Set<ContentDescriptorI> descriptors = new HashSet<>();
+			for (HashMap<String, Object> descM : descriptorsMaps) {
+					descriptors.add(new ContentDescriptor(((String) descM.get("title")),
+							(String) descM.get("album-title"), 
+							new HashSet<>((List<String>) descM.get("interpreters")),
+							new HashSet<>((List<String>) descM.get("composers")),
+							contentNodeAddressI,
+							(Long)descM.get("size")));
 			}
+			return descriptors;
 
+	}
+
+	/**
+	 * Methode statique qui lis les fichiers templates test et retourne l'ensemble
+	 * des ContentTemplates trouves
+	 * 
+	 * @return Set<ContentDescriptorI> : l'ensemble des Templates lus
+	 * @throws IOException 
+	 * @throws ClassNotFoundException 
+	 */
+	@SuppressWarnings("unchecked")
+	public static List<ContentTemplateI> readTemplate(int number) throws ClassNotFoundException, IOException {
+
+		ArrayList<HashMap<String, Object>> descriptorsMaps = ContentDataManager.readTemplates(number);
+		List<ContentTemplateI> descriptors = new ArrayList<>();
+		for (HashMap<String, Object> descM : descriptorsMaps) {
+				descriptors.add(new ContentTemplate(((String) descM.get("title")),
+						(String) descM.get("album-title"), 
+						new HashSet<>((List<String>) descM.get("interpreters")),
+						new HashSet<>((List<String>) descM.get("composers"))));
 		}
 		return descriptors;
 	}
-	
-	public static Set<ContentTemplateI> readTemplate() {
 
-		Set<ContentTemplateI> descriptors = new HashSet<>();
-		for (int i = 0; i < 10; i++) {
-			try (FileInputStream f = new FileInputStream("data/descriptors" + i + ".dat")) {
-				try (ObjectInputStream of = new ObjectInputStream(f)) {
-					HashMap<String, Object> data = (HashMap<String, Object>) (of.readObject());
 
-					descriptors.add(new ContentTemplate(((String) data.get("title")),
-							(String) data.get("album-title"), 
-							new HashSet<>((List) data.get("interpreters")),
-							new HashSet<>((List) data.get("composers"))));
-				} catch (IOException | ClassNotFoundException e) {
-
-					e.printStackTrace();
-				}
-
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-		}
-		return descriptors;
-	}
 }

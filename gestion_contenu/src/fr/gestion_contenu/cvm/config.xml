@@ -1,0 +1,19 @@
+<deployment>
+   <hosts>
+    <host name="localhost"
+          dir="/home/stomkabylejsk1946/Documents/etude/cps/gestion_contenu/Test"/>
+  </hosts>
+  <cyclicBarrier   hostname="localhost" port="55223"/>
+  <globalRegistry  hostname="localhost" port="55222"/>
+  <rmiRegistryPort no="55999"/>
+  <jvms2hostnames>
+    <jvm2hostname jvmuri="facade1"
+        rmiRegistryCreator="true"
+        hostname="localhost"
+        mainclass="fr.gestion_contenu.cvm.DistributedCVM"/>
+    <jvm2hostname jvmuri="facade2"
+        rmiRegistryCreator="false"
+        hostname="localhost"
+        mainclass="fr.gestion_contenu.cvm.DistributedCVM"/>
+  </jvms2hostnames>
+</deployment>

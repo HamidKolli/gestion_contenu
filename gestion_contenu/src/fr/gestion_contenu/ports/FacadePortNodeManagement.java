@@ -1,8 +1,7 @@
 package fr.gestion_contenu.ports;
 
-import java.util.Set;
-
 import fr.gestion_contenu.component.FacadeComponent;
+import fr.gestion_contenu.node.interfaces.FacadeNodeAddressI;
 import fr.gestion_contenu.node.interfaces.PeerNodeAddressI;
 import fr.gestion_contenu.ports.interfaces.NodeManagementCI;
 import fr.sorbonne_u.components.AbstractComponent;
@@ -11,9 +10,8 @@ import fr.sorbonne_u.components.ports.AbstractInboundPort;
 
 /**
  * 
- * @author Hamid KOLLI && Yanis ALAYOUD 
- * Classe qui represente le port entrant
- * d'une facade pour une connexion au reseau
+ * @author Hamid KOLLI && Yanis ALAYOUD Classe qui represente le port entrant
+ *         d'une facade pour une connexion au reseau
  */
 public class FacadePortNodeManagement extends AbstractInboundPort implements NodeManagementCI {
 
@@ -21,14 +19,16 @@ public class FacadePortNodeManagement extends AbstractInboundPort implements Nod
 
 	/**
 	 * 
-	 * Constructeur FacadePortNodeManagement
+	 * Constructeur FacadePortNodeManagement.java
 	 * 
-	 * @param uri   : l'URI du port
-	 * @param owner : le composant qui le possede
+	 * @param uri
+	 * @param owner
+	 * @param pluginURI
+	 * @param contentManagementURI 
 	 * @throws Exception
 	 */
-	public FacadePortNodeManagement(String uri, ComponentI owner) throws Exception {
-		super(uri, NodeManagementCI.class, owner);
+	public FacadePortNodeManagement(String uri, ComponentI owner, String contentManagementURI) throws Exception {
+		super(uri, NodeManagementCI.class, owner, null, contentManagementURI);
 
 	}
 
@@ -38,14 +38,20 @@ public class FacadePortNodeManagement extends AbstractInboundPort implements Nod
 	 *
 	 */
 	@Override
-	public Set<PeerNodeAddressI> join(PeerNodeAddressI a) throws Exception {
-
-		return getOwner().handleRequest(new AbstractComponent.AbstractService<Set<PeerNodeAddressI>>() {
-			@Override
-			public Set<PeerNodeAddressI> call() throws Exception {
-				return ((FacadeComponent) getOwner()).join(a);
-			}
-		});
+	public void join(PeerNodeAddressI a) throws Exception {
+		 getOwner()
+				.runTask(getExecutorServiceIndex(),new AbstractComponent.AbstractTask() {
+					
+					@Override
+					public void run() {
+						try {
+							((FacadeComponent) getTaskOwner()).join(a);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						
+					}
+				});
 	}
 
 	/**
@@ -55,13 +61,46 @@ public class FacadePortNodeManagement extends AbstractInboundPort implements Nod
 	 */
 	@Override
 	public void leave(PeerNodeAddressI a) throws Exception {
-		getOwner().handleRequest(new AbstractComponent.AbstractService<Void>() {
+		getOwner().runTask(getExecutorServiceIndex(),new AbstractComponent.AbstractTask() {
 			@Override
-			public Void call() throws Exception {
-				((FacadeComponent) getOwner()).leave(a);
-				return null;
+			public void run() {
+				try {
+					((FacadeComponent) getTaskOwner()).leave(a);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
+	}
+
+	@Override
+	public void acceptProbed(PeerNodeAddressI peer, String requestURI) throws Exception {
+		getOwner().runTask(getExecutorServiceIndex(),new AbstractComponent.AbstractTask() {
+			@Override
+			public void run() {
+				try {
+					((FacadeComponent) getTaskOwner()).acceptProbed(peer, requestURI);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
+	}
+
+	@Override
+	public void probe(int remaingHops, FacadeNodeAddressI facade, String request,int nbVoisin,PeerNodeAddressI addressNode) throws Exception {
+		getOwner().runTask(getExecutorServiceIndex(),new AbstractComponent.AbstractTask() {
+			@Override
+			public void run() {
+				try {
+					((FacadeComponent) getTaskOwner()).probe(remaingHops,facade,request,nbVoisin,addressNode);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
 	}
 
 }

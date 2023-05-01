@@ -2,9 +2,9 @@ package fr.gestion_contenu.ports;
 
 import java.util.Set;
 
-import fr.gestion_contenu.connectors.ConnectorContentManagement;
 import fr.gestion_contenu.content.interfaces.ContentDescriptorI;
 import fr.gestion_contenu.content.interfaces.ContentTemplateI;
+import fr.gestion_contenu.node.interfaces.NodeAddressI;
 import fr.gestion_contenu.ports.interfaces.ContentManagementCI;
 import fr.sorbonne_u.components.ComponentI;
 import fr.sorbonne_u.components.ports.AbstractOutboundPort;
@@ -14,7 +14,7 @@ import fr.sorbonne_u.components.ports.AbstractOutboundPort;
  * @author Hamid KOLLI && Yanis ALAYOUD
  * 
  *         Classe qui represente le port sortant d'un noeud/facade pour les
- *         requettes sur les contenus
+ *         requetes sur les contenus
  */
 public class OutPortContentManagement extends AbstractOutboundPort implements ContentManagementCI {
 
@@ -38,8 +38,8 @@ public class OutPortContentManagement extends AbstractOutboundPort implements Co
 	 *
 	 */
 	@Override
-	public ContentDescriptorI find(ContentTemplateI cd, int hops) throws Exception {
-		return ((ConnectorContentManagement) getConnector()).find(cd, hops);
+	public void find(ContentTemplateI cd, int hops,NodeAddressI facade,String requestURI) throws Exception {
+		 ((ContentManagementCI) getConnector()).find(cd, hops,facade,requestURI);
 	}
 
 	/**
@@ -49,9 +49,9 @@ public class OutPortContentManagement extends AbstractOutboundPort implements Co
 	 *
 	 */
 	@Override
-	public Set<ContentDescriptorI> match(ContentTemplateI cd, Set<ContentDescriptorI> matched, int hops)
+	public void match(ContentTemplateI cd, int hops,NodeAddressI facade,String requestURI, Set<ContentDescriptorI> matched)
 			throws Exception {
-		return ((ConnectorContentManagement) getConnector()).match(cd, matched, hops);
+		 ((ContentManagementCI) getConnector()).match(cd, hops,facade,requestURI,matched);
 	}
 
 }

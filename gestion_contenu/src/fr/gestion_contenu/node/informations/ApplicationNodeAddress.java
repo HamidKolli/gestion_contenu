@@ -2,52 +2,56 @@ package fr.gestion_contenu.node.informations;
 
 import fr.gestion_contenu.node.interfaces.ApplicationNodeAddressI;
 
-public class ApplicationNodeAddress implements ApplicationNodeAddressI{
+/**
+ * 
+ * @author Hamid KOLLI && Yanis ALAYOUD
+ *
+ *         Classe aui gere les addresses des ports entrants pour une facade
+ */
+public class ApplicationNodeAddress extends AbstractAddress implements ApplicationNodeAddressI {
 	private String nodeManagementURI;
-	private String nodeIdentifier;
-	private String contentManagementURI;
-	private boolean isFacade;
-	private boolean isPeer;
-	
 
-	public ApplicationNodeAddress(String managementURI, String nodeIdentifier, String contentManagementURI,
-			boolean isFacade, boolean isNode) {
-		super();
+	/**
+	 * Constructeur
+	 * 
+	 * @param managementURI
+	 * @param nodeIdentifier
+	 * @param contentManagementURI
+	 */
+	public ApplicationNodeAddress(String managementURI, String nodeIdentifier, String contentManagementURI) {
+		super(nodeIdentifier, contentManagementURI, true);
+		assert managementURI != null;
 		this.nodeManagementURI = managementURI;
-		this.nodeIdentifier = nodeIdentifier;
-		this.contentManagementURI = contentManagementURI;
-		this.isFacade = isFacade;
-		this.isPeer = isNode;
+
 	}
 
+	/**
+	 * @see fr.gestion_contenu.node.interfaces.FacadeNodeAddressI#getNodeManagementURI()
+	 */
 	@Override
 	public String getNodeManagementURI() {
-		// TODO Auto-generated method stub
 		return nodeManagementURI;
 	}
 
-	@Override
-	public String getNodeIdentifier() {
-		// TODO Auto-generated method stub
-		return nodeIdentifier;
-	}
 
 	@Override
-	public boolean isFacade() {
-		// TODO Auto-generated method stub
-		return isFacade;
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (!(obj instanceof ApplicationNodeAddress))
+			return false;
+		ApplicationNodeAddress other = (ApplicationNodeAddress) obj;
+		if (nodeManagementURI == null) {
+			if (other.nodeManagementURI != null)
+				return false;
+		} else if (!nodeManagementURI.equals(other.nodeManagementURI))
+			return false;
+		return true;
 	}
-
-	@Override
-	public boolean isPeer() {
-		// TODO Auto-generated method stub
-		return isPeer;
-	}
-
-	@Override
-	public String getContentManagementURI() {
-		// TODO Auto-generated method stub
-		return contentManagementURI;
-	}
+	
+	
+	
 
 }
