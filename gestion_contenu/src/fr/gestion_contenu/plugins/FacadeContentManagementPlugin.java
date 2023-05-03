@@ -8,6 +8,9 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import fr.gestion_contenu.content.interfaces.ContentDescriptorI;
 import fr.gestion_contenu.content.interfaces.ContentTemplateI;
@@ -17,6 +20,7 @@ import fr.gestion_contenu.ports.InPortContentManagementFacade;
 import fr.gestion_contenu.ports.OutPortContentManagement;
 import fr.gestion_contenu.ports.interfaces.ContentManagementCI;
 import fr.gestion_contenu.ports.interfaces.FacadeContentManagementCI;
+import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.AbstractPlugin;
 import fr.sorbonne_u.components.AbstractPort;
 import fr.sorbonne_u.components.ComponentI;
@@ -30,14 +34,28 @@ import fr.sorbonne_u.components.ComponentI;
 public class FacadeContentManagementPlugin extends AbstractPlugin {
 
 	private static final long serialVersionUID = 1L;
+	private static final long NB_SECOND_RELEASE = 5;
 	private final int NB_ROOT_REQ;
 	private ApplicationNodeAddressI application;
 	private InPortContentManagementFacade portContentManagement;
 	private ConcurrentMap<PeerNodeAddressI, OutPortContentManagement> connectNodeRoot;
-	private Map<String, Semaphore> requestClient;
-	private Map<String, ContentDescriptorI> resultFind;
-	private Map<String, Set<ContentDescriptorI>> resultMatch;
+	private ConcurrentMap<String, Semaphore> requestClient;
+	private ConcurrentMap<String, ContentDescriptorI> resultFind;
+	private ConcurrentMap<String, Integer> nbAcceptFind;
+	private ConcurrentMap<String, Set<ContentDescriptorI>> resultMatch;
+
+	// Experimentation
+	private static ConcurrentMap<String, Long> timeRequest = new ConcurrentHashMap<>();
+	private static ConcurrentMap<String, Long> timeFound = new ConcurrentHashMap<>();
+	private static ConcurrentMap<String, Boolean> isFinishedRequest = new ConcurrentHashMap<>();
+
+	private static int nbRequestFind = 0;
+	private static int nbSuccessFind = 0;
+
 	private String contentManagementURI;
+	private static boolean isPrint = true;
+	private static Lock printLock = new ReentrantLock();
+	private final String uriExecutorReleaseClient;
 
 	/**
 	 * Constructeur
@@ -45,18 +63,23 @@ public class FacadeContentManagementPlugin extends AbstractPlugin {
 	 * @param applicationNodeAddress
 	 * @param nbRoot
 	 * @param uriContentManagement
-
+	 * @param uriExecutorReleaseClient 
+	 * 
 	 */
-	public FacadeContentManagementPlugin(ApplicationNodeAddressI applicationNodeAddress, int nbRoot, String uriContentManagement, ApplicationNodeAddressI uriFacadeSuivante,
+	public FacadeContentManagementPlugin(ApplicationNodeAddressI applicationNodeAddress, int nbRoot,
+			String uriContentManagement, String uriExecutorReleaseClient, ApplicationNodeAddressI uriFacadeSuivante,
 			ConcurrentMap<PeerNodeAddressI, OutPortContentManagement> connectNodeRoot) {
 		super();
+		this.uriExecutorReleaseClient = uriExecutorReleaseClient;
 		requestClient = new ConcurrentHashMap<>();
 		resultFind = new ConcurrentHashMap<>();
 		resultMatch = new ConcurrentHashMap<>();
+		nbAcceptFind = new ConcurrentHashMap<>();
 		this.application = applicationNodeAddress;
 		this.contentManagementURI = uriContentManagement;
 		NB_ROOT_REQ = nbRoot / 2;
-		// On garde la ref pour pouvoir partager les donnees entre le plugin et le composant
+		// On garde la ref pour pouvoir partager les donnees entre le plugin et le
+		// composant
 		this.connectNodeRoot = connectNodeRoot;
 	}
 
@@ -90,9 +113,10 @@ public class FacadeContentManagementPlugin extends AbstractPlugin {
 		getOwner().logMessage("find | debut  cd = " + cd + "\n");
 
 		String requestURI = AbstractPort.generatePortURI();
+
 		Semaphore sem = new Semaphore(0);
 		requestClient.put(requestURI, sem);
-
+		nbAcceptFind.put(requestURI, 0);
 		Random rand = new Random();
 		List<OutPortContentManagement> listTmp = new ArrayList<>(connectNodeRoot.values());
 
@@ -106,10 +130,28 @@ public class FacadeContentManagementPlugin extends AbstractPlugin {
 			}
 		}
 
+		// Experimentation
+		timeRequest.put(requestURI, System.currentTimeMillis());
+		
+		printLock.lock();
+		nbRequestFind += 1;
+		printLock.unlock();
 		for (OutPortContentManagement op : listTmp2) {
 			op.find(cd, hops, application, requestURI);
 		}
+		
+		long delay = TimeUnit.SECONDS.toNanos(NB_SECOND_RELEASE);
 
+		
+		this.scheduleTaskOnComponent(uriExecutorReleaseClient, new AbstractComponent.AbstractTask() {
+			@Override
+			public void run() {
+				sem.release();
+			}
+		}, delay, null);
+		
+		
+		resultFind.put(requestURI, null);
 		sem.acquire();
 		getOwner().logMessage("find | fin cd = " + cd + "\n");
 		return resultFind.remove(requestURI);
@@ -138,6 +180,9 @@ public class FacadeContentManagementPlugin extends AbstractPlugin {
 			}
 		}
 
+		// Experimentation
+		timeRequest.put(requestURI, System.currentTimeMillis());
+
 		for (OutPortContentManagement op : listTmp2) {
 			op.match(cd, hops, application, requestURI, matched);
 		}
@@ -149,6 +194,33 @@ public class FacadeContentManagementPlugin extends AbstractPlugin {
 
 	@Override
 	public void finalise() throws Exception {
+
+		printLock.lock();
+		if (isPrint) {
+			Long max = 0L;
+			Long min = Long.MAX_VALUE;
+			Long moy = 0L;
+
+			for (Map.Entry<String, Long> timeReq : timeFound.entrySet()) {
+				if (isFinishedRequest.containsKey(timeReq.getKey())) {
+					if (timeReq.getValue() > max)
+						max = timeReq.getValue();
+					if (timeReq.getValue() < min)
+						min = timeReq.getValue();
+					moy += timeReq.getValue();
+				}
+
+			}
+			System.out.println("le nombre de requettes qui n'ont pas eu de resultat: "
+					+ (timeRequest.size() - isFinishedRequest.size()));
+			System.out.println("le temps max (Ms): " + max);
+			System.out.println("le temps min (Ms): " + min);
+
+			System.out.println("le temps moyen (Ms): " + (moy / isFinishedRequest.size()));
+			System.out.println("Nombre requettes find : " + nbRequestFind + " succes  : " + nbSuccessFind);
+			isPrint = false;
+		}
+		printLock.unlock();
 		super.finalise();
 	}
 
@@ -163,18 +235,33 @@ public class FacadeContentManagementPlugin extends AbstractPlugin {
 	}
 
 	public void acceptFound(ContentDescriptorI found, String requestURI) {
-		getOwner().logMessage("acceptFound |  cd = " + found + " request = " + requestURI + "\n");
+		getOwner().logMessage("acceptFound |  content = " + found + " request = " + requestURI + "\n");
 
 		assert requestURI != null;
-		if (found != null)
-			resultFind.put(requestURI, found);
+		
+		// Experimentation
+		long time = System.currentTimeMillis() - timeRequest.get(requestURI);
+		timeFound.put(requestURI, time);
+		isFinishedRequest.put(requestURI, true);
+		printLock.lock();
+		nbSuccessFind += 1;
+		printLock.unlock();
+		
+
 		requestClient.get(requestURI).release();
+		
+		
 
 	}
 
 	@SuppressWarnings("null")
 	public void acceptMatched(Set<ContentDescriptorI> matched, String requestURI) {
 		getOwner().logMessage("acceptMatched | request = " + requestURI + "\n");
+
+		// Experimentation
+		long time = System.currentTimeMillis() - timeRequest.get(requestURI);
+		timeFound.put(requestURI, time);
+		isFinishedRequest.put(requestURI, true);
 
 		assert requestURI != null;
 		if (matched != null || !(matched.isEmpty()))

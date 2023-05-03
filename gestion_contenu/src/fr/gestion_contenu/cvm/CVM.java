@@ -27,7 +27,6 @@ public class CVM extends AbstractCVM {
 	public static final int NB_NODES = 50;
 	public static final int NB_FACADES = 5;
 	public static final int NB_CLIENTS = 22;
-	
 
 	public CVM() throws Exception {
 		super();
@@ -36,7 +35,6 @@ public class CVM extends AbstractCVM {
 	@Override
 	public void deploy() throws Exception {
 
-		
 		long unixEpochStartTimeInNanos = TimeUnit.MILLISECONDS.toNanos(System.currentTimeMillis())
 				+ TimeUnit.SECONDS.toNanos(5);
 
@@ -47,47 +45,42 @@ public class CVM extends AbstractCVM {
 		AbstractComponent.createComponent(ClocksServer.class.getCanonicalName(),
 				new Object[] { horlogeURI, unixEpochStartTimeInNanos, startInstant, accelerationFactor });
 
-		
 		List<ApplicationNodeAddressI> addressFacade = new ArrayList<>();
 		for (int i = 0; i < NB_FACADES; i++) {
-			addressFacade.add(new ApplicationNodeAddress(AbstractPort.generatePortURI(), AbstractPort.generatePortURI(),
-					AbstractPort.generatePortURI()));
+			addressFacade.add(
+					new ApplicationNodeAddress(AbstractPort.generatePortURI(), i + "", AbstractPort.generatePortURI()));
 		}
 
-		
-		String uri ;
-		
-		for (int i = 0; i < NB_FACADES; i++) {
-			uri = AbstractComponent.createComponent(FacadeComponent.class.getCanonicalName(),
-					new Object[] { horlogeURI, addressFacade.get(i), 2, 20, 20, addressFacade.get((i+1) % NB_FACADES) });
+		String uri;
 
-			this.toggleTracing(uri);
+		for (int i = 0; i < NB_FACADES; i++) {
+			uri = AbstractComponent.createComponent(FacadeComponent.class.getCanonicalName(), new Object[] { horlogeURI,
+					addressFacade.get(i), 2, 20, 20, addressFacade.get((i + 1) % NB_FACADES) });
+
+//			this.toggleTracing(uri);
 			this.toggleLogging(uri);
 		}
-		
-		
+
 		ContentDataManager.DATA_DIR_NAME = "data/";
 		for (int i = 0; i < NB_NODES; i++) {
 
-			ContentNodeAddressI addressNode = new ContentNodeAddress(
-					AbstractPort.generatePortURI(), AbstractPort.generatePortURI(), AbstractPort.generatePortURI());
+			ContentNodeAddressI addressNode = new ContentNodeAddress(AbstractPort.generatePortURI(), i + "",
+					AbstractPort.generatePortURI());
 			Set<ContentDescriptorI> contentDescriptors = TestReadHashMap.readDescriptors(addressNode, 0);
-			uri = AbstractComponent.createComponent(NodeComponent.class.getCanonicalName(),
-					new Object[] { horlogeURI, contentDescriptors, addressFacade.get(i % NB_FACADES).getNodeManagementURI(), addressNode });
+			uri = AbstractComponent.createComponent(NodeComponent.class.getCanonicalName(), new Object[] { horlogeURI,
+					contentDescriptors, addressFacade.get(i % NB_FACADES).getNodeManagementURI(), addressNode });
 			this.toggleLogging(uri);
 		}
-
-
-
 
 		List<ContentTemplateI> tamplates = TestReadHashMap.readTemplate(0);
 		int nbRequestClient = tamplates.size() / NB_CLIENTS;
 		int firstIndex = 0;
-		for (int i = 0; i< NB_CLIENTS ; i++) {
+		for (int i = 0; i < NB_CLIENTS; i++) {
 			uri = AbstractComponent.createComponent(ClientComponent.class.getCanonicalName(),
-					new Object[] { horlogeURI, addressFacade.get(i % NB_FACADES).getContentManagementURI(), tamplates.subList(firstIndex, firstIndex + nbRequestClient) });
+					new Object[] { horlogeURI, addressFacade.get(i % NB_FACADES).getContentManagementURI(),
+							tamplates.subList(firstIndex, firstIndex + nbRequestClient) });
 
-			firstIndex +=  NB_CLIENTS;
+			firstIndex += NB_CLIENTS;
 			this.toggleLogging(uri);
 		}
 

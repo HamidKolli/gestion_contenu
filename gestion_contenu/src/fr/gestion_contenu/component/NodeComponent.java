@@ -6,7 +6,6 @@ import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 import fr.gestion_contenu.component.interfaces.AbstractNodeComponent;
 import fr.gestion_contenu.connectors.ConnectorNodeManagement;
@@ -34,6 +33,9 @@ import fr.sorbonne_u.utils.aclocks.AcceleratedClock;
  */
 public class NodeComponent extends AbstractNodeComponent {
 
+	
+	
+	
 	public static final String DIR_LOGGER_NAME = "loggers/nodes/";
 	public static final String FILE_LOGGER_NAME = "node";
 	public static final int NB_THREAD_CONTENT_MANAGEMENT = 20;
@@ -41,7 +43,7 @@ public class NodeComponent extends AbstractNodeComponent {
 	public static final int TIME_IN_NETWORK = 30;
 	public static final int MIN_TIME_TO_JOIN = 1;
 	public static final int MAX_TIME_TO_JOIN = 5;
-	private Set<ContentDescriptorI> contentDescriptorI;
+	private Set<ContentDescriptorI> contentDescriptor;
 	private ContentNodeAddressI nodeAddress;
 	private NodePortNodeManagement portNodeManagement;
 	private ContentManagementPlugin plugin;
@@ -51,9 +53,7 @@ public class NodeComponent extends AbstractNodeComponent {
 	private List<PeerNodeAddressI> neighbours;
 
 	private Semaphore sem = new Semaphore(0);
-	
-	private final int id;
-	private static int cpt = 0;
+
 
 	/**
 	 * 
@@ -67,8 +67,7 @@ public class NodeComponent extends AbstractNodeComponent {
 	protected NodeComponent(String clockURI, Set<ContentDescriptorI> contentDescriptorI, String portFacadeManagementURI,
 			ContentNodeAddressI nodeAddress) throws Exception {
 		super(1, 1);
-		id = ++cpt;
-		this.contentDescriptorI = contentDescriptorI;
+		this.contentDescriptor = contentDescriptorI;
 		this.nodeAddress = nodeAddress;
 		this.portFacadeManagementURI = portFacadeManagementURI;
 		this.clockURI = clockURI;
@@ -89,7 +88,7 @@ public class NodeComponent extends AbstractNodeComponent {
 			createNewExecutorService(uriConnection, NB_THREAD_NODE_MANAGEMENT, false);
 			createNewExecutorService(uriContentManagement, NB_THREAD_CONTENT_MANAGEMENT, false);
 
-			plugin = new ContentManagementPlugin(nodeAddress, uriConnection, uriContentManagement,id);
+			plugin = new ContentManagementPlugin(nodeAddress, uriConnection, uriContentManagement);
 			plugin.setPluginURI(AbstractPort.generatePortURI());
 			this.installPlugin(plugin);
 
@@ -126,8 +125,14 @@ public class NodeComponent extends AbstractNodeComponent {
 	 */
 	@Override
 	public List<ContentDescriptorI> match(ContentTemplateI template) {
-		return contentDescriptorI.stream().filter((e) -> e.match(template))
-				.collect(Collectors.toCollection(ArrayList::new));
+		List<ContentDescriptorI> result = new ArrayList<>();
+		
+		for (ContentDescriptorI cd : contentDescriptor) {
+			if(cd.match(template))
+				result.add(cd);
+		}
+		
+		return result;
 	}
 
 	/**

@@ -2,8 +2,11 @@ package fr.gestion_contenu.plugins;
 
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import fr.gestion_contenu.component.NodeComponent;
 import fr.gestion_contenu.component.interfaces.AbstractNodeComponent;
@@ -28,27 +31,29 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 
 	private static final long serialVersionUID = 1L;
 
+	// Experimentation
+	protected static ConcurrentMap<PeerNodeAddressI, Integer> nbVoisinParNoeud = new ConcurrentHashMap<>();
+	private static boolean isPrint = true;
+	private static Lock printLock = new ReentrantLock();
+
 	private final PeerNodeAddressI nodeAddresses;
 	private final ConcurrentMap<PeerNodeAddressI, OutPortNode> connectOutPort;
 	private InPortNode connectInPort;
 	private NodePortNodeManagement outPortFacade;
 	private final String uriConnection;
-	private final int id;
 
 	/**
 	 * Constructeur
 	 * 
 	 * @param nodeAddresses : l'addresse du noeud pair concerne
 	 * @param uriConnection
-	 * @param id 
+	 * @param id
 	 */
-	public ConnectionNodePlugin(PeerNodeAddressI nodeAddresses, String uriConnection, int id) {
+	public ConnectionNodePlugin(PeerNodeAddressI nodeAddresses, String uriConnection) {
 		super();
-		this.id = id;
 		this.nodeAddresses = nodeAddresses;
 		connectOutPort = new ConcurrentHashMap<>();
 		this.uriConnection = uriConnection;
-
 	}
 
 	/**
@@ -91,7 +96,7 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 		port.connect(nodeAddresses);
 		connectOutPort.put(peer, port);
 		getOwner().logMessage("connectNode |fin connect to " + peer.getNodeIdentifier() + "\n");
-
+		nbVoisinParNoeud.put(nodeAddresses, connectOutPort.size());
 	}
 
 	/**
@@ -135,7 +140,7 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 		connectOutPort.put(peer, port);
 
 		getOwner().logMessage("connectBackNode | fin connect back to " + peer.getNodeIdentifier() + "\n");
-
+		nbVoisinParNoeud.put(nodeAddresses, connectOutPort.size());
 	}
 
 	/**
@@ -167,9 +172,9 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 		if (remaingHops == 0 || connectOutPort.size() == 0) {
 			getOwner().doPortConnection(outPortFacade.getPortURI(), facade.getNodeManagementURI(),
 					ConnectorNodeManagement.class.getCanonicalName());
-			if(addressNode == null || connectOutPort.size() < nbVoisin) {
+			if (addressNode == null || connectOutPort.size() < nbVoisin) {
 				outPortFacade.acceptProbed(nodeAddresses, request);
-			}else {
+			} else {
 				outPortFacade.acceptProbed(addressNode, request);
 			}
 			outPortFacade.doDisconnection();
@@ -201,8 +206,41 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 	@Override
 	public void finalise() throws Exception {
 
+		// Experimentation
+		printLock.lock();
+		if (isPrint) {
+			int max = 0;
+			String maxId = "";
+			int min = Integer.MAX_VALUE;
+			String minId = "";
+			double moy = 0;
+			System.out
+					.println("###################################################\nExperimentation nombre de voisin\n");
+			for (Map.Entry<PeerNodeAddressI, Integer> l : nbVoisinParNoeud.entrySet()) {
+				moy += l.getValue();
+				if (l.getValue() > max) {
+					max = l.getValue();
+					maxId = l.getKey().getNodeIdentifier();
+				}
+				if (l.getValue() < min) {
+					min = l.getValue();
+					minId = l.getKey().getNodeIdentifier();
+				}
+				System.out.println(" noeud : "+ l.getKey().getNodeIdentifier() + " : NB voisins : " + l.getValue());
+			}
+
+			System.out.println("le nb voisins max : " + max + " node : " + maxId);
+			System.out.println("le nb voisins min : " + min + " node : " + minId);
+			System.out.println("le nb voisins moyen : " + moy / nbVoisinParNoeud.size());
+			isPrint = false;
+			System.out.println("###################################################\n");
+
+		}
+
+		printLock.unlock();
+
 		getOwner().printExecutionLogOnFile(
-				NodeComponent.DIR_LOGGER_NAME + NodeComponent.FILE_LOGGER_NAME + id);
+				NodeComponent.DIR_LOGGER_NAME + NodeComponent.FILE_LOGGER_NAME + nodeAddresses.getNodeIdentifier());
 		for (Map.Entry<PeerNodeAddressI, OutPortNode> port : connectOutPort.entrySet())
 			port.getValue().doDisconnection();
 		super.finalise();
@@ -223,6 +261,14 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 		connectInPort.unpublishPort();
 		connectInPort.destroyPort();
 		super.uninstall();
+	}
+
+	public void acceptNeighbours(Set<PeerNodeAddressI> neighbours) {
+		((AbstractNodeComponent) getOwner()).acceptNeighbours(neighbours);
+	}
+
+	public void acceptConnected(PeerNodeAddressI neighbour) {
+		getOwner().logMessage("acceptConnected | Accept connect " + neighbour.getNodeIdentifier() + "\n");
 	}
 
 }

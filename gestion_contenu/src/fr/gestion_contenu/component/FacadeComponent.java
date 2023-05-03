@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -50,11 +51,11 @@ public class FacadeComponent extends AbstractComponent {
 	private FacadeContentManagementPlugin plugin;
 
 	private ApplicationNodeAddressI uriFacadeSuivante;
-	private final int id;
-	private static int cpt = 0;
 
-	private static final int HOPS_PROBE = 5;
-	private static final int NB_VOISIN = 2;
+	private static final int HOPS_PROBE = 15;
+	private static final int NB_VOISIN = 3;
+	private static final int NB_THREAD_RELEASE_CLIENT = 5;
+
 	protected List<PeerNodeAddressI> connectToNode;
 	protected ConcurrentMap<PeerNodeAddressI, OutPortContentManagement> connectNodeRoot;
 	private FacadePortNodeManagement facadePortNodeManagement;
@@ -76,10 +77,9 @@ public class FacadeComponent extends AbstractComponent {
 			int nombreThreadNodeManagement, int nombreThreadContentManagement,
 			ApplicationNodeAddressI uriFacadeSuivante) throws Exception {
 		super(1, 0);
-		id = ++cpt;
 		this.nombreThreadNodeManagement = nombreThreadNodeManagement;
 		this.nombreThreadContentManagement = nombreThreadContentManagement;
-		this.getTracer().setTitle("Facade " + id);
+		this.getTracer().setTitle("Facade " + applicationNodeAddress.getNodeIdentifier());
 		this.uriFacadeSuivante = uriFacadeSuivante;
 
 		this.facadeAdresses = applicationNodeAddress;
@@ -102,21 +102,26 @@ public class FacadeComponent extends AbstractComponent {
 
 			String uriContentManagement = AbstractPort.generatePortURI();
 			String uriNodeManagement = AbstractPort.generatePortURI();
+			String uriExecutorReleaseClient = AbstractPort.generatePortURI();
+			createNewExecutorService(uriExecutorReleaseClient, NB_THREAD_RELEASE_CLIENT, false);
 			createNewExecutorService(uriContentManagement, nombreThreadContentManagement, false);
 			createNewExecutorService(uriNodeManagement, nombreThreadNodeManagement, false);
-			plugin = new FacadeContentManagementPlugin(facadeAdresses, numberRootNode,
-					uriContentManagement, uriFacadeSuivante,connectNodeRoot);
+			
+			
+			
+			plugin = new FacadeContentManagementPlugin(facadeAdresses, numberRootNode, uriContentManagement,
+					uriExecutorReleaseClient,uriFacadeSuivante, connectNodeRoot);
 			plugin.setPluginURI(AbstractPort.generatePortURI());
 			this.installPlugin(plugin);
 
-			facadePortNodeManagement = new FacadePortNodeManagement(facadeAdresses.getNodeManagementURI(),
-					this, uriNodeManagement);
+			facadePortNodeManagement = new FacadePortNodeManagement(facadeAdresses.getNodeManagementURI(), this,
+					uriNodeManagement);
 			outFacadeNodeManagement = new NodePortNodeManagement(this);
 			outPortNode = new OutPortNode(this);
 			outPortNode.publishPort();
 			outFacadeNodeManagement.publishPort();
 			facadePortNodeManagement.publishPort();
-			
+
 			logMessage(facadePortNodeManagement.getPortURI());
 
 		} catch (Exception e) {
@@ -227,16 +232,13 @@ public class FacadeComponent extends AbstractComponent {
 
 	}
 
-
-
 	public void finalise() throws Exception {
 		this.printExecutionLogOnFile(FacadeComponent.DIR_LOGGER_NAME + FacadeComponent.FILE_LOGGER_NAME
-				+ id);
+				+ facadeAdresses.getNodeIdentifier());
 		for (Map.Entry<PeerNodeAddressI, OutPortContentManagement> port : connectNodeRoot.entrySet())
 			port.getValue().doDisconnection();
 		super.finalise();
 	}
-
 
 	@Override
 	public synchronized void shutdown() throws ComponentShutdownException {
@@ -256,27 +258,38 @@ public class FacadeComponent extends AbstractComponent {
 		} catch (Exception e) {
 			throw new ComponentShutdownException(e);
 		}
-		
+
 		super.shutdown();
+	}
+
+	private void probeRoot(int hops, FacadeNodeAddressI facade, String request, int nbVoisin,
+			PeerNodeAddressI addressNode) throws Exception {
+
+		int rand = (new Random()).nextInt(connectNodeRoot.size());
+		int i = 0;
+
+		for (Map.Entry<PeerNodeAddressI, OutPortContentManagement> port : connectNodeRoot.entrySet()) {
+			if (i == rand) {
+				this.doPortConnection(outPortNode.getPortURI(), port.getKey().getNodeURI(), new ConnectorNode());
+				outPortNode.probe(hops, facade, request, nbVoisin, addressNode);
+				outPortNode.doDisconnection();
+			}
+			i++;
+		}
+
+		this.doPortConnection(outFacadeNodeManagement.getPortURI(), uriFacadeSuivante.getNodeManagementURI(),
+				ConnectorNodeManagement.class.getCanonicalName());
+		outFacadeNodeManagement.probe(hops, facade, request, nbVoisin, addressNode);
+		outFacadeNodeManagement.doDisconnection();
+
 	}
 
 	private synchronized void probe(String request) throws Exception {
 
 		this.logMessage("probe (private) | debut " + request + "\n");
 
-		for (Map.Entry<PeerNodeAddressI, OutPortContentManagement> port : connectNodeRoot.entrySet()) {
+		probeRoot(HOPS_PROBE, facadeAdresses, request, Integer.MAX_VALUE, null);
 
-			this.doPortConnection(outPortNode.getPortURI(), port.getKey().getNodeURI(),
-					ConnectorNode.class.getCanonicalName());
-			outPortNode.probe(HOPS_PROBE, facadeAdresses, request, Integer.MAX_VALUE, null);
-			outPortNode.doDisconnection();
-
-		}
-
-		this.doPortConnection(outFacadeNodeManagement.getPortURI(), uriFacadeSuivante.getNodeManagementURI(),
-				ConnectorNodeManagement.class.getCanonicalName());
-		outFacadeNodeManagement.probe(HOPS_PROBE, facadeAdresses, request, Integer.MAX_VALUE, null);
-		outFacadeNodeManagement.doDisconnection();
 		this.logMessage("probe | fin " + request + "\n");
 
 	}
@@ -284,19 +297,21 @@ public class FacadeComponent extends AbstractComponent {
 	public synchronized void probe(int remaingHops, FacadeNodeAddressI facade, String request, int nbVoisin,
 			PeerNodeAddressI addressNode) throws Exception {
 		this.logMessage("probe (public) | debut request = " + request + " facade = " + facade + "\n");
+		
 		if (facadeAdresses.equals(facade))
 			return;
-
-		for (Map.Entry<PeerNodeAddressI, OutPortContentManagement> port : connectNodeRoot.entrySet()) {
-			this.doPortConnection(outPortNode.getPortURI(), port.getKey().getNodeURI(), new ConnectorNode());
-			outPortNode.probe(HOPS_PROBE, facade, request, nbVoisin, addressNode);
-			outPortNode.doDisconnection();
+		
+		if(connectNodeRoot.size() == 0) {
+			this.doPortConnection(outFacadeNodeManagement.getPortURI(), uriFacadeSuivante.getNodeManagementURI(),
+					ConnectorNodeManagement.class.getCanonicalName());
+			outFacadeNodeManagement.probe(remaingHops, facade, request, nbVoisin, addressNode);
+			outFacadeNodeManagement.doDisconnection();
 		}
+		
+		
 
-		this.doPortConnection(outFacadeNodeManagement.getPortURI(), uriFacadeSuivante.getNodeManagementURI(),
-				ConnectorNodeManagement.class.getCanonicalName());
-		outFacadeNodeManagement.probe(remaingHops, facade, request, nbVoisin, addressNode);
-		outFacadeNodeManagement.doDisconnection();
+		probeRoot(remaingHops, facade, request, nbVoisin, addressNode);
+
 		this.logMessage("probe (public) | fin request = " + request + " facade = " + facade + "\n");
 
 	}

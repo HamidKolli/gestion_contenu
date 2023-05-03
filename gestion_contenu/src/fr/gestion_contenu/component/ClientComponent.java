@@ -1,9 +1,9 @@
 package fr.gestion_contenu.component;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import fr.gestion_contenu.component.interfaces.AbstractClientComponent;
@@ -33,6 +33,7 @@ public class ClientComponent extends AbstractClientComponent {
 	public static final String FILE_LOGGER_NAME = "client";
 	public static final int MIN_TIME_REQUEST = 5;
 	public static final int MAX_TIME_REQUEST = 10;
+	public static final int HOPS = 5;
 
 	private List<ContentTemplateI> templates;
 	private String uriContentManagementFacade;
@@ -89,7 +90,7 @@ public class ClientComponent extends AbstractClientComponent {
 	 */
 	@Override
 	public void find(ContentTemplateI template) throws Exception {
-		ContentDescriptorI descriptor = portContentManagement.find(template, 5);
+		ContentDescriptorI descriptor = portContentManagement.find(template, HOPS);
 		traceMessage(String.format("resultat du find %s : %s\n", template, descriptor));
 		logMessage(String.format("@@@@@@@@@@@@@@@@@@@@@@@@@@@@\nresultat du find %s : %s\n", template, descriptor));
 
@@ -102,7 +103,7 @@ public class ClientComponent extends AbstractClientComponent {
 	 */
 	@Override
 	public void match(ContentTemplateI template) throws Exception {
-		Set<ContentDescriptorI> descriptors = new HashSet<>(portContentManagement.match(template, 5, new HashSet<>()));
+		List<ContentDescriptorI> descriptors = new ArrayList<>(portContentManagement.match(template, HOPS, new HashSet<>()));
 		traceMessage(String.format("resultat du find %s : %s\n", template, descriptors));
 		logMessage(String.format("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\nresultat du match %s : %s\n", template, descriptors));
 	}

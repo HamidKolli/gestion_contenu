@@ -1,12 +1,14 @@
 package fr.gestion_contenu.plugins;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import fr.gestion_contenu.component.interfaces.AbstractNodeComponent;
 import fr.gestion_contenu.connectors.ConnectorContentManagement;
@@ -31,7 +33,7 @@ import fr.sorbonne_u.components.ComponentI;
  *         deconnexion, match et find liees aux connexions de ContentManagement
  */
 public class ContentManagementPlugin extends ConnectionNodePlugin {
-	private static final int NBV_REQ = 2;
+	public static final int NBV_REQ = 2;
 	private static final long serialVersionUID = 1L;
 	private ConcurrentMap<PeerNodeAddressI, OutPortContentManagement> connectNodeContent;
 	private final ContentNodeAddressI contentNodeAddress;
@@ -39,17 +41,22 @@ public class ContentManagementPlugin extends ConnectionNodePlugin {
 	private OutPortContentManagementFacade result;
 	private final String uriContentManagement;
 
+	// Experimentation
+	private static boolean isPrint = true;
+	private static Lock printLock = new ReentrantLock();
+	private static int nbSuccess = 0;
+
 	/**
 	 * Constructeur
 	 * 
 	 * @param contentNodeAddress   : l'addresse du noeud en question
 	 * @param uriContentManagement
 	 * @param uriConnection
-	 * @param id 
+	 * @param id
 	 */
 	public ContentManagementPlugin(ContentNodeAddressI contentNodeAddress, String uriConnection,
-			String uriContentManagement, int id) {
-		super(contentNodeAddress, uriConnection,id);
+			String uriContentManagement) {
+		super(contentNodeAddress, uriConnection);
 		connectNodeContent = new ConcurrentHashMap<>();
 		this.contentNodeAddress = contentNodeAddress;
 		this.uriContentManagement = uriContentManagement;
@@ -119,19 +126,25 @@ public class ContentManagementPlugin extends ConnectionNodePlugin {
 
 		List<ContentDescriptorI> contentDescriptor = ((AbstractNodeComponent) getOwner()).match(cd);
 		if (contentDescriptor.size() > 0) {
+
 			returnFind(contentDescriptor.get(0), ((ApplicationNodeAddressI) facade).getContentManagementURI(),
 					requestURI);
+			printLock.lock();
+			nbSuccess = nbSuccess + 1;
+			printLock.unlock();
+			return;
 		}
 
 		if (hops == 0) {
-			returnFind(null, ((ApplicationNodeAddressI) facade).getContentManagementURI(), requestURI);
+//			returnFind(null, ((ApplicationNodeAddressI) facade).getContentManagementURI(), requestURI);
 			return;
 		}
 
 		List<OutPortContentManagement> listTmp = new ArrayList<>(connectNodeContent.values());
-		Collections.shuffle(listTmp);
-		for (OutPortContentManagement port : listTmp.subList(0, Math.min(listTmp.size(), NBV_REQ))) {
-			port.find(cd, hops - 1, facade, requestURI);
+		int rand = (new Random()).nextInt(listTmp.size());
+
+		for (int i = 0; i < Math.min(listTmp.size(), NBV_REQ); i++) {
+			listTmp.get((i + rand) % listTmp.size()).find(cd, hops - 1, facade, requestURI);
 		}
 
 	}
@@ -152,7 +165,7 @@ public class ContentManagementPlugin extends ConnectionNodePlugin {
 	public void match(ContentTemplateI cd, int hops, NodeAddressI facade, String requestURI,
 			Set<ContentDescriptorI> matched) throws Exception {
 		assert facade.isFacade();
-		getOwner().logMessage("match | start match node tamplate = "+cd+"\n");
+		getOwner().logMessage("match | start match node tamplate = " + cd + "\n");
 
 		List<ContentDescriptorI> contentDescriptor = ((AbstractNodeComponent) getOwner()).match(cd);
 		if (contentDescriptor.size() > 0 && !matched.containsAll(contentDescriptor)) {
@@ -175,9 +188,10 @@ public class ContentManagementPlugin extends ConnectionNodePlugin {
 		}
 
 		List<OutPortContentManagement> listTmp = new ArrayList<>(connectNodeContent.values());
-		Collections.shuffle(listTmp);
-		for (OutPortContentManagement op : listTmp.subList(0, Math.min(listTmp.size(), NBV_REQ))) {
-			op.match(cd, hops - 1, facade, requestURI, matched);
+		int rand = (new Random()).nextInt(listTmp.size());
+
+		for (int i = 0; i < Math.min(listTmp.size(), NBV_REQ); i++) {
+			listTmp.get((i + rand) % listTmp.size()).match(cd, hops - 1, facade, requestURI, matched);
 		}
 
 	}
@@ -267,9 +281,21 @@ public class ContentManagementPlugin extends ConnectionNodePlugin {
 	 */
 	@Override
 	public void finalise() throws Exception {
+		printLock.lock();
+		if (isPrint) {
+			System.out.println("###################################################\nExperimentation requettes find\n");
+
+			System.out.println("nb succes: " + nbSuccess);
+
+			isPrint = false;
+			System.out.println("###################################################\n");
+		}
+		printLock.unlock();
+
 		for (Map.Entry<PeerNodeAddressI, OutPortContentManagement> port : connectNodeContent.entrySet()) {
 			port.getValue().doDisconnection();
 		}
+
 		super.finalise();
 	}
 
@@ -287,14 +313,6 @@ public class ContentManagementPlugin extends ConnectionNodePlugin {
 			port.getValue().destroyPort();
 		}
 		super.uninstall();
-	}
-
-	public void acceptNeighbours(Set<PeerNodeAddressI> neighbours) {
-		((AbstractNodeComponent) getOwner()).acceptNeighbours(neighbours);
-	}
-
-	public void acceptConnected(PeerNodeAddressI neighbour) {
-		getOwner().logMessage("acceptConnected | Accept connect " + neighbour.getNodeIdentifier() + "\n");
 	}
 
 }
