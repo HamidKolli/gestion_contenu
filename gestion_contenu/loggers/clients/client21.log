@@ -1,1738 +1,1032 @@
-1683045652108|##############################
+1683583851371|##############################
+find 
+ Template >>>> 
+ titre : title-1888
+ Album : album-title-272
+ Composers : []
+ Interpreters : []
+
+1683583851384|##############################
+find 
+ Template >>>> 
+ titre : title-1898
+ Album : null
+ Composers : [composer-213]
+ Interpreters : [interpreter-217, interpreter-218]
+
+1683583851424|##############################
+find 
+ Template >>>> 
+ titre : title-1897
+ Album : album-title-274
+ Composers : [composer-213]
+ Interpreters : [interpreter-217, interpreter-218]
+
+1683583851426|##############################
+find 
+ Template >>>> 
+ titre : title-1896
+ Album : null
+ Composers : []
+ Interpreters : []
+
+1683583851503|##############################
+find 
+ Template >>>> 
+ titre : title-1904
+ Album : album-title-275
+ Composers : []
+ Interpreters : []
+
+1683583851558|##############################
+find 
+ Template >>>> 
+ titre : title-1908
+ Album : null
+ Composers : []
+ Interpreters : []
+
+1683583851558|##############################
 find 
  Template >>>> 
  titre : null
- Album : null
- Composers : [composer-62]
- Interpreters : []
-
-1683045652154|##############################
-find 
- Template >>>> 
- titre : title-297
- Album : album-title-44
+ Album : album-title-276
  Composers : []
  Interpreters : []
 
-1683045652156|##############################
+1683583851558|##############################
 find 
  Template >>>> 
- titre : title-299
- Album : album-title-44
- Composers : [composer-65]
- Interpreters : [interpreter-67, interpreter-66]
+ titre : title-1917
+ Album : null
+ Composers : [composer-214]
+ Interpreters : [interpreter-219]
 
-1683045652158|##############################
+1683583851558|##############################
 find 
  Template >>>> 
- titre : null
+ titre : title-1919
+ Album : album-title-277
+ Composers : []
+ Interpreters : [interpreter-219]
+
+1683583851558|##############################
+find 
+ Template >>>> 
+ titre : title-1930
  Album : null
  Composers : []
- Interpreters : [interpreter-68]
+ Interpreters : [interpreter-219]
 
-1683045652264|##############################
-match 
- Template >>>> 
- titre : title-307
- Album : album-title-45
- Composers : [composer-66]
- Interpreters : []
-
-1683045652655|@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-resultat du match 
- Template >>>> 
- titre : title-307
- Album : album-title-45
- Composers : [composer-66]
- Interpreters : [] : []
-
-1683045652655|##############################
-match 
- Template >>>> 
- titre : title-310
- Album : null
- Composers : []
- Interpreters : [interpreter-68]
-
-1683045652660|@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-resultat du match 
- Template >>>> 
- titre : title-310
- Album : null
- Composers : []
- Interpreters : [interpreter-68] : []
-
-1683045652660|##############################
+1683583851558|##############################
 find 
  Template >>>> 
- titre : title-311
- Album : album-title-45
- Composers : []
- Interpreters : [interpreter-68]
+ titre : title-1928
+ Album : album-title-278
+ Composers : [composer-214]
+ Interpreters : [interpreter-219]
 
-1683045652660|##############################
+1683583851558|##############################
 find 
  Template >>>> 
- titre : null
- Album : album-title-47
+ titre : title-1940
+ Album : null
+ Composers : []
+ Interpreters : [interpreter-220, interpreter-221]
+
+1683583851559|##############################
+find 
+ Template >>>> 
+ titre : title-1949
+ Album : album-title-281
+ Composers : [composer-216, composer-215]
+ Interpreters : [interpreter-220, interpreter-221]
+
+1683583851559|##############################
+find 
+ Template >>>> 
+ titre : title-1948
+ Album : album-title-281
  Composers : []
  Interpreters : []
 
-1683045652660|##############################
+1683583851559|##############################
 find 
  Template >>>> 
- titre : null
+ titre : title-1958
  Album : null
- Composers : []
- Interpreters : [interpreter-70]
+ Composers : [composer-217]
+ Interpreters : [interpreter-222]
 
-1683045652660|##############################
+1683583851559|##############################
 find 
  Template >>>> 
- titre : null
+ titre : title-1963
  Album : null
- Composers : [composer-69]
+ Composers : [composer-217]
  Interpreters : []
 
-1683045652660|##############################
-match 
- Template >>>> 
- titre : title-329
- Album : album-title-48
- Composers : [composer-71, composer-72]
- Interpreters : []
-
-1683045652663|@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-resultat du match 
- Template >>>> 
- titre : title-329
- Album : album-title-48
- Composers : [composer-71, composer-72]
- Interpreters : [] : []
-
-1683045652663|##############################
+1683583851559|##############################
 find 
  Template >>>> 
- titre : null
- Album : album-title-48
- Composers : []
- Interpreters : []
-
-1683045652663|##############################
-find 
- Template >>>> 
- titre : title-333
- Album : album-title-49
- Composers : []
- Interpreters : []
-
-1683045652663|##############################
-find 
- Template >>>> 
- titre : title-352
- Album : album-title-52
- Composers : []
- Interpreters : [interpreter-76, interpreter-77]
-
-1683045652663|##############################
-find 
- Template >>>> 
- titre : title-360
- Album : album-title-53
- Composers : [composer-76, composer-77]
- Interpreters : []
-
-1683045653122|##############################
-match 
- Template >>>> 
- titre : title-284
- Album : album-title-42
- Composers : []
- Interpreters : [interpreter-63, interpreter-64]
-
-1683045653177|@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-resultat du match 
- Template >>>> 
- titre : title-284
- Album : album-title-42
- Composers : []
- Interpreters : [interpreter-63, interpreter-64] : []
-
-1683045653177|##############################
-find 
- Template >>>> 
- titre : title-296
- Album : null
- Composers : [composer-64]
- Interpreters : [interpreter-65]
-
-1683045653177|##############################
-find 
- Template >>>> 
- titre : null
- Album : null
- Composers : [composer-65]
- Interpreters : []
-
-1683045653177|##############################
-find 
- Template >>>> 
- titre : title-315
- Album : album-title-46
- Composers : []
- Interpreters : []
-
-1683045653177|##############################
-find 
- Template >>>> 
- titre : title-325
- Album : null
- Composers : [composer-70, composer-69]
- Interpreters : []
-
-1683045653177|##############################
-match 
- Template >>>> 
- titre : null
- Album : null
- Composers : []
- Interpreters : [interpreter-74]
-
-1683045653183|@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-resultat du match 
- Template >>>> 
- titre : null
- Album : null
- Composers : []
- Interpreters : [interpreter-74] : []
-
-1683045653183|##############################
-find 
- Template >>>> 
- titre : title-342
- Album : null
- Composers : [composer-74, composer-75]
- Interpreters : []
-
-1683045653183|##############################
-find 
- Template >>>> 
- titre : title-339
- Album : album-title-50
- Composers : [composer-74, composer-75]
- Interpreters : [interpreter-75]
-
-1683045653183|##############################
-find 
- Template >>>> 
- titre : title-341
- Album : album-title-50
- Composers : []
- Interpreters : [interpreter-75]
-
-1683045653183|##############################
-find 
- Template >>>> 
- titre : title-346
- Album : album-title-51
- Composers : []
- Interpreters : [interpreter-75]
-
-1683045653183|##############################
-match 
- Template >>>> 
- titre : title-356
- Album : album-title-52
- Composers : [composer-76, composer-77]
- Interpreters : [interpreter-76, interpreter-77]
-
-1683045653192|@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-resultat du match 
- Template >>>> 
- titre : title-356
- Album : album-title-52
- Composers : [composer-76, composer-77]
- Interpreters : [interpreter-76, interpreter-77] : []
-
-1683045653192|##############################
-find 
- Template >>>> 
- titre : title-357
- Album : null
- Composers : [composer-76, composer-77]
- Interpreters : []
-
-1683045654115|##############################
-find 
- Template >>>> 
- titre : title-282
- Album : null
- Composers : [composer-62, composer-63]
- Interpreters : [interpreter-63, interpreter-64]
-
-1683045654116|##############################
-find 
- Template >>>> 
- titre : title-294
- Album : album-title-43
- Composers : []
- Interpreters : [interpreter-65]
-
-1683045654116|##############################
-find 
- Template >>>> 
- titre : null
- Album : null
- Composers : [composer-66]
- Interpreters : []
-
-1683045654116|##############################
-find 
- Template >>>> 
- titre : title-308
- Album : album-title-45
- Composers : [composer-66]
- Interpreters : [interpreter-68]
-
-1683045654116|##############################
-match 
- Template >>>> 
- titre : title-312
+ titre : title-1969
  Album : null
  Composers : []
  Interpreters : []
 
-1683045654162|@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-resultat du match 
- Template >>>> 
- titre : title-312
- Album : null
- Composers : []
- Interpreters : [] : []
-
-1683045654163|##############################
-match 
- Template >>>> 
- titre : title-317
- Album : null
- Composers : []
- Interpreters : [interpreter-69]
-
-1683045654179|@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-resultat du match 
- Template >>>> 
- titre : title-317
- Album : null
- Composers : []
- Interpreters : [interpreter-69] : []
-
-1683045654179|##############################
+1683583851559|##############################
 find 
  Template >>>> 
- titre : title-319
+ titre : title-1980
  Album : null
- Composers : [composer-67, composer-68]
+ Composers : []
+ Interpreters : [interpreter-224, interpreter-223]
+
+1683583852370|##############################
+find 
+ Template >>>> 
+ titre : title-1882
+ Album : album-title-271
+ Composers : []
  Interpreters : []
 
-1683045654179|##############################
+1683583852371|##############################
+find 
+ Template >>>> 
+ titre : title-1910
+ Album : album-title-275
+ Composers : []
+ Interpreters : [interpreter-217, interpreter-218]
+
+1683583852371|##############################
 find 
  Template >>>> 
  titre : null
  Album : null
  Composers : []
- Interpreters : [interpreter-71]
+ Interpreters : [interpreter-219]
 
-1683045654203|##############################
+1683583852371|##############################
 find 
  Template >>>> 
- titre : title-326
- Album : album-title-47
- Composers : []
- Interpreters : []
-
-1683045654205|##############################
-find 
- Template >>>> 
- titre : title-328
- Album : album-title-48
- Composers : []
- Interpreters : []
-
-1683045654214|##############################
-match 
- Template >>>> 
- titre : title-347
- Album : album-title-51
- Composers : [composer-74, composer-75]
- Interpreters : [interpreter-75]
-
-1683045654237|@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-resultat du match 
- Template >>>> 
- titre : title-347
- Album : album-title-51
- Composers : [composer-74, composer-75]
- Interpreters : [interpreter-75] : []
-
-1683045654237|##############################
-find 
- Template >>>> 
- titre : title-358
+ titre : title-1926
  Album : null
- Composers : [composer-76, composer-77]
- Interpreters : []
-
-1683045655108|##############################
-find 
- Template >>>> 
- titre : null
- Album : album-title-41
  Composers : []
  Interpreters : []
 
-1683045655109|##############################
+1683583852371|##############################
 find 
  Template >>>> 
- titre : title-276
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
-
-1683045655109|##############################
-find 
- Template >>>> 
- titre : title-277
- Album : album-title-41
- Composers : []
- Interpreters : []
-
-1683045655109|##############################
-find 
- Template >>>> 
- titre : title-288
+ titre : title-1929
  Album : null
- Composers : [composer-62, composer-63]
- Interpreters : [interpreter-63, interpreter-64]
+ Composers : [composer-214]
+ Interpreters : [interpreter-219]
 
-1683045655109|##############################
+1683583852371|##############################
+find 
+ Template >>>> 
+ titre : title-1944
+ Album : album-title-280
+ Composers : []
+ Interpreters : [interpreter-220, interpreter-221]
+
+1683583852371|##############################
+find 
+ Template >>>> 
+ titre : title-1976
+ Album : album-title-285
+ Composers : [composer-218, composer-219]
+ Interpreters : []
+
+1683583852371|##############################
 find 
  Template >>>> 
  titre : null
  Album : null
- Composers : []
- Interpreters : [interpreter-63]
-
-1683045655109|##############################
-find 
- Template >>>> 
- titre : title-293
- Album : null
- Composers : [composer-64]
- Interpreters : [interpreter-65]
-
-1683045655109|##############################
-find 
- Template >>>> 
- titre : null
- Album : null
- Composers : []
- Interpreters : [interpreter-65]
-
-1683045655109|##############################
-find 
- Template >>>> 
- titre : title-302
- Album : album-title-44
- Composers : [composer-65]
- Interpreters : [interpreter-67, interpreter-66]
-
-1683045655109|##############################
-match 
- Template >>>> 
- titre : title-313
- Album : album-title-46
- Composers : [composer-67, composer-68]
+ Composers : [composer-218]
  Interpreters : []
 
-1683045655164|@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-resultat du match 
- Template >>>> 
- titre : title-313
- Album : album-title-46
- Composers : [composer-67, composer-68]
- Interpreters : [] : []
-
-1683045655164|##############################
+1683583853369|##############################
 find 
  Template >>>> 
- titre : null
+ titre : title-1877
  Album : null
+ Composers : [composer-212, composer-211]
+ Interpreters : [interpreter-215, interpreter-216]
+
+1683583853369|##############################
+find 
+ Template >>>> 
+ titre : title-1885
+ Album : album-title-272
  Composers : []
- Interpreters : [interpreter-73]
+ Interpreters : [interpreter-215, interpreter-216]
 
-1683045655164|##############################
-match 
- Template >>>> 
- titre : title-337
- Album : album-title-49
- Composers : [composer-73]
- Interpreters : [interpreter-74]
-
-1683045655202|@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-resultat du match 
- Template >>>> 
- titre : title-337
- Album : album-title-49
- Composers : [composer-73]
- Interpreters : [interpreter-74] : []
-
-1683045655202|##############################
+1683583853369|##############################
 find 
  Template >>>> 
- titre : null
- Album : null
- Composers : [composer-77]
- Interpreters : []
-
-1683045656108|##############################
-find 
- Template >>>> 
- titre : title-279
- Album : null
+ titre : title-1890
+ Album : album-title-273
  Composers : []
- Interpreters : [interpreter-62]
+ Interpreters : [interpreter-217, interpreter-218]
 
-1683045656108|##############################
-match 
- Template >>>> 
- titre : null
- Album : null
- Composers : []
- Interpreters : [interpreter-64]
-
-1683045656143|@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-resultat du match 
- Template >>>> 
- titre : null
- Album : null
- Composers : []
- Interpreters : [interpreter-64] : []
-
-1683045656143|##############################
+1683583853369|##############################
 find 
  Template >>>> 
- titre : title-300
- Album : album-title-44
- Composers : [composer-65]
- Interpreters : []
-
-1683045656144|##############################
-find 
- Template >>>> 
- titre : title-298
- Album : album-title-44
- Composers : []
- Interpreters : []
-
-1683045656144|##############################
-find 
- Template >>>> 
- titre : title-305
- Album : null
- Composers : [composer-66]
- Interpreters : [interpreter-68]
-
-1683045656144|##############################
-find 
- Template >>>> 
- titre : null
- Album : album-title-45
- Composers : []
- Interpreters : []
-
-1683045656144|##############################
-find 
- Template >>>> 
- titre : title-323
+ titre : title-1922
  Album : null
  Composers : []
  Interpreters : []
 
-1683045656144|##############################
+1683583853385|##############################
 find 
  Template >>>> 
- titre : null
+ titre : title-1934
  Album : null
- Composers : []
- Interpreters : [interpreter-72]
-
-1683045656144|##############################
-find 
- Template >>>> 
- titre : null
- Album : null
- Composers : [composer-75]
- Interpreters : []
-
-1683045656144|##############################
-match 
- Template >>>> 
- titre : null
- Album : album-title-51
  Composers : []
  Interpreters : []
 
-1683045656162|@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-resultat du match 
+1683583853386|##############################
+find 
+ Template >>>> 
+ titre : title-1955
+ Album : album-title-282
+ Composers : [composer-217]
+ Interpreters : []
+
+1683583853386|##############################
+find 
+ Template >>>> 
+ titre : title-1956
+ Album : album-title-282
+ Composers : [composer-217]
+ Interpreters : []
+
+1683583853386|##############################
+find 
+ Template >>>> 
+ titre : title-1953
+ Album : album-title-282
+ Composers : [composer-217]
+ Interpreters : []
+
+1683583853386|##############################
+find 
+ Template >>>> 
+ titre : title-1951
+ Album : album-title-282
+ Composers : [composer-217]
+ Interpreters : [interpreter-222]
+
+1683583853386|##############################
+find 
+ Template >>>> 
+ titre : title-1971
+ Album : null
+ Composers : []
+ Interpreters : []
+
+1683583854373|##############################
+find 
  Template >>>> 
  titre : null
- Album : album-title-51
+ Album : album-title-273
  Composers : []
- Interpreters : [] : []
+ Interpreters : []
 
-1683045656162|##############################
+1683583854373|##############################
+find 
+ Template >>>> 
+ titre : title-1894
+ Album : album-title-273
+ Composers : []
+ Interpreters : [interpreter-217, interpreter-218]
+
+1683583854373|##############################
+find 
+ Template >>>> 
+ titre : title-1911
+ Album : null
+ Composers : []
+ Interpreters : []
+
+1683583854373|##############################
+find 
+ Template >>>> 
+ titre : title-1909
+ Album : null
+ Composers : [composer-213]
+ Interpreters : [interpreter-217, interpreter-218]
+
+1683583854373|##############################
+find 
+ Template >>>> 
+ titre : title-1912
+ Album : album-title-275
+ Composers : [composer-213]
+ Interpreters : []
+
+1683583854373|##############################
+find 
+ Template >>>> 
+ titre : title-1906
+ Album : null
+ Composers : [composer-213]
+ Interpreters : [interpreter-217, interpreter-218]
+
+1683583854374|##############################
+find 
+ Template >>>> 
+ titre : title-1921
+ Album : album-title-277
+ Composers : []
+ Interpreters : [interpreter-219]
+
+1683583854374|##############################
+find 
+ Template >>>> 
+ titre : title-1920
+ Album : album-title-277
+ Composers : [composer-214]
+ Interpreters : [interpreter-219]
+
+1683583854374|##############################
+find 
+ Template >>>> 
+ titre : title-1925
+ Album : null
+ Composers : []
+ Interpreters : []
+
+1683583854374|##############################
+find 
+ Template >>>> 
+ titre : title-1935
+ Album : album-title-279
+ Composers : []
+ Interpreters : [interpreter-220, interpreter-221]
+
+1683583854374|##############################
+find 
+ Template >>>> 
+ titre : title-1938
+ Album : album-title-280
+ Composers : [composer-216, composer-215]
+ Interpreters : []
+
+1683583854374|##############################
+find 
+ Template >>>> 
+ titre : title-1943
+ Album : null
+ Composers : [composer-216, composer-215]
+ Interpreters : [interpreter-220, interpreter-221]
+
+1683583854374|##############################
+find 
+ Template >>>> 
+ titre : title-1966
+ Album : null
+ Composers : [composer-217]
+ Interpreters : [interpreter-222]
+
+1683583854397|##############################
 find 
  Template >>>> 
  titre : null
  Album : null
  Composers : []
- Interpreters : [interpreter-76]
+ Interpreters : [interpreter-223]
 
-1683045656162|##############################
+1683583854426|##############################
+find 
+ Template >>>> 
+ titre : title-1974
+ Album : album-title-285
+ Composers : [composer-218, composer-219]
+ Interpreters : [interpreter-224, interpreter-223]
+
+1683583855370|##############################
+find 
+ Template >>>> 
+ titre : title-1887
+ Album : album-title-272
+ Composers : [composer-212, composer-211]
+ Interpreters : [interpreter-215, interpreter-216]
+
+1683583855370|##############################
+find 
+ Template >>>> 
+ titre : title-1884
+ Album : album-title-272
+ Composers : []
+ Interpreters : [interpreter-215, interpreter-216]
+
+1683583855370|##############################
 find 
  Template >>>> 
  titre : null
  Album : null
- Composers : [composer-76]
+ Composers : [composer-213]
  Interpreters : []
 
-1683045657114|##############################
+1683583855370|##############################
 find 
  Template >>>> 
- titre : title-287
+ titre : title-1915
  Album : null
- Composers : [composer-62, composer-63]
- Interpreters : [interpreter-63, interpreter-64]
-
-1683045657114|##############################
-find 
- Template >>>> 
- titre : null
- Album : null
- Composers : [composer-63]
- Interpreters : []
-
-1683045657114|##############################
-find 
- Template >>>> 
- titre : title-292
- Album : null
- Composers : [composer-64]
- Interpreters : [interpreter-65]
-
-1683045657114|##############################
-find 
- Template >>>> 
- titre : title-291
- Album : null
- Composers : [composer-64]
- Interpreters : [interpreter-65]
-
-1683045657114|##############################
-match 
- Template >>>> 
- titre : null
- Album : null
- Composers : [composer-64]
- Interpreters : []
-
-1683045657165|@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-resultat du match 
- Template >>>> 
- titre : null
- Album : null
- Composers : [composer-64]
- Interpreters : [] : []
-
-1683045657165|##############################
-find 
- Template >>>> 
- titre : title-309
- Album : null
- Composers : [composer-66]
- Interpreters : [interpreter-68]
-
-1683045657184|##############################
-find 
- Template >>>> 
- titre : null
- Album : album-title-46
  Composers : []
  Interpreters : []
 
-1683045657184|##############################
+1683583855370|##############################
 find 
  Template >>>> 
- titre : title-321
- Album : album-title-47
- Composers : []
- Interpreters : []
+ titre : title-1918
+ Album : album-title-277
+ Composers : [composer-214]
+ Interpreters : [interpreter-219]
 
-1683045657184|##############################
-find 
- Template >>>> 
- titre : title-322
- Album : album-title-47
- Composers : [composer-70, composer-69]
- Interpreters : []
-
-1683045657184|##############################
-match 
- Template >>>> 
- titre : null
- Album : null
- Composers : [composer-72]
- Interpreters : []
-
-1683045657194|@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-resultat du match 
- Template >>>> 
- titre : null
- Album : null
- Composers : [composer-72]
- Interpreters : [] : []
-
-1683045657194|##############################
+1683583855370|##############################
 find 
  Template >>>> 
  titre : null
- Album : null
- Composers : [composer-71]
+ Album : album-title-278
+ Composers : []
  Interpreters : []
 
-1683045657194|##############################
+1683583855370|##############################
 find 
  Template >>>> 
- titre : title-338
+ titre : title-1933
  Album : null
- Composers : [composer-74, composer-75]
+ Composers : []
  Interpreters : []
 
-1683045657194|##############################
+1683583855370|##############################
+find 
+ Template >>>> 
+ titre : title-1941
+ Album : null
+ Composers : []
+ Interpreters : [interpreter-220, interpreter-221]
+
+1683583855370|##############################
+find 
+ Template >>>> 
+ titre : title-1942
+ Album : album-title-280
+ Composers : [composer-216, composer-215]
+ Interpreters : []
+
+1683583855370|##############################
 find 
  Template >>>> 
  titre : null
+ Album : album-title-281
+ Composers : []
+ Interpreters : []
+
+1683583855370|##############################
+find 
+ Template >>>> 
+ titre : title-1946
  Album : null
- Composers : [composer-74]
+ Composers : []
  Interpreters : []
 
-1683045657194|##############################
-match 
- Template >>>> 
- titre : title-345
- Album : album-title-51
- Composers : []
- Interpreters : [interpreter-75]
-
-1683045657216|@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-resultat du match 
- Template >>>> 
- titre : title-345
- Album : album-title-51
- Composers : []
- Interpreters : [interpreter-75] : []
-
-1683045657216|##############################
+1683583855370|##############################
 find 
  Template >>>> 
- titre : title-351
- Album : album-title-52
- Composers : [composer-76, composer-77]
+ titre : title-1968
+ Album : album-title-284
+ Composers : [composer-217]
  Interpreters : []
 
-1683045657217|##############################
-match 
- Template >>>> 
- titre : title-354
- Album : album-title-52
- Composers : []
- Interpreters : [interpreter-76, interpreter-77]
-
-1683045657222|@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-resultat du match 
- Template >>>> 
- titre : title-354
- Album : album-title-52
- Composers : []
- Interpreters : [interpreter-76, interpreter-77] : []
-
-1683045657222|##############################
+1683583855371|##############################
 find 
  Template >>>> 
- titre : null
- Album : album-title-52
- Composers : []
+ titre : title-1972
+ Album : null
+ Composers : [composer-217]
  Interpreters : []
 
-1683045658082|##############################
+1683583855371|##############################
 find 
  Template >>>> 
  titre : null
  Album : null
- Composers : [composer-61]
+ Composers : [composer-219]
  Interpreters : []
 
-1683045658108|##############################
+1683583855371|##############################
 find 
  Template >>>> 
- titre : title-289
- Album : album-title-42
+ titre : null
+ Album : album-title-285
  Composers : []
  Interpreters : []
 
-1683045658108|##############################
-match 
+1683583856372|##############################
+find 
  Template >>>> 
- titre : null
- Album : album-title-42
+ titre : title-1893
+ Album : null
  Composers : []
  Interpreters : []
 
-1683045658115|@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-resultat du match 
+1683583856390|##############################
+find 
  Template >>>> 
- titre : null
- Album : album-title-42
+ titre : title-1895
+ Album : album-title-274
  Composers : []
- Interpreters : [] : []
+ Interpreters : [interpreter-217, interpreter-218]
 
-1683045658115|##############################
+1683583856390|##############################
+find 
+ Template >>>> 
+ titre : title-1899
+ Album : null
+ Composers : [composer-213]
+ Interpreters : [interpreter-217, interpreter-218]
+
+1683583856390|##############################
 find 
  Template >>>> 
  titre : null
  Album : null
- Composers : []
- Interpreters : [interpreter-66]
+ Composers : [composer-214]
+ Interpreters : []
 
-1683045658115|##############################
+1683583856390|##############################
 find 
  Template >>>> 
- titre : title-301
- Album : album-title-44
- Composers : [composer-65]
- Interpreters : [interpreter-67, interpreter-66]
+ titre : null
+ Album : album-title-277
+ Composers : []
+ Interpreters : []
 
-1683045658115|##############################
+1683583856390|##############################
+find 
+ Template >>>> 
+ titre : title-1939
+ Album : null
+ Composers : [composer-216, composer-215]
+ Interpreters : [interpreter-220, interpreter-221]
+
+1683583856391|##############################
+find 
+ Template >>>> 
+ titre : null
+ Album : album-title-282
+ Composers : []
+ Interpreters : []
+
+1683583856391|##############################
+find 
+ Template >>>> 
+ titre : title-1954
+ Album : null
+ Composers : []
+ Interpreters : [interpreter-222]
+
+1683583856391|##############################
+find 
+ Template >>>> 
+ titre : title-1964
+ Album : album-title-283
+ Composers : [composer-217]
+ Interpreters : [interpreter-222]
+
+1683583856391|##############################
+find 
+ Template >>>> 
+ titre : title-1979
+ Album : album-title-285
+ Composers : []
+ Interpreters : []
+
+1683583857370|##############################
+find 
+ Template >>>> 
+ titre : title-1891
+ Album : album-title-273
+ Composers : [composer-213]
+ Interpreters : []
+
+1683583857370|##############################
 find 
  Template >>>> 
  titre : null
  Album : null
  Composers : []
- Interpreters : [interpreter-67]
+ Interpreters : [interpreter-218]
 
-1683045658116|##############################
+1683583857370|##############################
+find 
+ Template >>>> 
+ titre : title-1902
+ Album : album-title-274
+ Composers : [composer-213]
+ Interpreters : [interpreter-217, interpreter-218]
+
+1683583857370|##############################
+find 
+ Template >>>> 
+ titre : title-1903
+ Album : null
+ Composers : []
+ Interpreters : []
+
+1683583857370|##############################
+find 
+ Template >>>> 
+ titre : title-1901
+ Album : album-title-274
+ Composers : [composer-213]
+ Interpreters : [interpreter-217, interpreter-218]
+
+1683583857370|##############################
+find 
+ Template >>>> 
+ titre : null
+ Album : album-title-275
+ Composers : []
+ Interpreters : []
+
+1683583857370|##############################
+find 
+ Template >>>> 
+ titre : title-1913
+ Album : album-title-276
+ Composers : [composer-214]
+ Interpreters : []
+
+1683583857371|##############################
+find 
+ Template >>>> 
+ titre : title-1923
+ Album : album-title-277
+ Composers : [composer-214]
+ Interpreters : [interpreter-219]
+
+1683583857371|##############################
+find 
+ Template >>>> 
+ titre : title-1931
+ Album : album-title-279
+ Composers : []
+ Interpreters : []
+
+1683583857371|##############################
+find 
+ Template >>>> 
+ titre : title-1961
+ Album : null
+ Composers : [composer-217]
+ Interpreters : [interpreter-222]
+
+1683583858344|##############################
+find 
+ Template >>>> 
+ titre : title-1879
+ Album : album-title-271
+ Composers : []
+ Interpreters : [interpreter-215, interpreter-216]
+
+1683583858380|##############################
+find 
+ Template >>>> 
+ titre : title-1883
+ Album : null
+ Composers : []
+ Interpreters : []
+
+1683583858380|##############################
+find 
+ Template >>>> 
+ titre : title-1892
+ Album : null
+ Composers : [composer-213]
+ Interpreters : [interpreter-217, interpreter-218]
+
+1683583858381|##############################
+find 
+ Template >>>> 
+ titre : title-1905
+ Album : null
+ Composers : [composer-213]
+ Interpreters : [interpreter-217, interpreter-218]
+
+1683583858381|##############################
 find 
  Template >>>> 
  titre : null
  Album : null
- Composers : [composer-68]
+ Composers : [composer-216]
  Interpreters : []
 
-1683045658116|##############################
+1683583858381|##############################
 find 
  Template >>>> 
- titre : title-314
- Album : album-title-46
- Composers : [composer-67, composer-68]
- Interpreters : [interpreter-69]
-
-1683045658116|##############################
-match 
- Template >>>> 
- titre : title-320
- Album : album-title-47
+ titre : null
+ Album : album-title-279
  Composers : []
  Interpreters : []
 
-1683045658173|@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-resultat du match 
- Template >>>> 
- titre : title-320
- Album : album-title-47
- Composers : []
- Interpreters : [] : []
-
-1683045658173|##############################
-find 
- Template >>>> 
- titre : title-344
- Album : album-title-50
- Composers : [composer-74, composer-75]
- Interpreters : [interpreter-75]
-
-1683045658173|##############################
-find 
- Template >>>> 
- titre : title-343
- Album : album-title-50
- Composers : [composer-74, composer-75]
- Interpreters : [interpreter-75]
-
-1683045658173|##############################
-find 
- Template >>>> 
- titre : title-349
- Album : null
- Composers : []
- Interpreters : [interpreter-75]
-
-1683045658173|##############################
+1683583858381|##############################
 find 
  Template >>>> 
  titre : null
  Album : null
- Composers : []
- Interpreters : [interpreter-77]
+ Composers : [composer-215]
+ Interpreters : []
 
-1683045658173|##############################
+1683583858381|##############################
 find 
  Template >>>> 
- titre : title-355
+ titre : title-1950
+ Album : null
+ Composers : []
+ Interpreters : [interpreter-220, interpreter-221]
+
+1683583858381|##############################
+find 
+ Template >>>> 
+ titre : title-1957
  Album : null
  Composers : []
  Interpreters : []
 
-1683045659119|##############################
-find 
- Template >>>> 
- titre : title-280
- Album : null
- Composers : []
- Interpreters : []
-
-1683045659119|##############################
-match 
- Template >>>> 
- titre : null
- Album : null
- Composers : []
- Interpreters : [interpreter-62]
-
-1683045659151|@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-resultat du match 
- Template >>>> 
- titre : null
- Album : null
- Composers : []
- Interpreters : [interpreter-62] : [
-Descriptor >>>> 
- Template >>>> 
- titre : title-278
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : d4a578a1-fad5-495e-98f3-fe22b4581f8e, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-279
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 369e9579-add7-4340-b72c-b1cb18243212, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-279
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : fcb0a348-f33f-4905-aeab-8a64e56227b2, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-279
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 30b79d15-c5b1-4829-84f6-3fc249e67bb6, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-276
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 369e9579-add7-4340-b72c-b1cb18243212, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-277
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : cc919e03-18a8-4c6c-adf4-9149f0cbb578, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-277
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : b0e92d8c-0c99-475e-9f7a-bd3599d0cec0, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-280
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : cc919e03-18a8-4c6c-adf4-9149f0cbb578, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-279
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 1efd36b6-3c98-4c0f-9399-b836d778cc94, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-278
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 30b79d15-c5b1-4829-84f6-3fc249e67bb6, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-280
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : d4a578a1-fad5-495e-98f3-fe22b4581f8e, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-280
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 15378789-acb0-499d-a03e-cf25451e3f2e, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-278
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 3d24262b-2f70-42a4-9346-e21a9abed7fc, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-277
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 3d24262b-2f70-42a4-9346-e21a9abed7fc, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-277
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : f7955925-276f-49a4-9eeb-8073fbe0f859, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-276
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 1efd36b6-3c98-4c0f-9399-b836d778cc94, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-278
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : b0e92d8c-0c99-475e-9f7a-bd3599d0cec0, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-276
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : fcb0a348-f33f-4905-aeab-8a64e56227b2, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-279
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : f7955925-276f-49a4-9eeb-8073fbe0f859, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-278
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : f7955925-276f-49a4-9eeb-8073fbe0f859, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-278
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 15378789-acb0-499d-a03e-cf25451e3f2e, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-278
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 21244605-0bc4-4c88-b305-17ebf423c894, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-276
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 30b79d15-c5b1-4829-84f6-3fc249e67bb6, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-280
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 6ce5fe40-46cc-4b09-8cef-62b1e16c5261, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-280
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : f7955925-276f-49a4-9eeb-8073fbe0f859, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-276
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : d4a578a1-fad5-495e-98f3-fe22b4581f8e, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-278
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : cc919e03-18a8-4c6c-adf4-9149f0cbb578, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-278
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 6ce5fe40-46cc-4b09-8cef-62b1e16c5261, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-279
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 6f6830ab-c161-49f1-a22e-0b84017ac615, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-276
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 21244605-0bc4-4c88-b305-17ebf423c894, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-276
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : cc919e03-18a8-4c6c-adf4-9149f0cbb578, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-279
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : d0e1c3bc-b4bb-436e-91cf-b9a1514c7372, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-280
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 21244605-0bc4-4c88-b305-17ebf423c894, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-277
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 6f6830ab-c161-49f1-a22e-0b84017ac615, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-278
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : fcb0a348-f33f-4905-aeab-8a64e56227b2, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-277
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 1efd36b6-3c98-4c0f-9399-b836d778cc94, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-279
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : cc919e03-18a8-4c6c-adf4-9149f0cbb578, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-280
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : b0e92d8c-0c99-475e-9f7a-bd3599d0cec0, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-280
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 3d24262b-2f70-42a4-9346-e21a9abed7fc, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-278
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 369e9579-add7-4340-b72c-b1cb18243212, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-280
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 30b79d15-c5b1-4829-84f6-3fc249e67bb6, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-277
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : d4a578a1-fad5-495e-98f3-fe22b4581f8e, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-276
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : d0e1c3bc-b4bb-436e-91cf-b9a1514c7372, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-279
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 15378789-acb0-499d-a03e-cf25451e3f2e, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-280
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 1efd36b6-3c98-4c0f-9399-b836d778cc94, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-276
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 15378789-acb0-499d-a03e-cf25451e3f2e, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-277
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 369e9579-add7-4340-b72c-b1cb18243212, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-277
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 30b79d15-c5b1-4829-84f6-3fc249e67bb6, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-277
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 21244605-0bc4-4c88-b305-17ebf423c894, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-280
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 6f6830ab-c161-49f1-a22e-0b84017ac615, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-280
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : d0e1c3bc-b4bb-436e-91cf-b9a1514c7372, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-279
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : b0e92d8c-0c99-475e-9f7a-bd3599d0cec0, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-278
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 1efd36b6-3c98-4c0f-9399-b836d778cc94, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-276
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : b0e92d8c-0c99-475e-9f7a-bd3599d0cec0, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-276
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 6ce5fe40-46cc-4b09-8cef-62b1e16c5261, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-276
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : f7955925-276f-49a4-9eeb-8073fbe0f859, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-279
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : d4a578a1-fad5-495e-98f3-fe22b4581f8e, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-280
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 369e9579-add7-4340-b72c-b1cb18243212, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-277
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : fcb0a348-f33f-4905-aeab-8a64e56227b2, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-279
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 21244605-0bc4-4c88-b305-17ebf423c894, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-276
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 3d24262b-2f70-42a4-9346-e21a9abed7fc, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-278
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 6f6830ab-c161-49f1-a22e-0b84017ac615, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-277
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 6ce5fe40-46cc-4b09-8cef-62b1e16c5261, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-277
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 15378789-acb0-499d-a03e-cf25451e3f2e, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-278
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : d0e1c3bc-b4bb-436e-91cf-b9a1514c7372, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-277
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : d0e1c3bc-b4bb-436e-91cf-b9a1514c7372, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-276
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 6f6830ab-c161-49f1-a22e-0b84017ac615, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-279
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 3d24262b-2f70-42a4-9346-e21a9abed7fc, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-280
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : fcb0a348-f33f-4905-aeab-8a64e56227b2, 
-Descriptor >>>> 
- Template >>>> 
- titre : title-279
- Album : album-title-41
- Composers : [composer-61]
- Interpreters : [interpreter-62]
- Node Address : 6ce5fe40-46cc-4b09-8cef-62b1e16c5261]
-
-1683045659151|##############################
-find 
- Template >>>> 
- titre : title-283
- Album : album-title-42
- Composers : []
- Interpreters : []
-
-1683045659151|##############################
-match 
- Template >>>> 
- titre : title-281
- Album : album-title-42
- Composers : [composer-62, composer-63]
- Interpreters : []
-
-1683045659179|@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-resultat du match 
- Template >>>> 
- titre : title-281
- Album : album-title-42
- Composers : [composer-62, composer-63]
- Interpreters : [] : []
-
-1683045659179|##############################
-find 
- Template >>>> 
- titre : null
- Album : album-title-44
- Composers : []
- Interpreters : []
-
-1683045659179|##############################
-match 
- Template >>>> 
- titre : title-304
- Album : album-title-44
- Composers : [composer-65]
- Interpreters : [interpreter-67, interpreter-66]
-
-1683045659186|@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-resultat du match 
- Template >>>> 
- titre : title-304
- Album : album-title-44
- Composers : [composer-65]
- Interpreters : [interpreter-67, interpreter-66] : []
-
-1683045659186|##############################
+1683583858381|##############################
 find 
  Template >>>> 
  titre : null
  Album : null
- Composers : [composer-67]
+ Composers : [composer-217]
  Interpreters : []
 
-1683045659186|##############################
+1683583858381|##############################
 find 
  Template >>>> 
- titre : title-318
- Album : null
- Composers : []
- Interpreters : [interpreter-69]
-
-1683045659186|##############################
-find 
- Template >>>> 
- titre : title-331
- Album : album-title-48
- Composers : []
- Interpreters : [interpreter-72, interpreter-73]
-
-1683045659186|##############################
-find 
- Template >>>> 
- titre : title-330
- Album : album-title-48
+ titre : title-1960
+ Album : album-title-283
  Composers : []
  Interpreters : []
 
-1683045659186|##############################
+1683583858381|##############################
 find 
  Template >>>> 
- titre : title-334
- Album : null
- Composers : []
- Interpreters : [interpreter-74]
-
-1683045659186|##############################
-find 
- Template >>>> 
- titre : null
- Album : null
- Composers : [composer-73]
- Interpreters : []
-
-1683045659186|##############################
-find 
- Template >>>> 
- titre : null
- Album : album-title-50
+ titre : title-1970
+ Album : album-title-284
  Composers : []
  Interpreters : []
 
-1683045659186|##############################
-match 
- Template >>>> 
- titre : title-350
- Album : null
- Composers : [composer-74, composer-75]
- Interpreters : []
-
-1683045659191|@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-resultat du match 
- Template >>>> 
- titre : title-350
- Album : null
- Composers : [composer-74, composer-75]
- Interpreters : [] : []
-
-1683045659191|##############################
+1683583858381|##############################
 find 
  Template >>>> 
- titre : title-353
- Album : album-title-52
+ titre : title-1965
+ Album : album-title-284
  Composers : []
  Interpreters : []
 
-1683045660108|##############################
+1683583858381|##############################
 find 
  Template >>>> 
- titre : title-278
- Album : null
- Composers : []
- Interpreters : [interpreter-62]
-
-1683045660108|##############################
-find 
- Template >>>> 
- titre : title-286
- Album : null
- Composers : [composer-62, composer-63]
+ titre : title-1973
+ Album : album-title-284
+ Composers : [composer-217]
  Interpreters : []
 
-1683045660108|##############################
+1683583859374|##############################
 find 
  Template >>>> 
- titre : title-290
- Album : album-title-43
- Composers : [composer-64]
- Interpreters : [interpreter-65]
+ titre : title-1881
+ Album : null
+ Composers : []
+ Interpreters : [interpreter-215, interpreter-216]
 
-1683045660109|##############################
+1683583859374|##############################
 find 
  Template >>>> 
- titre : title-306
+ titre : title-1880
  Album : null
  Composers : []
  Interpreters : []
 
-1683045660109|##############################
+1683583859374|##############################
+find 
+ Template >>>> 
+ titre : title-1889
+ Album : album-title-272
+ Composers : [composer-212, composer-211]
+ Interpreters : []
+
+1683583859375|##############################
+find 
+ Template >>>> 
+ titre : title-1886
+ Album : null
+ Composers : []
+ Interpreters : [interpreter-215, interpreter-216]
+
+1683583859375|##############################
 find 
  Template >>>> 
  titre : null
  Album : null
  Composers : []
- Interpreters : [interpreter-69]
+ Interpreters : [interpreter-217]
 
-1683045660109|##############################
-find 
- Template >>>> 
- titre : title-316
- Album : null
- Composers : [composer-67, composer-68]
- Interpreters : [interpreter-69]
-
-1683045661112|##############################
-find 
- Template >>>> 
- titre : title-285
- Album : null
- Composers : [composer-62, composer-63]
- Interpreters : []
-
-1683045661112|##############################
+1683583859375|##############################
 find 
  Template >>>> 
  titre : null
- Album : album-title-43
+ Album : album-title-274
  Composers : []
  Interpreters : []
 
-1683045661113|##############################
+1683583859375|##############################
 find 
  Template >>>> 
- titre : title-295
- Album : album-title-43
- Composers : [composer-64]
- Interpreters : [interpreter-65]
-
-1683045661113|##############################
-match 
- Template >>>> 
- titre : title-303
- Album : album-title-44
- Composers : [composer-65]
- Interpreters : [interpreter-67, interpreter-66]
-
-1683045661133|@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-resultat du match 
- Template >>>> 
- titre : title-303
- Album : album-title-44
- Composers : [composer-65]
- Interpreters : [interpreter-67, interpreter-66] : []
-
-1683045661133|##############################
-match 
- Template >>>> 
- titre : title-324
- Album : album-title-47
- Composers : [composer-70, composer-69]
- Interpreters : [interpreter-70, interpreter-71]
-
-1683045661161|@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-resultat du match 
- Template >>>> 
- titre : title-324
- Album : album-title-47
- Composers : [composer-70, composer-69]
- Interpreters : [interpreter-70, interpreter-71] : []
-
-1683045661161|##############################
-match 
- Template >>>> 
- titre : null
+ titre : title-1914
  Album : null
- Composers : [composer-70]
+ Composers : [composer-214]
  Interpreters : []
 
-1683045661194|@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-resultat du match 
+1683583859375|##############################
+find 
  Template >>>> 
- titre : null
+ titre : title-1936
+ Album : album-title-279
+ Composers : []
+ Interpreters : [interpreter-220, interpreter-221]
+
+1683583859375|##############################
+find 
+ Template >>>> 
+ titre : title-1937
  Album : null
- Composers : [composer-70]
- Interpreters : [] : []
-
-1683045661194|##############################
-find 
- Template >>>> 
- titre : title-327
- Album : album-title-48
- Composers : []
+ Composers : [composer-216, composer-215]
  Interpreters : []
 
-1683045661194|##############################
+1683583859375|##############################
 find 
  Template >>>> 
- titre : title-332
- Album : album-title-49
- Composers : []
- Interpreters : [interpreter-74]
-
-1683045661194|##############################
-match 
- Template >>>> 
- titre : title-336
+ titre : title-1932
  Album : null
  Composers : []
- Interpreters : []
+ Interpreters : [interpreter-220, interpreter-221]
 
-1683045661206|@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-resultat du match 
- Template >>>> 
- titre : title-336
- Album : null
- Composers : []
- Interpreters : [] : []
-
-1683045661206|##############################
-find 
- Template >>>> 
- titre : title-335
- Album : album-title-49
- Composers : []
- Interpreters : []
-
-1683045661206|##############################
-find 
- Template >>>> 
- titre : null
- Album : album-title-49
- Composers : []
- Interpreters : []
-
-1683045661206|##############################
-find 
- Template >>>> 
- titre : title-340
- Album : album-title-50
- Composers : []
- Interpreters : []
-
-1683045661206|##############################
+1683583859375|##############################
 find 
  Template >>>> 
  titre : null
  Album : null
  Composers : []
- Interpreters : [interpreter-75]
+ Interpreters : [interpreter-220]
 
-1683045661206|##############################
+1683583859375|##############################
 find 
  Template >>>> 
- titre : title-348
+ titre : title-1947
+ Album : album-title-281
+ Composers : []
+ Interpreters : [interpreter-220, interpreter-221]
+
+1683583859375|##############################
+find 
+ Template >>>> 
+ titre : title-1952
  Album : null
- Composers : [composer-74, composer-75]
- Interpreters : [interpreter-75]
+ Composers : []
+ Interpreters : [interpreter-222]
+
+1683583859375|##############################
+find 
+ Template >>>> 
+ titre : null
+ Album : album-title-283
+ Composers : []
+ Interpreters : []
+
+1683583859376|##############################
+find 
+ Template >>>> 
+ titre : title-1975
+ Album : null
+ Composers : []
+ Interpreters : [interpreter-224, interpreter-223]
+
+1683583860377|##############################
+find 
+ Template >>>> 
+ titre : null
+ Album : album-title-272
+ Composers : []
+ Interpreters : []
+
+1683583860377|##############################
+find 
+ Template >>>> 
+ titre : title-1900
+ Album : null
+ Composers : [composer-213]
+ Interpreters : [interpreter-217, interpreter-218]
+
+1683583860377|##############################
+find 
+ Template >>>> 
+ titre : title-1907
+ Album : null
+ Composers : [composer-213]
+ Interpreters : []
+
+1683583860377|##############################
+find 
+ Template >>>> 
+ titre : title-1916
+ Album : album-title-276
+ Composers : []
+ Interpreters : []
+
+1683583860377|##############################
+find 
+ Template >>>> 
+ titre : title-1927
+ Album : album-title-278
+ Composers : []
+ Interpreters : [interpreter-219]
+
+1683583860377|##############################
+find 
+ Template >>>> 
+ titre : title-1924
+ Album : null
+ Composers : []
+ Interpreters : [interpreter-219]
+
+1683583860377|##############################
+find 
+ Template >>>> 
+ titre : null
+ Album : null
+ Composers : []
+ Interpreters : [interpreter-221]
+
+1683583860377|##############################
+find 
+ Template >>>> 
+ titre : null
+ Album : album-title-280
+ Composers : []
+ Interpreters : []
+
+1683583860377|##############################
+find 
+ Template >>>> 
+ titre : title-1945
+ Album : null
+ Composers : []
+ Interpreters : []
+
+1683583860377|##############################
+find 
+ Template >>>> 
+ titre : null
+ Album : null
+ Composers : []
+ Interpreters : [interpreter-222]
+
+1683583860377|##############################
+find 
+ Template >>>> 
+ titre : title-1959
+ Album : album-title-283
+ Composers : [composer-217]
+ Interpreters : []
+
+1683583860377|##############################
+find 
+ Template >>>> 
+ titre : title-1962
+ Album : album-title-283
+ Composers : [composer-217]
+ Interpreters : []
+
+1683583860378|##############################
+find 
+ Template >>>> 
+ titre : null
+ Album : album-title-284
+ Composers : []
+ Interpreters : []
+
+1683583860378|##############################
+find 
+ Template >>>> 
+ titre : title-1967
+ Album : album-title-284
+ Composers : []
+ Interpreters : []
 

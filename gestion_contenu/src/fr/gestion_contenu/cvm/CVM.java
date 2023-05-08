@@ -66,7 +66,7 @@ public class CVM extends AbstractCVM {
 
 			ContentNodeAddressI addressNode = new ContentNodeAddress(AbstractPort.generatePortURI(), i + "",
 					AbstractPort.generatePortURI());
-			Set<ContentDescriptorI> contentDescriptors = TestReadHashMap.readDescriptors(addressNode, 0);
+			Set<ContentDescriptorI> contentDescriptors = TestReadHashMap.readDescriptors(addressNode, i);
 			uri = AbstractComponent.createComponent(NodeComponent.class.getCanonicalName(), new Object[] { horlogeURI,
 					contentDescriptors, addressFacade.get(i % NB_FACADES).getNodeManagementURI(), addressNode });
 			this.toggleLogging(uri);
@@ -74,13 +74,10 @@ public class CVM extends AbstractCVM {
 
 		List<ContentTemplateI> tamplates = TestReadHashMap.readTemplate(0);
 		int nbRequestClient = tamplates.size() / NB_CLIENTS;
-		int firstIndex = 0;
 		for (int i = 0; i < NB_CLIENTS; i++) {
 			uri = AbstractComponent.createComponent(ClientComponent.class.getCanonicalName(),
 					new Object[] { horlogeURI, addressFacade.get(i % NB_FACADES).getContentManagementURI(),
-							tamplates.subList(firstIndex, firstIndex + nbRequestClient) });
-
-			firstIndex += NB_CLIENTS;
+							tamplates.subList(i * nbRequestClient, (i + 1) * nbRequestClient) });
 			this.toggleLogging(uri);
 		}
 

@@ -15,5 +15,17 @@
         rmiRegistryCreator="false"
         hostname="localhost"
         mainclass="fr.gestion_contenu.cvm.DistributedCVM"/>
+	<jvm2hostname jvmuri="facade3"
+        rmiRegistryCreator="false"
+        hostname="localhost"
+        mainclass="fr.gestion_contenu.cvm.DistributedCVM"/>
+    <jvm2hostname jvmuri="facade4"
+        rmiRegistryCreator="false"
+        hostname="localhost"
+        mainclass="fr.gestion_contenu.cvm.DistributedCVM"/>
+    <jvm2hostname jvmuri="facade5"
+        rmiRegistryCreator="false"
+        hostname="localhost"
+        mainclass="fr.gestion_contenu.cvm.DistributedCVM"/>
   </jvms2hostnames>
 </deployment>
