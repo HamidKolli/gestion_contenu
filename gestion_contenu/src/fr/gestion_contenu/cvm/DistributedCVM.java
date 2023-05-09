@@ -11,6 +11,7 @@ import fr.gestion_contenu.component.FacadeComponent;
 import fr.gestion_contenu.component.NodeComponent;
 import fr.gestion_contenu.content.interfaces.ContentDescriptorI;
 import fr.gestion_contenu.content.interfaces.ContentTemplateI;
+import fr.gestion_contenu.experimentation.Experimentation;
 import fr.gestion_contenu.node.informations.ApplicationNodeAddress;
 import fr.gestion_contenu.node.informations.ContentNodeAddress;
 import fr.gestion_contenu.node.interfaces.ApplicationNodeAddressI;
@@ -26,6 +27,10 @@ public class DistributedCVM extends AbstractDistributedCVM {
 
 	public static final int NB_NODES = 50;
 	public static final int NB_CLIENTS = 22;
+	public static final String FILE_NAME = "experimentations";
+	public static final Experimentation EXPERIMENTATION = new Experimentation(
+			FacadeComponent.NB_THREAD_NODE_MANAGEMENT_FACADE, NodeComponent.NB_THREAD_NODE_MANAGEMENT,
+			NodeComponent.NB_THREAD_CONTENT_MANAGEMENT, FacadeComponent.NB_THREAD_CONTENT_MANAGEMENT_FACADE, FILE_NAME);
 
 	public static final String[] JVMFACADES = new String[] { "facade1", "facade2", "facade3", "facade4", "facade5" };
 	private String horlogeURI;
@@ -37,7 +42,6 @@ public class DistributedCVM extends AbstractDistributedCVM {
 		addressFacade = new ArrayList<>();
 		horlogeURI = AbstractPort.generatePortURI();
 		tamplates = TestReadHashMap.readTemplate(0);
-
 	}
 
 	public void deployNodes(int idNode, int idFacade) throws Exception {
@@ -50,11 +54,12 @@ public class DistributedCVM extends AbstractDistributedCVM {
 		this.toggleLogging(uri);
 	}
 
-	public void deployClient(int idFacade, int idClient) throws Exception{
+	public void deployClient(int idFacade, int idClient) throws Exception {
 		String uri = "";
 		uri = AbstractComponent.createComponent(ClientComponent.class.getCanonicalName(),
 				new Object[] { horlogeURI, addressFacade.get(idFacade).getContentManagementURI(),
-						tamplates.subList(idClient * (tamplates.size() / NB_CLIENTS), (idClient+1) + (tamplates.size() / NB_CLIENTS)) });
+						tamplates.subList(idClient * (tamplates.size() / NB_CLIENTS),
+								(idClient + 1) + (tamplates.size() / NB_CLIENTS)) });
 		this.toggleLogging(uri);
 	}
 
@@ -86,9 +91,13 @@ public class DistributedCVM extends AbstractDistributedCVM {
 
 		for (int i = 0; i < JVMFACADES.length; i++) {
 			if (super.thisJVMURI.equals(JVMFACADES[i])) {
+				
+				assert horlogeURI != null;
+				assert addressFacade.get(i) != null;
+				assert addressFacade.get((i + 1) % JVMFACADES.length) != null;
 
 				uri = AbstractComponent.createComponent(FacadeComponent.class.getCanonicalName(), new Object[] {
-						horlogeURI, addressFacade.get(i), 2, 20, 20, addressFacade.get((i + 1) % JVMFACADES.length) });
+						horlogeURI, addressFacade.get(i), addressFacade.get((i + 1) % JVMFACADES.length) });
 				this.toggleLogging(uri);
 
 				int endLoopNode = nbNodesParFacade * (i + 1);
@@ -98,7 +107,7 @@ public class DistributedCVM extends AbstractDistributedCVM {
 				}
 				int endLoopClient = nbClientParFacade * (i + 1);
 				for (int j = i * nbClientParFacade; j < endLoopClient; j++) {
-					deployClient(i,j);
+					deployClient(i, j);
 				}
 
 			}
@@ -111,7 +120,7 @@ public class DistributedCVM extends AbstractDistributedCVM {
 		}
 		if (NB_CLIENTS % JVMFACADES.length > 0 && super.thisJVMURI.equals(JVMFACADES[0])) {
 			for (int j = NB_CLIENTS - (NB_CLIENTS % JVMFACADES.length); j < NB_CLIENTS; j++) {
-				deployClient(0,j);
+				deployClient(0, j);
 			}
 		}
 
@@ -120,9 +129,11 @@ public class DistributedCVM extends AbstractDistributedCVM {
 
 	public static void main(String[] args) {
 		try {
+			ContentDataManager.DATA_DIR_NAME = "../data/";
 			DistributedCVM cvm = new DistributedCVM(args);
 			cvm.startStandardLifeCycle(60000L);
-			Thread.sleep(5000L);
+			Thread.sleep(70000L);
+			EXPERIMENTATION.writeExperimentations();
 			System.exit(0);
 		} catch (Exception e) {
 			e.printStackTrace();

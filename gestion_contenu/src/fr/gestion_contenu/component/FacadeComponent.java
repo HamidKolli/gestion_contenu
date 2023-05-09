@@ -42,11 +42,9 @@ public class FacadeComponent extends AbstractComponent {
 
 	public static final String DIR_LOGGER_NAME = "loggers/facades/";
 	public static final String FILE_LOGGER_NAME = "facade";
-
-	private final int numberRootNode;
-
-	private final int nombreThreadNodeManagement;
-	private final int nombreThreadContentManagement;
+	public static final int NB_THREAD_CONTENT_MANAGEMENT_FACADE = 5;
+	public static final int NB_THREAD_NODE_MANAGEMENT_FACADE = 5;
+	public static final int NB_RACINE_FACADE = 2;
 
 	private FacadeContentManagementPlugin plugin;
 
@@ -73,12 +71,10 @@ public class FacadeComponent extends AbstractComponent {
 	 * @param nbrRacine              : le nombre de noeuds racines de la facade
 	 * @throws Exception
 	 */
-	protected FacadeComponent(String clockURI, ApplicationNodeAddressI applicationNodeAddress, int nbrRacine,
-			int nombreThreadNodeManagement, int nombreThreadContentManagement,
+	protected FacadeComponent(String clockURI, ApplicationNodeAddressI applicationNodeAddress,
 			ApplicationNodeAddressI uriFacadeSuivante) throws Exception {
 		super(1, 0);
-		this.nombreThreadNodeManagement = nombreThreadNodeManagement;
-		this.nombreThreadContentManagement = nombreThreadContentManagement;
+
 		this.getTracer().setTitle("Facade " + applicationNodeAddress.getNodeIdentifier());
 		this.uriFacadeSuivante = uriFacadeSuivante;
 
@@ -87,7 +83,6 @@ public class FacadeComponent extends AbstractComponent {
 		connectNodeRoot = new ConcurrentHashMap<>();
 		resultProbeSem = new ConcurrentHashMap<>();
 		resultProbe = new ConcurrentHashMap<>();
-		this.numberRootNode = nbrRacine;
 
 	}
 
@@ -104,13 +99,11 @@ public class FacadeComponent extends AbstractComponent {
 			String uriNodeManagement = AbstractPort.generatePortURI();
 			String uriExecutorReleaseClient = AbstractPort.generatePortURI();
 			createNewExecutorService(uriExecutorReleaseClient, NB_THREAD_RELEASE_CLIENT, false);
-			createNewExecutorService(uriContentManagement, nombreThreadContentManagement, false);
-			createNewExecutorService(uriNodeManagement, nombreThreadNodeManagement, false);
-			
-			
-			
-			plugin = new FacadeContentManagementPlugin(facadeAdresses, numberRootNode, uriContentManagement,
-					uriExecutorReleaseClient,uriFacadeSuivante, connectNodeRoot);
+			createNewExecutorService(uriContentManagement, NB_THREAD_CONTENT_MANAGEMENT_FACADE, false);
+			createNewExecutorService(uriNodeManagement, NB_THREAD_NODE_MANAGEMENT_FACADE, false);
+
+			plugin = new FacadeContentManagementPlugin(facadeAdresses, NB_RACINE_FACADE, uriContentManagement,
+					uriExecutorReleaseClient, uriFacadeSuivante, connectNodeRoot);
 			plugin.setPluginURI(AbstractPort.generatePortURI());
 			this.installPlugin(plugin);
 
@@ -134,14 +127,14 @@ public class FacadeComponent extends AbstractComponent {
 
 		this.traceMessage(a.getNodeIdentifier() + " join network ");
 		this.logMessage(
-				"join |" + a.getNodeIdentifier() + " root? " + (connectNodeRoot.size() < numberRootNode) + "\n");
+				"join |" + a.getNodeIdentifier() + " root? " + (connectNodeRoot.size() < NB_RACINE_FACADE) + "\n");
 		OutPortNode portNode = new OutPortNode(this);
 		portNode.publishPort();
 		this.doPortConnection(portNode.getPortURI(), a.getNodeURI(), ConnectorNode.class.getCanonicalName());
 
 		Set<PeerNodeAddressI> result;
 
-		if (connectNodeRoot.size() < numberRootNode) {
+		if (connectNodeRoot.size() < NB_RACINE_FACADE) {
 			OutPortContentManagement port = new OutPortContentManagement(this);
 			port.publishPort();
 			this.doPortConnection(port.getPortURI(), ((ContentNodeAddressI) a).getContentManagementURI(),
@@ -264,19 +257,19 @@ public class FacadeComponent extends AbstractComponent {
 
 	private void probeRoot(int hops, FacadeNodeAddressI facade, String request, int nbVoisin,
 			PeerNodeAddressI addressNode) throws Exception {
+		if (connectNodeRoot.size() > 0) {
+			int rand = (new Random()).nextInt(connectNodeRoot.size());
+			int i = 0;
 
-		int rand = (new Random()).nextInt(connectNodeRoot.size());
-		int i = 0;
-
-		for (Map.Entry<PeerNodeAddressI, OutPortContentManagement> port : connectNodeRoot.entrySet()) {
-			if (i == rand) {
-				this.doPortConnection(outPortNode.getPortURI(), port.getKey().getNodeURI(), new ConnectorNode());
-				outPortNode.probe(hops, facade, request, nbVoisin, addressNode);
-				outPortNode.doDisconnection();
+			for (Map.Entry<PeerNodeAddressI, OutPortContentManagement> port : connectNodeRoot.entrySet()) {
+				if (i == rand) {
+					this.doPortConnection(outPortNode.getPortURI(), port.getKey().getNodeURI(), new ConnectorNode());
+					outPortNode.probe(hops, facade, request, nbVoisin, addressNode);
+					outPortNode.doDisconnection();
+				}
+				i++;
 			}
-			i++;
 		}
-
 		this.doPortConnection(outFacadeNodeManagement.getPortURI(), uriFacadeSuivante.getNodeManagementURI(),
 				ConnectorNodeManagement.class.getCanonicalName());
 		outFacadeNodeManagement.probe(hops, facade, request, nbVoisin, addressNode);
@@ -297,18 +290,16 @@ public class FacadeComponent extends AbstractComponent {
 	public synchronized void probe(int remaingHops, FacadeNodeAddressI facade, String request, int nbVoisin,
 			PeerNodeAddressI addressNode) throws Exception {
 		this.logMessage("probe (public) | debut request = " + request + " facade = " + facade + "\n");
-		
+
 		if (facadeAdresses.equals(facade))
 			return;
-		
-		if(connectNodeRoot.size() == 0) {
+
+		if (connectNodeRoot.size() == 0) {
 			this.doPortConnection(outFacadeNodeManagement.getPortURI(), uriFacadeSuivante.getNodeManagementURI(),
 					ConnectorNodeManagement.class.getCanonicalName());
 			outFacadeNodeManagement.probe(remaingHops, facade, request, nbVoisin, addressNode);
 			outFacadeNodeManagement.doDisconnection();
 		}
-		
-		
 
 		probeRoot(remaingHops, facade, request, nbVoisin, addressNode);
 

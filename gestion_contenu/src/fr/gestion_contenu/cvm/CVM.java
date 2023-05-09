@@ -11,6 +11,7 @@ import fr.gestion_contenu.component.FacadeComponent;
 import fr.gestion_contenu.component.NodeComponent;
 import fr.gestion_contenu.content.interfaces.ContentDescriptorI;
 import fr.gestion_contenu.content.interfaces.ContentTemplateI;
+import fr.gestion_contenu.experimentation.Experimentation;
 import fr.gestion_contenu.node.informations.ApplicationNodeAddress;
 import fr.gestion_contenu.node.informations.ContentNodeAddress;
 import fr.gestion_contenu.node.interfaces.ApplicationNodeAddressI;
@@ -27,6 +28,10 @@ public class CVM extends AbstractCVM {
 	public static final int NB_NODES = 50;
 	public static final int NB_FACADES = 5;
 	public static final int NB_CLIENTS = 22;
+	public static final String FILE_NAME = "experimentations";
+	public static final Experimentation EXPERIMENTATION = new Experimentation(
+			FacadeComponent.NB_THREAD_NODE_MANAGEMENT_FACADE, NodeComponent.NB_THREAD_NODE_MANAGEMENT,
+			NodeComponent.NB_THREAD_CONTENT_MANAGEMENT, FacadeComponent.NB_THREAD_CONTENT_MANAGEMENT_FACADE, FILE_NAME);
 
 	public CVM() throws Exception {
 		super();
@@ -54,10 +59,9 @@ public class CVM extends AbstractCVM {
 		String uri;
 
 		for (int i = 0; i < NB_FACADES; i++) {
-			uri = AbstractComponent.createComponent(FacadeComponent.class.getCanonicalName(), new Object[] { horlogeURI,
-					addressFacade.get(i), 2, 20, 20, addressFacade.get((i + 1) % NB_FACADES) });
-
-//			this.toggleTracing(uri);
+			uri = AbstractComponent.createComponent(FacadeComponent.class.getCanonicalName(),
+					new Object[] { horlogeURI, addressFacade.get(i), addressFacade.get((i + 1) % NB_FACADES) });
+			this.toggleTracing(uri);
 			this.toggleLogging(uri);
 		}
 
@@ -91,7 +95,8 @@ public class CVM extends AbstractCVM {
 
 			CVM cvm = new CVM();
 			cvm.startStandardLifeCycle(50000L);
-			Thread.sleep(50000L);
+			Thread.sleep(10000L);
+			EXPERIMENTATION.writeExperimentations();
 			System.exit(0);
 		} catch (Exception e) {
 			e.printStackTrace();

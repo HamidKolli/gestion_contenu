@@ -7,8 +7,6 @@ import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 import fr.gestion_contenu.component.interfaces.AbstractNodeComponent;
 import fr.gestion_contenu.connectors.ConnectorContentManagement;
@@ -41,10 +39,7 @@ public class ContentManagementPlugin extends ConnectionNodePlugin {
 	private OutPortContentManagementFacade result;
 	private final String uriContentManagement;
 
-	// Experimentation
-	private static boolean isPrint = true;
-	private static Lock printLock = new ReentrantLock();
-	private static int nbSuccess = 0;
+
 
 	/**
 	 * Constructeur
@@ -129,9 +124,6 @@ public class ContentManagementPlugin extends ConnectionNodePlugin {
 
 			returnFind(contentDescriptor.get(0), ((ApplicationNodeAddressI) facade).getContentManagementURI(),
 					requestURI);
-			printLock.lock();
-			nbSuccess = nbSuccess + 1;
-			printLock.unlock();
 			return;
 		}
 
@@ -281,17 +273,6 @@ public class ContentManagementPlugin extends ConnectionNodePlugin {
 	 */
 	@Override
 	public void finalise() throws Exception {
-		printLock.lock();
-		if (isPrint) {
-			System.out.println("###################################################\nExperimentation requettes find\n");
-
-			System.out.println("nb succes: " + nbSuccess);
-
-			isPrint = false;
-			System.out.println("###################################################\n");
-		}
-		printLock.unlock();
-
 		for (Map.Entry<PeerNodeAddressI, OutPortContentManagement> port : connectNodeContent.entrySet()) {
 			port.getValue().doDisconnection();
 		}

@@ -12,6 +12,9 @@ import fr.gestion_contenu.component.NodeComponent;
 import fr.gestion_contenu.component.interfaces.AbstractNodeComponent;
 import fr.gestion_contenu.connectors.ConnectorNode;
 import fr.gestion_contenu.connectors.ConnectorNodeManagement;
+import fr.gestion_contenu.cvm.CVM;
+import fr.gestion_contenu.cvm.DistributedCVM;
+import fr.gestion_contenu.experimentation.Experimentation;
 import fr.gestion_contenu.node.interfaces.FacadeNodeAddressI;
 import fr.gestion_contenu.node.interfaces.PeerNodeAddressI;
 import fr.gestion_contenu.ports.InPortNode;
@@ -234,9 +237,15 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 			System.out.println("le nb voisins moyen : " + moy / nbVoisinParNoeud.size());
 			isPrint = false;
 			System.out.println("###################################################\n");
-
+			
+			Experimentation.setMoyNbVoisin(moy / nbVoisinParNoeud.size());
+			Experimentation.setNbVoisinMin(min);
+			Experimentation.setNbVoisinMax(max);
+			
+			
 		}
-
+		
+		
 		printLock.unlock();
 
 		getOwner().printExecutionLogOnFile(
