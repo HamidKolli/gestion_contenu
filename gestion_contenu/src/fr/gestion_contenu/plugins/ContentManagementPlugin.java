@@ -39,8 +39,6 @@ public class ContentManagementPlugin extends ConnectionNodePlugin {
 	private OutPortContentManagementFacade result;
 	private final String uriContentManagement;
 
-
-
 	/**
 	 * Constructeur
 	 * 
@@ -131,7 +129,8 @@ public class ContentManagementPlugin extends ConnectionNodePlugin {
 //			returnFind(null, ((ApplicationNodeAddressI) facade).getContentManagementURI(), requestURI);
 			return;
 		}
-
+		if (connectNodeContent.size() < 1)
+			return;
 		List<OutPortContentManagement> listTmp = new ArrayList<>(connectNodeContent.values());
 		int rand = (new Random()).nextInt(listTmp.size());
 
@@ -179,6 +178,8 @@ public class ContentManagementPlugin extends ConnectionNodePlugin {
 			return;
 		}
 
+		if (connectNodeContent.size() < 1)
+			return;
 		List<OutPortContentManagement> listTmp = new ArrayList<>(connectNodeContent.values());
 		int rand = (new Random()).nextInt(listTmp.size());
 

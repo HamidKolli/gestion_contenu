@@ -49,8 +49,7 @@ public class FacadeContentManagementPlugin extends AbstractPlugin {
 	private static ConcurrentMap<String, Long> timeRequest = new ConcurrentHashMap<>();
 	private static ConcurrentMap<String, Long> timeFound = new ConcurrentHashMap<>();
 	private static ConcurrentMap<String, Boolean> isFinishedRequest = new ConcurrentHashMap<>();
-	private static ConcurrentMap<String, Boolean>  nbSuccessFind = new ConcurrentHashMap<>();
-
+	private static ConcurrentMap<String, Boolean> nbSuccessFind = new ConcurrentHashMap<>();
 
 	private String contentManagementURI;
 	private static boolean isPrint = true;
@@ -63,7 +62,7 @@ public class FacadeContentManagementPlugin extends AbstractPlugin {
 	 * @param applicationNodeAddress
 	 * @param nbRoot
 	 * @param uriContentManagement
-	 * @param uriExecutorReleaseClient 
+	 * @param uriExecutorReleaseClient
 	 * 
 	 */
 	public FacadeContentManagementPlugin(ApplicationNodeAddressI applicationNodeAddress, int nbRoot,
@@ -133,22 +132,20 @@ public class FacadeContentManagementPlugin extends AbstractPlugin {
 		// Experimentation
 		timeRequest.put(requestURI, System.currentTimeMillis());
 		nbSuccessFind.put(requestURI, false);
-		
+
 		for (OutPortContentManagement op : listTmp2) {
 			op.find(cd, hops, application, requestURI);
 		}
-		
+
 		long delay = TimeUnit.SECONDS.toNanos(NB_SECOND_RELEASE);
 
-		
 		this.scheduleTaskOnComponent(uriExecutorReleaseClient, new AbstractComponent.AbstractTask() {
 			@Override
 			public void run() {
 				sem.release();
 			}
 		}, delay, null);
-		
-		
+
 		resultFind.put(requestURI, null);
 		sem.acquire();
 		getOwner().logMessage("find | fin cd = " + cd + "\n");
@@ -217,8 +214,8 @@ public class FacadeContentManagementPlugin extends AbstractPlugin {
 			System.out.println("le temps moyen (Ms): " + (moy / isFinishedRequest.size()));
 			int nbSuccess = 0;
 			for (Boolean suc : nbSuccessFind.values()) {
-				if(suc) {
-					nbSuccess ++;
+				if (suc) {
+					nbSuccess++;
 				}
 			}
 			System.out.println("Nombre requettes find : " + nbSuccessFind.size() + " succes  : " + nbSuccess);
@@ -230,10 +227,8 @@ public class FacadeContentManagementPlugin extends AbstractPlugin {
 			Experimentation.setTimeMoyReq(moy / isFinishedRequest.size());
 		}
 		printLock.unlock();
-		
-		for(OutPortContentManagement port : connectNodeRoot.values())
-			port.doDisconnection();
-		
+
+
 		super.finalise();
 	}
 
@@ -251,17 +246,14 @@ public class FacadeContentManagementPlugin extends AbstractPlugin {
 		getOwner().logMessage("acceptFound |  content = " + found + " request = " + requestURI + "\n");
 
 		assert requestURI != null;
-		
+
 		// Experimentation
 		long time = System.currentTimeMillis() - timeRequest.get(requestURI);
 		timeFound.put(requestURI, time);
 		isFinishedRequest.put(requestURI, true);
 		nbSuccessFind.put(requestURI, true);
-		
 
 		requestClient.get(requestURI).release();
-		
-		
 
 	}
 

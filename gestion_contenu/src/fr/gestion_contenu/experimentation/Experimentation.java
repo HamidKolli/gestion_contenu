@@ -154,7 +154,7 @@ public class Experimentation {
 					getNbThreadContentManagement(), getNbThreadNodeManagementFacade(), getNbThreadNodeManagementNode(),
 					getNbVoisinMax(), getNbVoisinMin(), getMoyNbVoisin(), getNbReqFailed(), getNbReqFindSuccess(),
 					getTimeMaxReq(), getTimeMinReq(), getTimeMoyReq()));
-
+			System.out.println("Exp ecrite");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

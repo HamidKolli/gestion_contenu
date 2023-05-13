@@ -4,7 +4,7 @@
           dir="/home/stomkabylejsk1946/Documents/etude/cps/gestion_contenu/Test"/>
   </hosts>
   <cyclicBarrier   hostname="localhost" port="55223"/>
-  <globalRegistry  hostname="localhost" port="55222"/>
+  <globalRegistry  hostname="localhost" port="55200"/>
   <rmiRegistryPort no="55999"/>
   <jvms2hostnames>
     <jvm2hostname jvmuri="facade1"

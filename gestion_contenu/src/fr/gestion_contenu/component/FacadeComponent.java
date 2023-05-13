@@ -73,7 +73,7 @@ public class FacadeComponent extends AbstractComponent {
 	 */
 	protected FacadeComponent(String clockURI, ApplicationNodeAddressI applicationNodeAddress,
 			ApplicationNodeAddressI uriFacadeSuivante) throws Exception {
-		super(1, 0);
+		super(10, 0);
 
 		this.getTracer().setTitle("Facade " + applicationNodeAddress.getNodeIdentifier());
 		this.uriFacadeSuivante = uriFacadeSuivante;
@@ -198,11 +198,12 @@ public class FacadeComponent extends AbstractComponent {
 		connectToNode.remove(a);
 		if (connectNodeRoot.containsKey(a)) {
 			this.logMessage("leave | leave racine " + a.getNodeIdentifier() + "\n");
-			OutPortContentManagement portAncien = connectNodeRoot.remove(a);
+			OutPortContentManagement portAncien = connectNodeRoot.get(a);
 			portAncien.doDisconnection();
 			portAncien.unpublishPort();
 			portAncien.destroyPort();
-
+			connectNodeRoot.remove(a);
+			
 			if (connectToNode.size() == 0) {
 				return;
 			}
@@ -228,8 +229,8 @@ public class FacadeComponent extends AbstractComponent {
 	public void finalise() throws Exception {
 		this.printExecutionLogOnFile(FacadeComponent.DIR_LOGGER_NAME + FacadeComponent.FILE_LOGGER_NAME
 				+ facadeAdresses.getNodeIdentifier());
-		for (Map.Entry<PeerNodeAddressI, OutPortContentManagement> port : connectNodeRoot.entrySet())
-			port.getValue().doDisconnection();
+		for (OutPortContentManagement port : connectNodeRoot.values())
+			port.doDisconnection();
 		super.finalise();
 	}
 

@@ -94,13 +94,14 @@ public class CVM extends AbstractCVM {
 		try {
 
 			CVM cvm = new CVM();
-			cvm.startStandardLifeCycle(50000L);
-			Thread.sleep(10000L);
-			EXPERIMENTATION.writeExperimentations();
-			System.exit(0);
+			cvm.startStandardLifeCycle(60000L);
+			Thread.sleep(10000L);			
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally {
+			Experimentation.writeExperimentations();
 		}
+		System.exit(0);
 
 	}
 
