@@ -51,5 +51,9 @@ public abstract class AbstractNodeComponent extends AbstractComponent  {
 	*/
 	public abstract void join() throws Exception;
 
+	/**
+	 * Methode de retour de resultat du join 
+	 * @param neighbours
+	 */
 	public abstract void acceptNeighbours(Set<PeerNodeAddressI> neighbours);
 }

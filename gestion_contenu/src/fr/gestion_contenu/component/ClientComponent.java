@@ -47,6 +47,7 @@ public class ClientComponent extends AbstractClientComponent {
 	 * 
 	 * Constructeur ClientComponent
 	 * 
+	 * @param clockURI					 : l'URI de l'horloge
 	 * @param uriContentManagementFacade : l'URI du port entrant d'une facade
 	 * @param template                   : la template du client
 	 * @throws Exception

@@ -27,7 +27,7 @@ import fr.sorbonne_u.utils.aclocks.AcceleratedClock;
 
 /**
  * 
- * @author Hamid KOLLI && Yanis ALAYOUD Classe conctrete qui gere les composant
+ * @author Hamid KOLLI && Yanis ALAYOUD Classe concrete qui gere les composant
  *         de noeud
  *
  */
@@ -59,9 +59,10 @@ public class NodeComponent extends AbstractNodeComponent {
 	 * 
 	 * Constructeur NodeComponent
 	 * 
+	 * @param clockURI				  : l'URI de l'horloge
 	 * @param contentDescriptorI      : le descripteur du noeud
 	 * @param portFacadeManagementURI : l'uri du port entrant d'une facade (pour
-	 *                                demander de joindre le reseau)
+	 *                                demander de rejoindre le reseau)
 	 * @throws Exception
 	 */
 	protected NodeComponent(String clockURI, Set<ContentDescriptorI> contentDescriptorI, String portFacadeManagementURI,

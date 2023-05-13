@@ -68,10 +68,10 @@ public class FacadeComponent extends AbstractComponent {
 	 * Constructeur FacadeComponent
 	 * 
 	 * @param applicationNodeAddress : les addresses des ports entrants de la facade
-	 * @param nbrRacine              : le nombre de noeuds racines de la facade
+	 * @param uriFacadeSuivante      : URI de la facade situee après dans l'ordre des facades a interroger pour le probe
 	 * @throws Exception
 	 */
-	protected FacadeComponent(String clockURI, ApplicationNodeAddressI applicationNodeAddress,
+	protected FacadeComponent(ApplicationNodeAddressI applicationNodeAddress,
 			ApplicationNodeAddressI uriFacadeSuivante) throws Exception {
 		super(10, 0);
 
@@ -123,6 +123,12 @@ public class FacadeComponent extends AbstractComponent {
 		super.start();
 	}
 
+	/**
+	 * Methode Join
+	 * 
+	 * @param a : le PeerNodeAdresse du noeud rejoignant le Reseau
+	 * @throws Exception
+	 */
 	public void join(PeerNodeAddressI a) throws Exception {
 
 		this.traceMessage(a.getNodeIdentifier() + " join network ");
@@ -177,6 +183,12 @@ public class FacadeComponent extends AbstractComponent {
 
 	}
 
+	/**
+	 * Methode acceptProbed : Retour de resultat d'un probe
+	 * 
+	 * @param peer : le noeud pair
+	 * @param requestURI : l'URI du noeud pair associé à la requete
+	 */
 	public synchronized void acceptProbed(PeerNodeAddressI peer, String requestURI) {
 		this.logMessage("acceptProbed | accept probe " + peer.getNodeIdentifier() + "\n");
 
@@ -225,7 +237,13 @@ public class FacadeComponent extends AbstractComponent {
 		}
 
 	}
-
+	
+	
+	/**
+	 * 
+	 * @see fr.sorbonne_u.components.AbstractComponent#finalise()
+	 *
+	 */
 	public void finalise() throws Exception {
 		this.printExecutionLogOnFile(FacadeComponent.DIR_LOGGER_NAME + FacadeComponent.FILE_LOGGER_NAME
 				+ facadeAdresses.getNodeIdentifier());
@@ -233,7 +251,14 @@ public class FacadeComponent extends AbstractComponent {
 			port.doDisconnection();
 		super.finalise();
 	}
+	
+	
 
+	/**
+	 * 
+	 * @see fr.sorbonne_u.components.AbstractComponent#shutdown()
+	 *
+	 */
 	@Override
 	public synchronized void shutdown() throws ComponentShutdownException {
 		try {
@@ -256,6 +281,16 @@ public class FacadeComponent extends AbstractComponent {
 		super.shutdown();
 	}
 
+	/**
+	 * Methode ProbeRoot : le "corps" du probe afin de "factoriser" le code
+	 * 
+	 * @param hops : nb de sauts du probe
+	 * @param facade : Adresse de la Façade effectuant le probe
+	 * @param request : uri du noeud concerné par la requete
+	 * @param nbVoisin : nb de voisins du noeud
+	 * @param addressNode : adresse du noeud pair
+	 * @throws Exception
+	 */
 	private void probeRoot(int hops, FacadeNodeAddressI facade, String request, int nbVoisin,
 			PeerNodeAddressI addressNode) throws Exception {
 		if (connectNodeRoot.size() > 0) {
@@ -288,10 +323,21 @@ public class FacadeComponent extends AbstractComponent {
 
 	}
 
+	/**
+	 * Methode Probe : effectue le sondage
+	 * 
+	 * @param remaingHops : nb de sauts du probe
+	 * @param facade : Adresse de la Façade effectuant le probe
+	 * @param request : uri du noeud concerné par la requete
+	 * @param nbVoisin : nb de voisins du noeud
+	 * @param addressNode : adresse du noeud pair
+	 * @throws Exception
+	 */
 	public synchronized void probe(int remaingHops, FacadeNodeAddressI facade, String request, int nbVoisin,
 			PeerNodeAddressI addressNode) throws Exception {
 		this.logMessage("probe (public) | debut request = " + request + " facade = " + facade + "\n");
 
+		//cas ou le probe a fait une "boucle" et est revenu a la facade de base
 		if (facadeAdresses.equals(facade))
 			return;
 
