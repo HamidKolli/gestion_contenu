@@ -23,7 +23,7 @@ public interface ContentManagementCI extends OfferedCI,RequiredCI{
 	 * 
 	 * @param cd   : le template du contenu qu'on recherche
 	 * @param hops : le nombre de pas pour eviter les appels infinis
-	 * @param requester : L'adresse du port entrant du noeud facade ayant effectué la requete afin de retourner le resultat
+	 * @param requester : L'adresse du port entrant du noeud facade ayant effectue la requete afin de retourner le resultat
 	 * @param requestURI : son URI
 	 * @throws Exception
 	 */
@@ -34,7 +34,7 @@ public interface ContentManagementCI extends OfferedCI,RequiredCI{
 	 * 
 	 * @param cd      : le template du contenu qu'on cherche
 	 * @param hops    : le nombre de pas pour eviter les appels infinis
-	 * @param requester : L'adresse du port entrant du noeud facade ayant effectué la requete afin de retourner le resultat
+	 * @param requester : L'adresse du port entrant du noeud facade ayant effectue la requete afin de retourner le resultat
 	 * @param requestURI : son URI
 	 * @param matched : l'ensemble des contenus deja trouves
 	 * 

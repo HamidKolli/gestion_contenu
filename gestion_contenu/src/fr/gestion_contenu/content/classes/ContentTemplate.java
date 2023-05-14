@@ -20,10 +20,10 @@ public class ContentTemplate implements ContentTemplateI {
 	/**
 	 * Constructeur d'un ContentTemplate
 	 * 
-	 * @param title
-	 * @param albumTitle
-	 * @param interpreters
-	 * @param composers
+	 * @param title : le titre de la chanson
+	 * @param albumTitle : l'album de la chanson
+	 * @param interpreters : les interpreters de la chanson
+	 * @param composers : les compositeurs de la chanson
 	 */
 	public ContentTemplate(String title, String albumTitle, Set<String> interpreters, Set<String> composers) {
 		super();

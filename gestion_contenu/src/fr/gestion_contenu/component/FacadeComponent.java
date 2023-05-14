@@ -71,7 +71,7 @@ public class FacadeComponent extends AbstractComponent {
 	 * Constructeur FacadeComponent
 	 * 
 	 * @param applicationNodeAddress : les addresses des ports entrants de la facade
-	 * @param uriFacadeSuivante      : URI de la facade situee après dans l'ordre des facades a interroger pour le probe
+	 * @param uriFacadeSuivante      : URI de la facade situee apres dans l'ordre des facades a interroger pour le probe
 	 * @throws Exception
 	 */
 	protected FacadeComponent(ApplicationNodeAddressI applicationNodeAddress,
@@ -189,8 +189,10 @@ public class FacadeComponent extends AbstractComponent {
 
 	/**
 	 * 
-	 * @see fr.gestion_contenu.ports.interfaces.NodeManagementCI#acceptProbed(fr.gestion_contenu.node.interfaces.PeerNodeAddressI, String)
-	 *
+	 * Methode qui est appelee quand le nombre de saut de probe vaut 0
+	 * Elle met a jour le resultat du probe en ajoutant dans la liste des future voisins du noeud un voisin et elle lache le semaphore qui est liee a la requette
+	 * @param peer : les adresses du voisin a ajouter
+	 * @param requestURI : l'identifiant de la requette probe
 	 */
 	public synchronized void acceptProbed(PeerNodeAddressI peer, String requestURI) {
 		this.logMessage("acceptProbed | accept probe " + peer.getNodeIdentifier() + "\n");
@@ -202,10 +204,12 @@ public class FacadeComponent extends AbstractComponent {
 
 	/**
 	 * 
-	 * @see fr.gestion_contenu.ports.interfaces.NodeManagementCI#leave(fr.gestion_contenu.node.interfaces.PeerNodeAddressI)
-	 *
+	 * Methode qui permet a un noeud de quitter le reseau
+	 * Elle supprime de noeud de la liste des noeuds liees a la facade
+	 * Elle designe un nouveau noeud racine si le noeud qui quitte le reseau est un noeud racine
+	 * @param a : les adresses du noeud qui veut quitter le reseau
+	 * @throws Exception
 	 */
-
 	public synchronized void leave(PeerNodeAddressI a) throws Exception {
 		this.traceMessage(a.getNodeIdentifier() + " leave the network \n");
 		this.logMessage("leave | leave " + a.getNodeIdentifier() + "\n");
@@ -288,8 +292,8 @@ public class FacadeComponent extends AbstractComponent {
 	 * Methode ProbeRoot : le "corps" du probe afin de "factoriser" le code
 	 * 
 	 * @param hops : nb de sauts du probe
-	 * @param facade : Adresse de la Façade effectuant le probe
-	 * @param request : uri du noeud concerné par la requete
+	 * @param facade : Adresse de la Facade effectuant le probe
+	 * @param request : uri du noeud concerne par la requete
 	 * @param nbVoisin : nb de voisins du noeud
 	 * @param addressNode : adresse du noeud pair
 	 * @throws Exception
@@ -330,8 +334,8 @@ public class FacadeComponent extends AbstractComponent {
 	 * Methode Probe : effectue le sondage
 	 * 
 	 * @param remaingHops : nb de sauts du probe
-	 * @param facade : Adresse de la Façade effectuant le probe
-	 * @param request : uri du noeud concerné par la requete
+	 * @param facade : Adresse de la Facade effectuant le probe
+	 * @param request : uri du noeud concerne par la requete
 	 * @param nbVoisin : nb de voisins du noeud
 	 * @param addressNode : adresse du noeud pair
 	 * @throws Exception

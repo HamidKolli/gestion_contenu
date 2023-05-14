@@ -21,12 +21,12 @@ public class ContentDescriptor extends ContentTemplate implements ContentDescrip
 	/**
 	 * Constructeur de ContentDescriptor
 	 * 
-	 * @param title
-	 * @param albumTitle
-	 * @param interpreters
-	 * @param composers
-	 * @param nodeAdress
-	 * @param size
+	 * @param title : le titre de la chanson
+	 * @param albumTitle : l'album de la chanson
+	 * @param interpreters : les interpreters de la chanson
+	 * @param composers : les compositeurs de la chanson
+	 * @param nodeAdress : les adresses du noeud ou est stoquee la chanson 
+	 * @param size : la taille du fichier de la chanson
 	 */
 	public ContentDescriptor(String title, String albumTitle, Set<String> interpreters, Set<String> composers,
 			ContentNodeAddressI nodeAdress, long size) {

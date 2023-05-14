@@ -27,7 +27,7 @@ public abstract class AbstractClientComponent extends AbstractComponent{
 	 * 
 	 * Methode qui permet a un client de lancer une requete find
 	 * @param template : le template du contenu rechercher 
-	 * @throws Exception
+	 * @throws Exception : exceptions liees au publications et connexions des ports
 	 */
 	public abstract void find(ContentTemplateI template) throws Exception;
 	
@@ -35,7 +35,7 @@ public abstract class AbstractClientComponent extends AbstractComponent{
 	 * 
 	 * Methode qui permet a un client de lancer une requete match
 	 * @param template : le template du contenu rechercher 
-	 * @throws Exception
+	 * @throws Exception : exceptions liees au publications et connexions des ports
 	 */
 	public abstract void match(ContentTemplateI template) throws Exception;
 	

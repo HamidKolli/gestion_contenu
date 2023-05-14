@@ -4,7 +4,6 @@ import java.util.Set;
 
 import fr.gestion_contenu.content.interfaces.ContentDescriptorI;
 import fr.gestion_contenu.content.interfaces.ContentTemplateI;
-import fr.gestion_contenu.node.interfaces.NodeAddressI;
 import fr.gestion_contenu.plugins.FacadeContentManagementPlugin;
 import fr.gestion_contenu.ports.interfaces.FacadeContentManagementCI;
 import fr.sorbonne_u.components.AbstractComponent;
@@ -32,7 +31,7 @@ public class InPortContentManagementFacade extends AbstractInboundPort implement
 	 * @param uri : l'uri du port
 	 * @param owner : le composant qui le possede
 	 * @param pluginURI : l'uri du plugin
-	 * @param contentManagementURI
+	 * @param contentManagementURI : l'uri du service executor
 	 * @throws Exception
 	 */
 	public InPortContentManagementFacade( String uri,ComponentI owner,

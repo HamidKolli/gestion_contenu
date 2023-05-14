@@ -48,7 +48,7 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 	 * Constructeur
 	 * 
 	 * @param nodeAddresses : l'addresse du noeud pair concerne
-	 * @param uriConnection
+	 * @param uriConnection : l'uri du service executor qui gere les connexions entre les noeuds
 	 */
 	public ConnectionNodePlugin(PeerNodeAddressI nodeAddresses, String uriConnection) {
 		super();
@@ -170,8 +170,8 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 	 * Methode Probe : effectue le sondage
 	 * 
 	 * @param remaingHops : nb de sauts du probe
-	 * @param facade : Adresse de la Façade effectuant le probe
-	 * @param request : uri du noeud concerné par la requete
+	 * @param facade : Adresse de la Facade effectuant le probe
+	 * @param request : uri du noeud concerne par la requete
 	 * @param nbVoisin : nb de voisins du noeud
 	 * @param addressNode : adresse du noeud pair
 	 * @throws Exception

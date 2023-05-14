@@ -20,8 +20,8 @@ public class ConnectorContentManagement extends AbstractConnector implements Con
 
 	/**
 	 * 
-	 * @see fr.gestion_contenu.ports.interfaces.ContentManagementCI#find()
-	 *
+	* @see fr.gestion_contenu.ports.interfaces.ContentManagementCI#find(fr.gestion_contenu.content.interfaces.ContentTemplateI, int, fr.gestion_contenu.node.interfaces.NodeAddressI, java.lang.String)
+	*
 	 */
 	@Override
 	public void find(ContentTemplateI cd, int hops, NodeAddressI facade, String requestURI) throws Exception {
@@ -30,8 +30,8 @@ public class ConnectorContentManagement extends AbstractConnector implements Con
 
 	/**
 	 * 
-	 * @see fr.gestion_contenu.ports.interfaces.ContentManagementCI#match()
-	 *
+	* @see fr.gestion_contenu.ports.interfaces.ContentManagementCI#match(fr.gestion_contenu.content.interfaces.ContentTemplateI, int, fr.gestion_contenu.node.interfaces.NodeAddressI, java.lang.String, java.util.Set)
+	*
 	 */
 	@Override
 	public void match(ContentTemplateI cd, int hops, NodeAddressI facade, String requestURI,

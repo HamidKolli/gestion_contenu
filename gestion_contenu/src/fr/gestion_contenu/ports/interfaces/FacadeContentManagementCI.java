@@ -15,8 +15,8 @@ public interface FacadeContentManagementCI extends ContentManagementClientCI{
 	/**
 	 * Methode de retour du find
 	 * 
-	 * @param found : le descriptor trouvé par le find
-	 * @param requestURI : l'uri associé a la requete emise
+	 * @param found : le descriptor trouve par le find
+	 * @param requestURI : l'uri associe a la requete emise
 	 * 
 	 * @throws Exception
 	 */
@@ -25,8 +25,8 @@ public interface FacadeContentManagementCI extends ContentManagementClientCI{
 	/**
 	 * Methode de retour du match
 	 * 
-	 * @param matched : l'ensemble des descriptors trouvés par le match
-	 * @param requestURI : l'uri associé a la requete emise
+	 * @param matched : l'ensemble des descriptors trouves par le match
+	 * @param requestURI : l'uri associe a la requete emise
 	 * 
 	 * @throws Exception
 	 */

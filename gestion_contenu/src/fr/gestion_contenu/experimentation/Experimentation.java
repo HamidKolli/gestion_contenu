@@ -30,11 +30,11 @@ public class Experimentation {
 	/**
 	 * Constructeur
 	 * 
-	 * @param nbThreadNodeManagementFacade
-	 * @param nbThreadNodeManagementNode
-	 * @param nbThreadContentManagement
-	 * @param nbThreadContentManagementFacade
-	 * @param filename
+	 * @param nbThreadNodeManagementFacade : nombre de threads qui gerent les noeuds cote facade
+	 * @param nbThreadNodeManagementNode : nombre de threads qui gerent les noeuds cote noeud
+	 * @param nbThreadContentManagement : nombre de threads qui gerent les contenus cote noeud
+	 * @param nbThreadContentManagementFacade : nombre de threads qui gerent les contenus cote facade
+	 * @param filename : le nom du fichier ou on stock les experimentations
 	 */
 	public Experimentation(int nbThreadNodeManagementFacade, int nbThreadNodeManagementNode,
 			int nbThreadContentManagement, int nbThreadContentManagementFacade, String filename) {
@@ -256,7 +256,7 @@ public class Experimentation {
 	}
 
 	/**
-	 * methode writeExperimentations : ecris une nouvelle ligne dans le fichier correspondant aux valeurs testées
+	 * methode writeExperimentations : ecris une nouvelle ligne dans le fichier correspondant aux valeurs testees
 	 */
 	public static void writeExperimentations() {
 

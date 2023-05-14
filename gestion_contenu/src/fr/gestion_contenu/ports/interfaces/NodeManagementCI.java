@@ -34,7 +34,8 @@ public interface NodeManagementCI extends OfferedCI, RequiredCI,ProbingCI {
 	 * Methode acceptProbed : Retour de resultat d'un probe
 	 * 
 	 * @param peer : le noeud pair
-	 * @param requestURI : l'URI du noeud pair associé à la requete
+	 * @param requestURI : l'URI du noeud pair associe a la requete
+	 * @throws Exception 
 	 */
 	public void acceptProbed(PeerNodeAddressI peer, String requestURI) throws Exception;
 

@@ -17,9 +17,9 @@ public class ContentNodeAddress extends AbstractAddress implements ContentNodeAd
 	/**
 	 * Constructeur
 	 * 
-	 * @param nodeURI
-	 * @param nodeIdentifier
-	 * @param contentManagementURI
+	 * @param nodeURI : l'URI du port entrant de node management
+	 * @param nodeIdentifier : l'identifiant du noeud
+	 * @param contentManagementURI : l'URI du port entrant de cnontent management
 	 */
 	public ContentNodeAddress(String nodeURI, String nodeIdentifier, String contentManagementURI) {
 		super(nodeIdentifier,contentManagementURI,false);
@@ -53,7 +53,7 @@ public class ContentNodeAddress extends AbstractAddress implements ContentNodeAd
 	/**
 	 *methode equals
 	 *
-	 *@param obj : l'objet à comparer
+	 *@param obj : l'objet a comparer
 	 *@return boolean : resultat de l'equivalence
 	 */
 	@Override

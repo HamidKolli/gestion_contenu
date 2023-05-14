@@ -24,9 +24,9 @@ public class FacadePortNodeManagement extends AbstractInboundPort implements Nod
 	 * 
 	 * Constructeur FacadePortNodeManagement.java
 	 * 
-	 * @param uri
-	 * @param owner
-	 * @param contentManagementURI 
+	 * @param uri : l'URI du port
+	 * @param owner : le composant qui possede le port
+	 * @param contentManagementURI : l'uri du service executor
 	 * @throws Exception
 	 */
 	public FacadePortNodeManagement(String uri, ComponentI owner, String contentManagementURI) throws Exception {

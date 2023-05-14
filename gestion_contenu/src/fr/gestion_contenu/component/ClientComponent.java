@@ -1,6 +1,7 @@
 package fr.gestion_contenu.component;
 
 import java.util.ArrayList;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
@@ -20,15 +21,15 @@ import fr.sorbonne_u.components.exceptions.ComponentShutdownException;
 import fr.sorbonne_u.components.exceptions.ComponentStartException;
 import fr.sorbonne_u.utils.aclocks.AcceleratedClock;
 
-@RequiredInterfaces(required = { ContentManagementCI.class, FacadeContentManagementCI.class })
 
 /**
  * 
  * @author Hamid KOLLI
  * @author Yanis ALAYOUD
  *
- *         Un exemple de classe de client
+ * Un exemple de classe de client
  */
+@RequiredInterfaces(required = { ContentManagementCI.class, FacadeContentManagementCI.class })
 public class ClientComponent extends AbstractClientComponent {
 	public static final String DIR_LOGGER_NAME = "loggers/clients/";
 	public static final String FILE_LOGGER_NAME = "client";

@@ -61,12 +61,12 @@ public class FacadeContentManagementPlugin extends AbstractPlugin {
 	/**
 	 * Constructeur
 	 * 
-	 * @param applicationNodeAddress
-	 * @param nbRoot
-	 * @param uriContentManagement
-	 * @param uriExecutorReleaseClient
-	 * @param uriFacadeSuivante
-	 * @param connectNodeRoot
+	 * @param applicationNodeAddress : le adresses de la facade qui instancie le plugin
+	 * @param nbRoot : le nombre de noeuds racine que la facade souhaite avoir
+	 * @param uriContentManagement : l'uri du service executor qui gere la gestion des contenus
+	 * @param uriExecutorReleaseClient : l'uri du service executor qui gere le deblocage des clients
+	 * @param uriFacadeSuivante : l'URI de la facade qui recoie les requettes probe
+	 * @param connectNodeRoot : l'ensemble des noeuds de la facade (reference partagee)
 	 */
 	public FacadeContentManagementPlugin(ApplicationNodeAddressI applicationNodeAddress, int nbRoot,
 			String uriContentManagement, String uriExecutorReleaseClient, ApplicationNodeAddressI uriFacadeSuivante,
@@ -113,9 +113,10 @@ public class FacadeContentManagementPlugin extends AbstractPlugin {
 	/**
 	 * Methode qui permet de rechercher un contenu
 	 * 
-	 * @param template   : le template du contenu qu'on recherche
+	 * @param cd   : le template du contenu qu'on recherche
 	 * @param hops : le nombre de pas pour eviter les appels infinis
 	 * 
+	 * @return le contenu trouvee
 	 * @throws Exception
 	 */
 	public ContentDescriptorI find(ContentTemplateI cd, int hops) throws Exception {
@@ -167,14 +168,16 @@ public class FacadeContentManagementPlugin extends AbstractPlugin {
 	/**
 	 * Methode qui permet de rechercher des contenus similaires a un template
 	 * 
-	 * @param template   : le template du contenu qu'on recherche
+	 * @param cd   : le template du contenu qu'on recherche
 	 * @param hops : le nombre de pas pour eviter les appels infinis
 	 * @param matched : les descriptors qui matchent jusqu'a present
 	 * 
-	 * @return Set<ContentDescriptorI> l'ensemble des contenus qui matchent
+	 * @return Set(ContentDescriptorI) l'ensemble des contenus qui matchent
 	 * 
 	 * @throws Exception
 	 */
+	
+
 	public Set<ContentDescriptorI> match(ContentTemplateI cd, int hops, Set<ContentDescriptorI> matched)
 			throws Exception {
 
@@ -268,6 +271,12 @@ public class FacadeContentManagementPlugin extends AbstractPlugin {
 		super.uninstall();
 	}
 
+	/**
+	 * 
+	 * Methode qui est appellee quand la requette find trouve le contenu qui match avec le patron
+	 * @param found : le descripteur retournee
+	 * @param requestURI : l'identifiant de la requette
+	 */
 	public void acceptFound(ContentDescriptorI found, String requestURI) {
 		getOwner().logMessage("acceptFound |  content = " + found + " request = " + requestURI + "\n");
 
@@ -286,10 +295,9 @@ public class FacadeContentManagementPlugin extends AbstractPlugin {
 	/**
 	 * Methode de retour du match
 	 * 
-	 * @param matched : l'ensemble des descriptors trouvés par le match
-	 * @param requestURI : l'uri associé a la requete emise
+	 * @param matched : l'ensemble des descriptors trouves par le match
+	 * @param requestURI : l'uri associe a la requete emise
 	 * 
-	 * @throws Exception
 	 */
 	@SuppressWarnings("null")
 	public void acceptMatched(Set<ContentDescriptorI> matched, String requestURI) {

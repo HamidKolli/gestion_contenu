@@ -225,8 +225,8 @@ public class NodeComponent extends AbstractNodeComponent {
 	
 	/**
 	 * 
-	 * @see fr.gestion_contenu.component.interfaces.AbstractNodeComponent#acceptNeighbours()
-	 *
+	* @see fr.gestion_contenu.component.interfaces.AbstractNodeComponent#acceptNeighbours(java.util.Set)
+	*
 	 */
 	@Override
 	public void acceptNeighbours(Set<PeerNodeAddressI> neighbours) {

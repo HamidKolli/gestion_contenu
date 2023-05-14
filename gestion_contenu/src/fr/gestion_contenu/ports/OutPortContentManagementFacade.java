@@ -4,7 +4,6 @@ import java.util.Set;
 
 import fr.gestion_contenu.content.interfaces.ContentDescriptorI;
 import fr.gestion_contenu.content.interfaces.ContentTemplateI;
-import fr.gestion_contenu.node.interfaces.NodeAddressI;
 import fr.gestion_contenu.ports.interfaces.FacadeContentManagementCI;
 import fr.sorbonne_u.components.ComponentI;
 import fr.sorbonne_u.components.ports.AbstractOutboundPort;

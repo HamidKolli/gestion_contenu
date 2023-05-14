@@ -28,25 +28,23 @@ public class TestReadHashMap {
 	 * Methode statique qui lis les fichiers descriptors test et retourne l'ensemble
 	 * des ContentDescriptors trouves
 	 * 
-	 * @return Set<ContentDescriptorI> : l'ensemble des Descriptions lues
-	 * @throws IOException 
-	 * @throws ClassNotFoundException 
+	 * @return Set ContentDescriptorI : l'ensemble des Descriptions lues
+	 * @throws IOException
+	 * @throws ClassNotFoundException
 	 */
 	@SuppressWarnings("unchecked")
-	public static Set<ContentDescriptorI> readDescriptors(ContentNodeAddressI contentNodeAddressI, int number) throws ClassNotFoundException, IOException {
+	public static Set<ContentDescriptorI> readDescriptors(ContentNodeAddressI contentNodeAddressI, int number)
+			throws ClassNotFoundException, IOException {
 
-
-			ArrayList<HashMap<String, Object>> descriptorsMaps = ContentDataManager.readDescriptors(number);
-			Set<ContentDescriptorI> descriptors = new HashSet<>();
-			for (HashMap<String, Object> descM : descriptorsMaps) {
-					descriptors.add(new ContentDescriptor(((String) descM.get("title")),
-							(String) descM.get("album-title"), 
-							new HashSet<>((List<String>) descM.get("interpreters")),
-							new HashSet<>((List<String>) descM.get("composers")),
-							contentNodeAddressI,
-							(Long)descM.get("size")));
-			}
-			return descriptors;
+		ArrayList<HashMap<String, Object>> descriptorsMaps = ContentDataManager.readDescriptors(number);
+		Set<ContentDescriptorI> descriptors = new HashSet<>();
+		for (HashMap<String, Object> descM : descriptorsMaps) {
+			descriptors.add(new ContentDescriptor(((String) descM.get("title")), (String) descM.get("album-title"),
+					new HashSet<>((List<String>) descM.get("interpreters")),
+					new HashSet<>((List<String>) descM.get("composers")), contentNodeAddressI,
+					(Long) descM.get("size")));
+		}
+		return descriptors;
 
 	}
 
@@ -54,9 +52,9 @@ public class TestReadHashMap {
 	 * Methode statique qui lis les fichiers templates test et retourne l'ensemble
 	 * des ContentTemplates trouves
 	 * 
-	 * @return Set<ContentDescriptorI> : l'ensemble des Templates lus
-	 * @throws IOException 
-	 * @throws ClassNotFoundException 
+	 * @return Set ContentDescriptorI  : l'ensemble des Templates lus
+	 * @throws IOException
+	 * @throws ClassNotFoundException
 	 */
 	@SuppressWarnings("unchecked")
 	public static List<ContentTemplateI> readTemplate(int number) throws ClassNotFoundException, IOException {
@@ -64,13 +62,11 @@ public class TestReadHashMap {
 		ArrayList<HashMap<String, Object>> descriptorsMaps = ContentDataManager.readTemplates(number);
 		List<ContentTemplateI> descriptors = new ArrayList<>();
 		for (HashMap<String, Object> descM : descriptorsMaps) {
-				descriptors.add(new ContentTemplate(((String) descM.get("title")),
-						(String) descM.get("album-title"), 
-						new HashSet<>((List<String>) descM.get("interpreters")),
-						new HashSet<>((List<String>) descM.get("composers"))));
+			descriptors.add(new ContentTemplate(((String) descM.get("title")), (String) descM.get("album-title"),
+					new HashSet<>((List<String>) descM.get("interpreters")),
+					new HashSet<>((List<String>) descM.get("composers"))));
 		}
 		return descriptors;
 	}
-
 
 }

@@ -20,9 +20,9 @@ public abstract class AbstractAddress implements NodeAddressI,ContentManagementN
 	/**
 	 * constructeur
 	 * 
-	 * @param nodeIdentifier
-	 * @param contentManagementURI
-	 * @param isFacade
+	 * @param nodeIdentifier : l'identifiant du noeud
+	 * @param contentManagementURI : l'identifiant du port entrant de gestion des contenus
+	 * @param isFacade : pour avoir si c'est une facade ou pas
 	 */
 	public AbstractAddress(String nodeIdentifier, String contentManagementURI, boolean isFacade) {
 		super();
@@ -75,7 +75,7 @@ public abstract class AbstractAddress implements NodeAddressI,ContentManagementN
 	/**
 	 *methode equals
 	 *
-	 *@param obj : l'objet à comparer
+	 *@param obj : l'objet a comparer
 	 *@return boolean : resultat de l'equivalence
 	 */
 	@Override

@@ -15,9 +15,9 @@ public class ApplicationNodeAddress extends AbstractAddress implements Applicati
 	/**
 	 * Constructeur
 	 * 
-	 * @param managementURI
-	 * @param nodeIdentifier
-	 * @param contentManagementURI
+	 * @param managementURI : l'uri du port entrant de node management
+	 * @param nodeIdentifier : identifiant du noeud
+	 * @param contentManagementURI : l'uri du port entrant de content management
 	 */
 	public ApplicationNodeAddress(String managementURI, String nodeIdentifier, String contentManagementURI) {
 		super(nodeIdentifier, contentManagementURI, true);
@@ -38,7 +38,7 @@ public class ApplicationNodeAddress extends AbstractAddress implements Applicati
 	/**
 	 *methode equals
 	 *
-	 *@param obj : l'objet à comparer
+	 *@param obj : l'objet a comparer
 	 *@return boolean : resultat de l'equivalence
 	 */
 	@Override

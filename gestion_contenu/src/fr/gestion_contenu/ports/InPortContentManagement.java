@@ -5,7 +5,6 @@ import java.util.Set;
 import fr.gestion_contenu.content.interfaces.ContentDescriptorI;
 import fr.gestion_contenu.content.interfaces.ContentTemplateI;
 import fr.gestion_contenu.node.interfaces.NodeAddressI;
-import fr.gestion_contenu.node.interfaces.PeerNodeAddressI;
 import fr.gestion_contenu.plugins.ContentManagementPlugin;
 import fr.gestion_contenu.ports.interfaces.ContentManagementCI;
 import fr.sorbonne_u.components.AbstractComponent;
@@ -31,7 +30,7 @@ public class InPortContentManagement extends AbstractInboundPort implements Cont
 	 * @param uri   : l'URI du port
 	 * @param owner : le composant qui le possede
 	 * @param pluginURI : l'uri du plugin
-	 * @param uriContentManagement 
+	 * @param uriContentManagement : l'uri du service executor
 	 * @throws Exception
 	 */
 	public InPortContentManagement(String uri, ComponentI owner, String pluginURI, String uriContentManagement) throws Exception {

@@ -139,7 +139,7 @@ public class DistributedCVM extends AbstractDistributedCVM {
 			DistributedCVM cvm = new DistributedCVM(args);
 			cvm.startStandardLifeCycle(60000L);
 			Thread.sleep(70000L);
-			EXPERIMENTATION.writeExperimentations();
+			Experimentation.writeExperimentations();
 			System.exit(0);
 		} catch (Exception e) {
 			e.printStackTrace();

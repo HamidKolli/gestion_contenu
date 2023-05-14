@@ -16,14 +16,21 @@ import fr.sorbonne_u.components.annotations.RequiredInterfaces;
 
 @RequiredInterfaces(required = { NodeCI.class, ContentManagementCI.class, NodeManagementCI.class })
 @OfferedInterfaces(offered = { ContentManagementCI.class, NodeCI.class })
+
 /**
  * 
- * @author Hamid KOLLI
- * @author Yanis ALAYOUD
+
  * 
- * Classe abstraite qui gere les composant de noeud 
+
  *
  */
+
+ /**
+  * 
+  * @author Hamid KOLLI && Yanis ALAYOUD
+  * 
+  * Classe abstraite qui gere les composant de noeud 
+  */
 public abstract class AbstractNodeComponent extends AbstractComponent  {
 
 	protected AbstractNodeComponent(int nbThreads, int nbSchedulableThreads) {
@@ -33,7 +40,7 @@ public abstract class AbstractNodeComponent extends AbstractComponent  {
 	/**
 	 * 
 	 * Methode qui fait un match entre le template et le descripteur du noeud
-	 * @param template 
+	 * @param template : le patron qu'on recherche 
 	 * @return les descripteurs s'il y a match
 	 */
 	public abstract List<ContentDescriptorI> match(ContentTemplateI template);
@@ -41,20 +48,20 @@ public abstract class AbstractNodeComponent extends AbstractComponent  {
 
 	/**
 	 * Methode qui permet de quitter le reseau
-	 * @throws Exception
+	 * @throws Exception  : exceptions liees au publications et connexions des ports
 	 */
 	public abstract void leave() throws Exception;
 	
 		
 	/**
 	* Methode qui permet de rejoindre un reseau
-	* @throws Exception
+	* @throws Exception  : exceptions liees au publications et connexions des ports
 	*/
 	public abstract void join() throws Exception;
 
 	/**
 	 * Methode de retour de resultat du join 
-	 * @param neighbours
+	 * @param neighbours : l'ensembles des uri des futures voisins
 	 */
 	public abstract void acceptNeighbours(Set<PeerNodeAddressI> neighbours);
 }

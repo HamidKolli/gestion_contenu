@@ -23,6 +23,8 @@ public interface ContentManagementClientCI extends OfferedCI,RequiredCI {
 	 * @param hops : le nombre de pas pour eviter les appels infinis
 	 * 
 	 * @throws Exception
+	 * 
+	 * @return le contenu si elle le trouve ou null sinon
 	 */
 	public ContentDescriptorI find(ContentTemplateI template,int hops) throws Exception;
 	
@@ -33,7 +35,7 @@ public interface ContentManagementClientCI extends OfferedCI,RequiredCI {
 	 * @param hops : le nombre de pas pour eviter les appels infinis
 	 * @param matched : les descriptors qui matchent jusqu'a present
 	 * 
-	 * @return Set<ContentDescriptorI> l'ensemble des contenus qui matchent
+	 * @return Set(ContentDescriptorI) l'ensemble des contenus qui matchent
 	 * 
 	 * @throws Exception
 	 */

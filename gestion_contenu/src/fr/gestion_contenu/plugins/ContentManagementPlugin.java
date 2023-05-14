@@ -44,9 +44,8 @@ public class ContentManagementPlugin extends ConnectionNodePlugin {
 	 * Constructeur
 	 * 
 	 * @param contentNodeAddress   : l'addresse du noeud en question
-	 * @param uriContentManagement
-	 * @param uriConnection
-	 * @param id
+	 * @param uriContentManagement : l'URI du service executor qui gere les requettes sur les contenus 
+	 * @param uriConnection : l'URI du service executor qui gere les connexions entre les noeuds
 	 */
 	public ContentManagementPlugin(ContentNodeAddressI contentNodeAddress, String uriConnection,
 			String uriContentManagement) {
@@ -110,10 +109,10 @@ public class ContentManagementPlugin extends ConnectionNodePlugin {
 	 * @param cd        : le contentTemplate que l'on cherche
 	 * @param hops      : le nombre de sauts restant avant de mettre un terme a la
 	 *                  recherche
-	 * @param uriReturn : l'uri du client ayant fait la requete
+	 * @param facade : les adresses de la facade d'ou le client a lancer la requette find
+	 * @param requestURI : l'identifiant de la requette vise a vis de la facade
 	 * @throws Exception
 	 */
-
 	public void find(ContentTemplateI cd, int hops, NodeAddressI facade, String requestURI) throws Exception {
 		getOwner().logMessage("find | start find node tamplate = " + cd + "\n");
 
@@ -151,7 +150,7 @@ public class ContentManagementPlugin extends ConnectionNodePlugin {
 	 *                  recherche
 	 * @param facade	: l'adresse de la facade a qui retourner
 	 * 
-	 * @param requestURI
+	 * @param requestURI : l'identifiant de la requette vise a vis de la facade
 	 * @param matched   : l'ensemble des ContentDescriptor qui matchent jusqu'a
 	 *                  present
 	 * 
@@ -239,6 +238,7 @@ public class ContentManagementPlugin extends ConnectionNodePlugin {
 	 * 
 	 * @param peer : le noeud pair auquel se connecter en retour
 	 * 
+	 * @return le port sortant de content management vers le noeud ou on se connecte
 	 * @throws Exception
 	 */
 	public synchronized OutPortContentManagement connectBack(PeerNodeAddressI peer) throws Exception {

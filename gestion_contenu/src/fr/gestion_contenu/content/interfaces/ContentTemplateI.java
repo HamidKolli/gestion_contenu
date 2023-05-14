@@ -23,12 +23,12 @@ public interface ContentTemplateI {
 	public String getAlbumTitle();
 	/**
 	 * getter
-	 * @return Set<String> : le ou les interpretes de cette musique
+	 * @return Set(String) : le ou les interpretes de cette musique
 	 */
 	public Set<String> getInterpreters();
 	/**
 	 * getter
-	 * @return Set<String> : le ou les compositeurs de cette musique
+	 * @return Set(String) : le ou les compositeurs de cette musique
 	 */
 	public Set<String> getComposers();
 }
