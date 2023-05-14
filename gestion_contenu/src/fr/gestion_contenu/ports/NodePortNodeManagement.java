@@ -8,7 +8,8 @@ import fr.sorbonne_u.components.ports.AbstractOutboundPort;
 
 /**
  * 
- * @author Hamid KOLLI && Yanis ALAYOUD 
+ * @author Hamid KOLLI
+ * @author Yanis ALAYOUD
  * 
  * 		   Classe qui represente le port sorant
  *         d'un noeud pour une connexion au reseau
@@ -30,7 +31,7 @@ public class NodePortNodeManagement extends AbstractOutboundPort implements Node
 
 	/**
 	 * 
-	 * @see fr.gestion_contenu.component.interfaces.IConnectFacadeRequest#join(fr.gestion_contenu.node.interfaces.PeerNodeAddressI)
+	 * @see fr.gestion_contenu.ports.interfaces.NodeManagementCI#join(PeerNodeAddressI)
 	 *
 	 */
 	@Override
@@ -40,7 +41,7 @@ public class NodePortNodeManagement extends AbstractOutboundPort implements Node
 
 	/**
 	 * 
-	 * @see fr.gestion_contenu.component.interfaces.IConnectFacadeRequest#leave(fr.gestion_contenu.node.interfaces.PeerNodeAddressI)
+	 * @see fr.gestion_contenu.ports.interfaces.NodeManagementCI#leave(PeerNodeAddressI)
 	 *
 	 */
 	@Override
@@ -48,12 +49,22 @@ public class NodePortNodeManagement extends AbstractOutboundPort implements Node
 		((NodeManagementCI) getConnector()).leave(a);
 	}
 
+	/**
+	 * 
+	 * @see fr.gestion_contenu.ports.interfaces.NodeManagementCI#acceptProbed(PeerNodeAddressI, String)
+	 *
+	 */
 	@Override
 	public void acceptProbed(PeerNodeAddressI peer, String requestURI) throws Exception {
 		((NodeManagementCI) getConnector()).acceptProbed(peer, requestURI);
 		
 	}
 
+	/**
+	 * 
+	 * @see fr.gestion_contenu.ports.interfaces.ProbingCI#probe(int, FacadeNodeAddressI, String, int, PeerNodeAddressI)
+	 *
+	 */
 	@Override
 	public void probe(int remaingHops, FacadeNodeAddressI facade, String request,int nbVoisin, PeerNodeAddressI addressNode) throws Exception {
 		((NodeManagementCI) getConnector()).probe(remaingHops, facade, request,nbVoisin,addressNode);

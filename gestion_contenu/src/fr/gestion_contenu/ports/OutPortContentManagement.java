@@ -5,15 +5,17 @@ import java.util.Set;
 import fr.gestion_contenu.content.interfaces.ContentDescriptorI;
 import fr.gestion_contenu.content.interfaces.ContentTemplateI;
 import fr.gestion_contenu.node.interfaces.NodeAddressI;
+import fr.gestion_contenu.node.interfaces.PeerNodeAddressI;
 import fr.gestion_contenu.ports.interfaces.ContentManagementCI;
 import fr.sorbonne_u.components.ComponentI;
 import fr.sorbonne_u.components.ports.AbstractOutboundPort;
 
 /**
  * 
- * @author Hamid KOLLI && Yanis ALAYOUD
+ * @author Hamid KOLLI
+ * @author Yanis ALAYOUD
  * 
- *         Classe qui represente le port sortant d'un noeud/facade pour les
+ *         Classe qui represente le port sortant d'un noeud pour les
  *         requetes sur les contenus
  */
 public class OutPortContentManagement extends AbstractOutboundPort implements ContentManagementCI {
@@ -33,8 +35,7 @@ public class OutPortContentManagement extends AbstractOutboundPort implements Co
 
 	/**
 	 * 
-	 * @see fr.gestion_contenu.component.interfaces.IContentRequest#find(fr.gestion_contenu.content.interfaces.ContentTemplateI,
-	 *      int)
+	 * @see fr.gestion_contenu.ports.interfaces.ContentManagementCI#find(ContentTemplateI, int, NodeAddressI, String)
 	 *
 	 */
 	@Override
@@ -44,8 +45,7 @@ public class OutPortContentManagement extends AbstractOutboundPort implements Co
 
 	/**
 	 * 
-	 * @see fr.gestion_contenu.component.interfaces.IContentRequest#match(fr.gestion_contenu.content.interfaces.ContentTemplateI,
-	 *      java.util.Set, int)
+	 * @see fr.gestion_contenu.ports.interfaces.ContentManagementCI#match(ContentTemplateI, int, NodeAddressI, String, Set)
 	 *
 	 */
 	@Override

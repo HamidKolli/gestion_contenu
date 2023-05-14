@@ -27,7 +27,8 @@ import fr.sorbonne_u.components.AbstractPort;
 import fr.sorbonne_u.components.ComponentI;
 
 /**
- * @author Hamid KOLLI && Yanis ALAYOUD
+ * @author Hamid KOLLI
+ * @author Yanis ALAYOUD
  * 
  *         Plugin s'occupant des differentes operations de match et find liees
  *         aux connexions de ContentManagement au niveau de la facade
@@ -56,6 +57,7 @@ public class FacadeContentManagementPlugin extends AbstractPlugin {
 	private static Lock printLock = new ReentrantLock();
 	private final String uriExecutorReleaseClient;
 
+
 	/**
 	 * Constructeur
 	 * 
@@ -63,7 +65,8 @@ public class FacadeContentManagementPlugin extends AbstractPlugin {
 	 * @param nbRoot
 	 * @param uriContentManagement
 	 * @param uriExecutorReleaseClient
-	 * 
+	 * @param uriFacadeSuivante
+	 * @param connectNodeRoot
 	 */
 	public FacadeContentManagementPlugin(ApplicationNodeAddressI applicationNodeAddress, int nbRoot,
 			String uriContentManagement, String uriExecutorReleaseClient, ApplicationNodeAddressI uriFacadeSuivante,
@@ -107,6 +110,14 @@ public class FacadeContentManagementPlugin extends AbstractPlugin {
 
 	}
 
+	/**
+	 * Methode qui permet de rechercher un contenu
+	 * 
+	 * @param template   : le template du contenu qu'on recherche
+	 * @param hops : le nombre de pas pour eviter les appels infinis
+	 * 
+	 * @throws Exception
+	 */
 	public ContentDescriptorI find(ContentTemplateI cd, int hops) throws Exception {
 		getOwner().traceMessage("find " + cd + "\n");
 		getOwner().logMessage("find | debut  cd = " + cd + "\n");
@@ -152,6 +163,18 @@ public class FacadeContentManagementPlugin extends AbstractPlugin {
 		return resultFind.remove(requestURI);
 	}
 
+	
+	/**
+	 * Methode qui permet de rechercher des contenus similaires a un template
+	 * 
+	 * @param template   : le template du contenu qu'on recherche
+	 * @param hops : le nombre de pas pour eviter les appels infinis
+	 * @param matched : les descriptors qui matchent jusqu'a present
+	 * 
+	 * @return Set<ContentDescriptorI> l'ensemble des contenus qui matchent
+	 * 
+	 * @throws Exception
+	 */
 	public Set<ContentDescriptorI> match(ContentTemplateI cd, int hops, Set<ContentDescriptorI> matched)
 			throws Exception {
 
@@ -187,6 +210,9 @@ public class FacadeContentManagementPlugin extends AbstractPlugin {
 		return resultMatch.remove(requestURI);
 	}
 
+	/**
+	 * @see fr.sorbonne_u.components.PluginI#finalise()
+	 */
 	@Override
 	public void finalise() throws Exception {
 
@@ -257,6 +283,14 @@ public class FacadeContentManagementPlugin extends AbstractPlugin {
 
 	}
 
+	/**
+	 * Methode de retour du match
+	 * 
+	 * @param matched : l'ensemble des descriptors trouvés par le match
+	 * @param requestURI : l'uri associé a la requete emise
+	 * 
+	 * @throws Exception
+	 */
 	@SuppressWarnings("null")
 	public void acceptMatched(Set<ContentDescriptorI> matched, String requestURI) {
 		getOwner().logMessage("acceptMatched | request = " + requestURI + "\n");

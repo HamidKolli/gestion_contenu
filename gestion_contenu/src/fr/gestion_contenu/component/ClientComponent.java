@@ -24,7 +24,8 @@ import fr.sorbonne_u.utils.aclocks.AcceleratedClock;
 
 /**
  * 
- * @author Hamid KOLLI && Yanis ALAYOUD
+ * @author Hamid KOLLI
+ * @author Yanis ALAYOUD
  *
  *         Un exemple de classe de client
  */

@@ -3,6 +3,12 @@ package fr.gestion_contenu.experimentation;
 import java.io.File;
 import java.io.FileWriter;
 
+/**
+ * @author Hamid KOLLI
+ * @author Yanis ALAYOUD
+ *
+ *	Classe effectuant les experimentations (sur le nb de threads/voisins etc...) afin de les ecrire dans un tableau 
+ */
 public class Experimentation {
 	private static int nbThreadContentManagementFacade;
 	private static int nbThreadNodeManagementFacade;
@@ -21,6 +27,15 @@ public class Experimentation {
 
 	private static String filename;
 
+	/**
+	 * Constructeur
+	 * 
+	 * @param nbThreadNodeManagementFacade
+	 * @param nbThreadNodeManagementNode
+	 * @param nbThreadContentManagement
+	 * @param nbThreadContentManagementFacade
+	 * @param filename
+	 */
 	public Experimentation(int nbThreadNodeManagementFacade, int nbThreadNodeManagementNode,
 			int nbThreadContentManagement, int nbThreadContentManagementFacade, String filename) {
 		super();
@@ -31,78 +46,173 @@ public class Experimentation {
 		Experimentation.nbThreadContentManagementFacade = nbThreadContentManagementFacade;
 	}
 
+	/**
+	 * getter
+	 * 
+	 * @return int
+	 */
 	public static int getNbVoisinMax() {
 		return nbVoisinMax;
 	}
 
+	/**
+	 * setter
+	 * 
+	 * @param nbVoisinMax
+	 */
 	public static void setNbVoisinMax(int nbVoisinMax) {
 		Experimentation.nbVoisinMax = nbVoisinMax;
 	}
 
+	/**
+	 * getter
+	 * 
+	 * @return int
+	 */
 	public static int getNbVoisinMin() {
 		return nbVoisinMin;
 	}
 
+	/**
+	 * setter
+	 * 
+	 * @param nbVoisinMin
+	 */
 	public static void setNbVoisinMin(int nbVoisinMin) {
 		Experimentation.nbVoisinMin = nbVoisinMin;
 	}
 
+	/**
+	 * getter
+	 * 
+	 * @return double
+	 */
 	public static double getMoyNbVoisin() {
 		return moyNbVoisin;
 	}
 
+	/**
+	 * setter
+	 * 
+	 * @param moyNbVoisin
+	 */
 	public static void setMoyNbVoisin(double moyNbVoisin) {
 		Experimentation.moyNbVoisin = moyNbVoisin;
 	}
 
+	/**
+	 * getter
+	 * 
+	 * @return int
+	 */
 	public static int getNbReqFailed() {
 		return nbReqFailed;
 	}
 
+	/**
+	 * setter
+	 * 
+	 * @param nbReqFaile
+	 */
 	public static void setNbReqFailed(int nbReqFaile) {
 		nbReqFailed = nbReqFaile;
 	}
 
+	/**
+	 * getter
+	 * 
+	 * @return int
+	 */
 	public static int getNbReqFindSuccess() {
 		return nbReqFindSuccess;
 	}
 
+	/**
+	 * setter
+	 * 
+	 * @param nbReqFindSuccess
+	 */
 	public static void setNbReqFindSuccess(int nbReqFindSuccess) {
 		Experimentation.nbReqFindSuccess = nbReqFindSuccess;
 	}
 
+	/**
+	 * getter
+	 * 
+	 * @return long
+	 */
 	public static long getTimeMaxReq() {
 		return timeMaxReq;
 	}
 
+	/**
+	 * setter
+	 * 
+	 * @param timeMaxReq
+	 */
 	public static void setTimeMaxReq(long timeMaxReq) {
 		Experimentation.timeMaxReq = timeMaxReq;
 	}
 
+	/**
+	 * getter
+	 * 
+	 * @return long
+	 */
 	public static long getTimeMinReq() {
 		return timeMinReq;
 	}
 
+	/**
+	 * setter
+	 * 
+	 * @param timeMinReq
+	 */
 	public static void setTimeMinReq(long timeMinReq) {
 		Experimentation.timeMinReq = timeMinReq;
 	}
 
+	/**
+	 * getter
+	 * 
+	 * @return double
+	 */
 	public static double getTimeMoyReq() {
 		return timeMoyReq;
 	}
 
+	/**
+	 * setter
+	 * 
+	 * @param timeMoyReq
+	 */
 	public static void setTimeMoyReq(double timeMoyReq) {
 		Experimentation.timeMoyReq = timeMoyReq;
 	}
 
+	/**
+	 * getter
+	 * 
+	 * @return int
+	 */
 	public static int getNbThreadNodeManagementFacade() {
 		return nbThreadNodeManagementFacade;
 	}
 
+	/**
+	 * getter
+	 * 
+	 * @return int
+	 */
 	public static int getNbThreadNodeManagementNode() {
 		return nbThreadNodeManagementNode;
 	}
 
+	/**
+	 * getter
+	 * 
+	 * @return int
+	 */
 	public static int getNbThreadContentManagement() {
 		return nbThreadContentManagementNode;
 	}
@@ -125,6 +235,11 @@ public class Experimentation {
 	public static final String TIME_REQ_MIN = "Temps Req min (ms)";
 	public static final String TIME_REQ_MOY = "Temps moyen (ms)";
 
+	/**
+	 * methode entete : ecris dans le fichier les intitules de chaque colonnes du tableau
+	 * 
+	 * @param file
+	 */
 	private static void entete(File file) {
 
 		try (FileWriter bw = new FileWriter(file, true)) {
@@ -140,6 +255,9 @@ public class Experimentation {
 
 	}
 
+	/**
+	 * methode writeExperimentations : ecris une nouvelle ligne dans le fichier correspondant aux valeurs testées
+	 */
 	public static void writeExperimentations() {
 
 		File file = new File(DIR_NAME + filename + EXTENSION);
@@ -161,6 +279,11 @@ public class Experimentation {
 
 	}
 
+	/**
+	 * getter
+	 * 
+	 * @return int
+	 */
 	public static int getNbThreadContentManagementFacade() {
 		return nbThreadContentManagementFacade;
 	}

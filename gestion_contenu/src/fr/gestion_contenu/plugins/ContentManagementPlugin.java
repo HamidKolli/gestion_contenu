@@ -25,7 +25,8 @@ import fr.gestion_contenu.ports.interfaces.FacadeContentManagementCI;
 import fr.sorbonne_u.components.ComponentI;
 
 /**
- * @author Hamid KOLLI && Yanis ALAYOUD
+ * @author Hamid KOLLI
+ * @author Yanis ALAYOUD
  *
  *         Plugin s'occupant des differentes operations de connexion,
  *         deconnexion, match et find liees aux connexions de ContentManagement
@@ -86,10 +87,11 @@ public class ContentManagementPlugin extends ConnectionNodePlugin {
 	/**
 	 * Methode appelee si le hop du find est a 0 ou si le contenu est trouve : en
 	 * mode asynchrone on cree directement un port sortant sur le noeud courant pour
-	 * etablir une connexion vers le client et transmettre direct l'info du find
+	 * etablir une connexion vers la facade et transmettre direct l'info du find
 	 * 
 	 * @param cd        : le contentDescriptor qui a ete trouve
-	 * @param uriReturn : l'uri du client ayant fait la requete
+	 * @param uriReturn : l'uri de la facade ayant fait la requete
+	 * @param requestURI
 	 * @throws Exception
 	 */
 	private void returnFind(ContentDescriptorI cd, String uriReturn, String requestURI) throws Exception {
@@ -145,11 +147,14 @@ public class ContentManagementPlugin extends ConnectionNodePlugin {
 	 * de contenu du noeud courant.
 	 * 
 	 * @param cd        : le contentTemplate que l'on compare
-	 * @param matched   : l'ensemble des ContentDescriptor qui matchent jusqu'a
-	 *                  present
 	 * @param hops      : le nombre de sauts restant avant de mettre un terme a la
 	 *                  recherche
-	 * @param uriReturn : l'uri du client ayant fait la requete
+	 * @param facade	: l'adresse de la facade a qui retourner
+	 * 
+	 * @param requestURI
+	 * @param matched   : l'ensemble des ContentDescriptor qui matchent jusqu'a
+	 *                  present
+	 * 
 	 * @throws Exception
 	 */
 
@@ -190,9 +195,12 @@ public class ContentManagementPlugin extends ConnectionNodePlugin {
 	}
 
 	/**
-	 * @see ConnectionNodePlugin#connect(PeerNodeAddressI)
+	 * Methode effectuant la connexion au noeud pair passe en parametre
+	 * 
+	 * @param peer : le noeud pair auquel se connecter
+	 * 
+	 * @throws Exception
 	 */
-
 	public synchronized void connect(PeerNodeAddressI peer) throws Exception {
 		if (connectNodeContent.containsKey(peer))
 			return;
@@ -207,7 +215,7 @@ public class ContentManagementPlugin extends ConnectionNodePlugin {
 	}
 
 	/**
-	 * Methode effectuant la deconnexion du noeud courant au noeud passe en
+	 * Methode effectuant la deconnexion du noeud courant au noeud pair passe en
 	 * parametre
 	 * 
 	 * @param peer : noeud pair auquel on se deconnecte
@@ -226,9 +234,13 @@ public class ContentManagementPlugin extends ConnectionNodePlugin {
 	}
 
 	/**
-	 * @see ConnectionNodePlugin#connectBack(PeerNodeAddressI)
+	 * Methode appelee suite a un connect afin d'effectuer la connexion dans l'autre
+	 * sens
+	 * 
+	 * @param peer : le noeud pair auquel se connecter en retour
+	 * 
+	 * @throws Exception
 	 */
-
 	public synchronized OutPortContentManagement connectBack(PeerNodeAddressI peer) throws Exception {
 		if (connectNodeContent.containsKey(peer))
 			return null;
@@ -243,7 +255,11 @@ public class ContentManagementPlugin extends ConnectionNodePlugin {
 	}
 
 	/**
-	 * @see ConnectionNodePlugin#disconnectBack(PeerNodeAddressI)
+	 * Methode appelee suite a un disconnect afin d'effectuer la deconnexion dans
+	 * l'autre sens
+	 * 
+	 * @param peer : le noeud pair auquel se deconnecter
+	 * @throws Exception
 	 */
 	@Override
 	public synchronized void disconnectBack(PeerNodeAddressI peer) throws Exception {
@@ -270,7 +286,7 @@ public class ContentManagementPlugin extends ConnectionNodePlugin {
 	}
 
 	/**
-	 * @see ConnectionNodePlugin#finalise()
+	 * @see fr.sorbonne_u.components.PluginI#finalise()
 	 */
 	@Override
 	public void finalise() throws Exception {
@@ -282,7 +298,7 @@ public class ContentManagementPlugin extends ConnectionNodePlugin {
 	}
 
 	/**
-	 * @see ConnectionNodePlugin#uninstall()
+	 * @see fr.sorbonne_u.components.PluginI#uninstall()
 	 */
 	@Override
 	public void uninstall() throws Exception {

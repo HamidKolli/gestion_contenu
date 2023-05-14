@@ -8,7 +8,8 @@ import fr.gestion_contenu.node.interfaces.ContentNodeAddressI;
 
 /**
  * 
- * @author Hamid KOLLI && Yanis ALAYOUD
+ * @author Hamid KOLLI
+ * @author Yanis ALAYOUD
  *
  *        Classe representant un ContentDescriptor
  */

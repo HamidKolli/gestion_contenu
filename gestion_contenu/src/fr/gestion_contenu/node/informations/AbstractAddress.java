@@ -3,12 +3,27 @@ package fr.gestion_contenu.node.informations;
 import fr.gestion_contenu.node.interfaces.ContentManagementNodeAddressI;
 import fr.gestion_contenu.node.interfaces.NodeAddressI;
 
+
+/**
+ * 
+ * @author Hamid KOLLI
+ * @author Yanis ALAYOUD
+ *
+ *         Classe Abstraite gerant les adresses des ports
+ */
 public abstract class AbstractAddress implements NodeAddressI,ContentManagementNodeAddressI{
 	private String nodeIdentifier;
 	private String contentManagementURI;
 	private boolean isFacade;
 	private boolean isPeer;
 	
+	/**
+	 * constructeur
+	 * 
+	 * @param nodeIdentifier
+	 * @param contentManagementURI
+	 * @param isFacade
+	 */
 	public AbstractAddress(String nodeIdentifier, String contentManagementURI, boolean isFacade) {
 		super();
 		assert nodeIdentifier != null;
@@ -57,6 +72,12 @@ public abstract class AbstractAddress implements NodeAddressI,ContentManagementN
 
 
 
+	/**
+	 *methode equals
+	 *
+	 *@param obj : l'objet à comparer
+	 *@return boolean : resultat de l'equivalence
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

@@ -5,7 +5,8 @@ import fr.sorbonne_u.components.AbstractComponent;
 
 /**
  * 
- * @author Hamid KOLLI && Yanis ALAYOUD
+ * @author Hamid KOLLI
+ * @author Yanis ALAYOUD
  * 
  * Classe abstraite qu'un client doit heriter pour effectuer des requetes
  */
@@ -26,7 +27,6 @@ public abstract class AbstractClientComponent extends AbstractComponent{
 	 * 
 	 * Methode qui permet a un client de lancer une requete find
 	 * @param template : le template du contenu rechercher 
-	 * @return une description du contenu
 	 * @throws Exception
 	 */
 	public abstract void find(ContentTemplateI template) throws Exception;
@@ -35,7 +35,6 @@ public abstract class AbstractClientComponent extends AbstractComponent{
 	 * 
 	 * Methode qui permet a un client de lancer une requete match
 	 * @param template : le template du contenu rechercher 
-	 * @return l'essemble des descriptions du contenu
 	 * @throws Exception
 	 */
 	public abstract void match(ContentTemplateI template) throws Exception;

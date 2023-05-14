@@ -10,6 +10,14 @@ import org.junit.Test;
 import fr.gestion_contenu.node.informations.ContentNodeAddress;
 import fr.gestion_contenu.node.interfaces.ContentNodeAddressI;
 
+
+/**
+ * @author Hamid KOLLI
+ * @author Yanis ALAYOUD
+ * 
+ * Classe de tests Unitaires JUNIT
+ *
+ */
 public class TestContentNodeAddress {
 
 	

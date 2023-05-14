@@ -27,8 +27,10 @@ import fr.sorbonne_u.utils.aclocks.AcceleratedClock;
 
 /**
  * 
- * @author Hamid KOLLI && Yanis ALAYOUD Classe concrete qui gere les composant
- *         de noeud
+ * @author Hamid KOLLI
+ * @author Yanis ALAYOUD
+ * 
+ * Classe concrete qui gere les composant de noeud
  *
  */
 public class NodeComponent extends AbstractNodeComponent {
@@ -219,7 +221,13 @@ public class NodeComponent extends AbstractNodeComponent {
 		}
 		super.shutdown();
 	}
-
+	
+	
+	/**
+	 * 
+	 * @see fr.gestion_contenu.component.interfaces.AbstractNodeComponent#acceptNeighbours()
+	 *
+	 */
 	@Override
 	public void acceptNeighbours(Set<PeerNodeAddressI> neighbours) {
 		this.neighbours = new ArrayList<>(neighbours) ;

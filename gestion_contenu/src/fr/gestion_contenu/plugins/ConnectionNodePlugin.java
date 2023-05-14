@@ -23,7 +23,8 @@ import fr.sorbonne_u.components.AbstractPlugin;
 import fr.sorbonne_u.components.ComponentI;
 
 /**
- * @author Hamid KOLLI && Yanis ALAYOUD
+ * @author Hamid KOLLI
+ * @author Yanis ALAYOUD
  *
  *         Plugin s'occupant des differentes operations de connexion et
  *         deconnexion entre noeuds pairs
@@ -48,7 +49,6 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 	 * 
 	 * @param nodeAddresses : l'addresse du noeud pair concerne
 	 * @param uriConnection
-	 * @param id
 	 */
 	public ConnectionNodePlugin(PeerNodeAddressI nodeAddresses, String uriConnection) {
 		super();
@@ -86,7 +86,7 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 	 * Methode effectuant la connexion au noeud pair passe en parametre
 	 * 
 	 * @param peer : le noeud pair auquel se connecter
-	 * @return OutPortContentManagement : le port sortant cree pour la connexion
+	 * 
 	 * @throws Exception
 	 */
 	protected void connectNode(PeerNodeAddressI peer) throws Exception {
@@ -104,7 +104,7 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 	 * Methode effectuant la deconnexion au noeud pair passe en parametre
 	 * 
 	 * @param peer        : le noeud pair auquel se deconnecter
-	 * @param portContent : le port sortant du noeud pair qui se deconnecte
+	 * 
 	 * @throws Exception
 	 */
 	protected void disconnect(PeerNodeAddressI peer) throws Exception {
@@ -125,8 +125,8 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 	 * Methode appelee suite a un connect afin d'effectuer la connexion dans l'autre
 	 * sens
 	 * 
-	 * @param peer : le noeud pair auquel se conneecter en retour
-	 * @return OutPortContentManagement : le port sortant cree pour la connexion
+	 * @param peer : le noeud pair auquel se connecter en retour
+	 * 
 	 * @throws Exception
 	 */
 	protected void connectBackNode(PeerNodeAddressI peer) throws Exception {
@@ -166,6 +166,16 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 
 	}
 
+	/**
+	 * Methode Probe : effectue le sondage
+	 * 
+	 * @param remaingHops : nb de sauts du probe
+	 * @param facade : Adresse de la Façade effectuant le probe
+	 * @param request : uri du noeud concerné par la requete
+	 * @param nbVoisin : nb de voisins du noeud
+	 * @param addressNode : adresse du noeud pair
+	 * @throws Exception
+	 */
 	public synchronized void probe(int remaingHops, FacadeNodeAddressI facade, String request, int nbVoisin,
 			PeerNodeAddressI addressNode) throws Exception {
 		getOwner().logMessage("probe | probe node \n");
@@ -270,10 +280,18 @@ public class ConnectionNodePlugin extends AbstractPlugin {
 		super.uninstall();
 	}
 
+	/**
+	 * Methode de retour de resultat du join 
+	 * @param neighbours : l'ensemble des voisins
+	 */
 	public void acceptNeighbours(Set<PeerNodeAddressI> neighbours) {
 		((AbstractNodeComponent) getOwner()).acceptNeighbours(neighbours);
 	}
 
+	/**
+	 * Methode de retour de resultat du connect 
+	 * @param neighbour : le voisin auquel la connection est faite
+	 */
 	public void acceptConnected(PeerNodeAddressI neighbour) {
 		getOwner().logMessage("acceptConnected | Accept connect " + neighbour.getNodeIdentifier() + "\n");
 	}

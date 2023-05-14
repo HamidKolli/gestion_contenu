@@ -4,9 +4,10 @@ import fr.gestion_contenu.node.interfaces.ApplicationNodeAddressI;
 
 /**
  * 
- * @author Hamid KOLLI && Yanis ALAYOUD
+ * @author Hamid KOLLI
+ * @author Yanis ALAYOUD
  *
- *         Classe aui gere les addresses des ports entrants pour une facade
+ *         Classe concrete qui gere les addresses des ports entrants pour une facade
  */
 public class ApplicationNodeAddress extends AbstractAddress implements ApplicationNodeAddressI {
 	private String nodeManagementURI;
@@ -34,6 +35,12 @@ public class ApplicationNodeAddress extends AbstractAddress implements Applicati
 	}
 
 
+	/**
+	 *methode equals
+	 *
+	 *@param obj : l'objet à comparer
+	 *@return boolean : resultat de l'equivalence
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

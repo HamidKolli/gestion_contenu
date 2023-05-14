@@ -4,7 +4,8 @@ import java.util.Set;
 
 /**
  * 
- * @author Hamid KOLLI && Yanis ALAYOUD
+ * @author Hamid KOLLI
+ * @author Yanis ALAYOUD
  * 
  * Contrat d'un ContentTemplate
  */

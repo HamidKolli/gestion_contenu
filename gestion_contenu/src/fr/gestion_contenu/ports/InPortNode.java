@@ -11,7 +11,8 @@ import fr.sorbonne_u.components.ports.AbstractInboundPort;
 
 /**
  * 
- * @author Hamid KOLLI && Yanis ALAYOUD
+ * @author Hamid KOLLI
+ * @author Yanis ALAYOUD
  * 
  *         Classe qui represente le port entrant d'un noeud pour les connexions
  *         entre noeuds
@@ -21,12 +22,12 @@ public class InPortNode extends AbstractInboundPort implements NodeCI {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 
 	 * Constructeur InPortNode.java
 	 * 
 	 * @param uri   : l'URI du port
 	 * @param owner : le composant qui le possede
-	 * @param uriConnection 
+	 * @param pluginURI : l'URI du plugin
+	 * @param uriConnection
 	 * @throws Exception
 	 */
 	public InPortNode(String uri, ComponentI owner, String pluginURI, String uriConnection) throws Exception {
@@ -35,7 +36,7 @@ public class InPortNode extends AbstractInboundPort implements NodeCI {
 
 	/**
 	 * 
-	 * @see fr.gestion_contenu.component.interfaces.IConnectNodeRequest#connect(fr.gestion_contenu.node.interfaces.PeerNodeAddressI)
+	 * @see fr.gestion_contenu.ports.interfaces.NodeCI#connect(PeerNodeAddressI)
 	 *
 	 */
 	@Override
@@ -53,7 +54,7 @@ public class InPortNode extends AbstractInboundPort implements NodeCI {
 
 	/**
 	 * 
-	 * @see fr.gestion_contenu.component.interfaces.IConnectNodeRequest#disconnect(fr.gestion_contenu.node.interfaces.PeerNodeAddressI)
+	 * @see fr.gestion_contenu.ports.interfaces.NodeCI#disconnect(PeerNodeAddressI)
 	 *
 	 */
 	@Override
@@ -68,6 +69,12 @@ public class InPortNode extends AbstractInboundPort implements NodeCI {
 
 	}
 
+	
+	/**
+	 * 
+	 * @see fr.gestion_contenu.ports.interfaces.NodeCI#acceptNeighbours(Set)
+	 *
+	 */
 	@Override
 	public void acceptNeighbours(Set<PeerNodeAddressI> neighbours) throws Exception {
 		getOwner().runTask(getExecutorServiceIndex(),(q) -> {
@@ -80,6 +87,11 @@ public class InPortNode extends AbstractInboundPort implements NodeCI {
 		
 	}
 
+	/**
+	 * 
+	 * @see fr.gestion_contenu.ports.interfaces.NodeCI#acceptConnected(PeerNodeAddressI)
+	 *
+	 */
 	@Override
 	public void acceptConnected(PeerNodeAddressI neighbour) throws Exception {
 		getOwner().runTask(getExecutorServiceIndex(),(q) -> {
@@ -92,6 +104,11 @@ public class InPortNode extends AbstractInboundPort implements NodeCI {
 		
 	}
 
+	/**
+	 * 
+	 * @see fr.gestion_contenu.ports.interfaces.ProbingCI#probe(int, FacadeNodeAddressI, String, int, PeerNodeAddressI)
+	 *
+	 */
 	@Override
 	public void probe(int remaingHops, FacadeNodeAddressI facade, String request,int nbVoisin, PeerNodeAddressI addressNode) throws Exception {
 		getOwner().runTask((q) -> {

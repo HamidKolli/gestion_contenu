@@ -1,9 +1,10 @@
 package fr.gestion_contenu.node.interfaces;
 
 /**
- * @author Hamid KOLLI && Yanis ALAYOUD
+ * @author Hamid KOLLI
+ * @author Yanis ALAYOUD
  * 
- * Super Interface de ApplicationNodeAddressI
+ * Contrat pour un FacadeNodeAddress
  */
 public interface FacadeNodeAddressI extends NodeAddressI{
 	/**

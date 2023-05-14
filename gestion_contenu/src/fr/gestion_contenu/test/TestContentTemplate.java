@@ -14,6 +14,14 @@ import fr.gestion_contenu.content.interfaces.ContentDescriptorI;
 import fr.gestion_contenu.content.interfaces.ContentTemplateI;
 import fr.gestion_contenu.node.informations.ContentNodeAddress;
 
+
+/**
+ * @author Hamid KOLLI
+ * @author Yanis ALAYOUD
+ * 
+ * Classe de tests Unitaires JUNIT
+ *
+ */
 public class TestContentTemplate {
 
 	

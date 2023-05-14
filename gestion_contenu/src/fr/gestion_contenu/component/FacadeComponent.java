@@ -33,7 +33,10 @@ import fr.sorbonne_u.components.exceptions.ComponentStartException;
 
 /**
  * 
- * @author Hamid KOLLI && Yanis ALAYOUD Classe concrete qui gere les facades
+ * @author Hamid KOLLI
+ * @author Yanis ALAYOUD
+ * 
+ * Classe concrete qui gere les facades
  *
  */
 @OfferedInterfaces(offered = { NodeManagementCI.class })
@@ -183,11 +186,11 @@ public class FacadeComponent extends AbstractComponent {
 
 	}
 
+
 	/**
-	 * Methode acceptProbed : Retour de resultat d'un probe
 	 * 
-	 * @param peer : le noeud pair
-	 * @param requestURI : l'URI du noeud pair associé à la requete
+	 * @see fr.gestion_contenu.ports.interfaces.NodeManagementCI#acceptProbed(fr.gestion_contenu.node.interfaces.PeerNodeAddressI, String)
+	 *
 	 */
 	public synchronized void acceptProbed(PeerNodeAddressI peer, String requestURI) {
 		this.logMessage("acceptProbed | accept probe " + peer.getNodeIdentifier() + "\n");
@@ -199,7 +202,7 @@ public class FacadeComponent extends AbstractComponent {
 
 	/**
 	 * 
-	 * @see fr.gestion_contenu.component.interfaces.IConnectFacadeRequest#leave(fr.gestion_contenu.node.interfaces.PeerNodeAddressI)
+	 * @see fr.gestion_contenu.ports.interfaces.NodeManagementCI#leave(fr.gestion_contenu.node.interfaces.PeerNodeAddressI)
 	 *
 	 */
 

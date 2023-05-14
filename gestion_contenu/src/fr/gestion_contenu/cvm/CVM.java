@@ -23,6 +23,12 @@ import fr.sorbonne_u.components.cvm.AbstractCVM;
 import fr.sorbonne_u.cps.p2Pcm.dataread.ContentDataManager;
 import fr.sorbonne_u.utils.aclocks.ClocksServer;
 
+/**
+ * @author Hamid KOLLI
+ * @author Yanis ALAYOUD
+ *
+ *			Classe CVM principale (le main en quelque sorte)
+ */
 public class CVM extends AbstractCVM {
 
 	public static final int NB_NODES = 50;
@@ -37,6 +43,9 @@ public class CVM extends AbstractCVM {
 		super();
 	}
 
+	/**
+	 * @see fr.sorbonne_u.components.cvm.AbstractCVM#deploy()
+	 */
 	@Override
 	public void deploy() throws Exception {
 

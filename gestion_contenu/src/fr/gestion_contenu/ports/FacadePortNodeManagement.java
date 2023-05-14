@@ -10,8 +10,11 @@ import fr.sorbonne_u.components.ports.AbstractInboundPort;
 
 /**
  * 
- * @author Hamid KOLLI && Yanis ALAYOUD Classe qui represente le port entrant
- *         d'une facade pour une connexion au reseau
+ * @author Hamid KOLLI
+ * @author Yanis ALAYOUD
+ * 
+ * Classe qui represente le port entrant
+ * d'une facade pour une connexion au reseau
  */
 public class FacadePortNodeManagement extends AbstractInboundPort implements NodeManagementCI {
 
@@ -23,7 +26,6 @@ public class FacadePortNodeManagement extends AbstractInboundPort implements Nod
 	 * 
 	 * @param uri
 	 * @param owner
-	 * @param pluginURI
 	 * @param contentManagementURI 
 	 * @throws Exception
 	 */
@@ -34,7 +36,7 @@ public class FacadePortNodeManagement extends AbstractInboundPort implements Nod
 
 	/**
 	 * 
-	 * @see fr.gestion_contenu.component.interfaces.IConnectFacadeRequest#join(fr.gestion_contenu.node.interfaces.PeerNodeAddressI)
+	 * @see fr.gestion_contenu.ports.interfaces.NodeManagementCI#join(PeerNodeAddressI)
 	 *
 	 */
 	@Override
@@ -56,7 +58,7 @@ public class FacadePortNodeManagement extends AbstractInboundPort implements Nod
 
 	/**
 	 * 
-	 * @see fr.gestion_contenu.component.interfaces.IConnectFacadeRequest#leave(fr.gestion_contenu.node.interfaces.PeerNodeAddressI)
+	 * @see fr.gestion_contenu.ports.interfaces.NodeManagementCI#leave(PeerNodeAddressI)
 	 *
 	 */
 	@Override
@@ -73,6 +75,11 @@ public class FacadePortNodeManagement extends AbstractInboundPort implements Nod
 		});
 	}
 
+	/**
+	 * 
+	 * @see fr.gestion_contenu.ports.interfaces.NodeManagementCI#acceptProbed(PeerNodeAddressI, String)
+	 *
+	 */
 	@Override
 	public void acceptProbed(PeerNodeAddressI peer, String requestURI) throws Exception {
 		getOwner().runTask(getExecutorServiceIndex(),new AbstractComponent.AbstractTask() {
@@ -88,6 +95,12 @@ public class FacadePortNodeManagement extends AbstractInboundPort implements Nod
 		
 	}
 
+	
+	/**
+	 * 
+	 * @see fr.gestion_contenu.ports.interfaces.ProbingCI#probe(int, FacadeNodeAddressI, String, int, PeerNodeAddressI)
+	 *
+	 */
 	@Override
 	public void probe(int remaingHops, FacadeNodeAddressI facade, String request,int nbVoisin,PeerNodeAddressI addressNode) throws Exception {
 		getOwner().runTask(getExecutorServiceIndex(),new AbstractComponent.AbstractTask() {

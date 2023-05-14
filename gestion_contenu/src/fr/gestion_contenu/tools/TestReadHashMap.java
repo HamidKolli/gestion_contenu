@@ -15,7 +15,8 @@ import fr.gestion_contenu.node.interfaces.ContentNodeAddressI;
 import fr.sorbonne_u.cps.p2Pcm.dataread.ContentDataManager;
 
 /**
- * @author Hamid KOLLI && Yanis ALAYOUD
+ * @author Hamid KOLLI
+ * @author Yanis ALAYOUD
  *
  *         Classe aui permet de lire les fichiers test et de retourner
  *         l'ensemble des Descriptors et Templates pour ensuite creer les

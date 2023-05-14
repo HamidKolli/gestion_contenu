@@ -9,6 +9,13 @@ import org.junit.Test;
 
 import fr.gestion_contenu.node.informations.ApplicationNodeAddress;
 
+/**
+ * @author Hamid KOLLI
+ * @author Yanis ALAYOUD
+ * 
+ * Classe de tests Unitaires JUNIT
+ *
+ */
 public class TestApplicationNodeAddress {
 	
 	private ApplicationNodeAddress address;

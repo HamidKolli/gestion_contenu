@@ -10,7 +10,8 @@ import fr.sorbonne_u.utils.aclocks.ClocksServerOutboundPort;
 
 /**
  * 
- * @author Hamid KOLLI && Yanis ALAYOUD
+ * @author Hamid KOLLI
+ * @author Yanis ALAYOUD
  *
  *         Plugin s'occupant des differentes operations de connexion et de deconnexion
  *         necessaires pour l'utilisation du systeme de Clock

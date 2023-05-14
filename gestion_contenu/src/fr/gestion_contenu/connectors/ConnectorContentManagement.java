@@ -11,7 +11,8 @@ import fr.sorbonne_u.components.connectors.AbstractConnector;
 
 /**
  * 
- * @author Hamid KOLLI && Yanis ALAYOUD
+ * @author Hamid KOLLI
+ * @author Yanis ALAYOUD
  *
  *         Connecteur des traitements de contenu
  */
@@ -19,8 +20,7 @@ public class ConnectorContentManagement extends AbstractConnector implements Con
 
 	/**
 	 * 
-	 * @see fr.gestion_contenu.component.interfaces.IContentRequest#find(fr.gestion_contenu.content.interfaces.ContentTemplateI,
-	 *      int)
+	 * @see fr.gestion_contenu.ports.interfaces.ContentManagementCI#find()
 	 *
 	 */
 	@Override
@@ -30,8 +30,7 @@ public class ConnectorContentManagement extends AbstractConnector implements Con
 
 	/**
 	 * 
-	 * @see fr.gestion_contenu.component.interfaces.IContentRequest#match(fr.gestion_contenu.content.interfaces.ContentTemplateI,
-	 *      java.util.Set, int)
+	 * @see fr.gestion_contenu.ports.interfaces.ContentManagementCI#match()
 	 *
 	 */
 	@Override

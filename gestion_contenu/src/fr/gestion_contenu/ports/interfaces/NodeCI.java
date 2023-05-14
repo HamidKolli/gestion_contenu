@@ -7,7 +7,8 @@ import fr.sorbonne_u.components.interfaces.OfferedCI;
 import fr.sorbonne_u.components.interfaces.RequiredCI;
 
 /**
- * @author Hamid KOLLI && Yanis ALAYOUD
+ * @author Hamid KOLLI
+ * @author Yanis ALAYOUD
  *
  *			Contrat implante par les ports entrants et sortants qui s'occupent des 
  *			connexions entre les noeuds du reseau
@@ -27,7 +28,18 @@ public interface NodeCI extends OfferedCI, RequiredCI, ProbingCI{
 	 */
 	public void disconnect(PeerNodeAddressI peer) throws Exception;
 	
+	/**
+	 * Methode de retour du join
+	 * @param neighbours : les addresses des voisins
+	 * @throws Exception
+	 */
 	public void acceptNeighbours(Set<PeerNodeAddressI> neighbours) throws Exception;
+	
+	/**
+	 * Methode de retour du connect
+	 * @param neighbour : l'adresse du voisin auquel la connection s'effectue
+	 * @throws Exception
+	 */
 	public void acceptConnected(PeerNodeAddressI neighbour) throws Exception;
 	
 }

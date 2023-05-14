@@ -1,9 +1,10 @@
 package fr.gestion_contenu.node.interfaces;
 
 /**
- * @author Hamid KOLLI && Yanis ALAYOUD
+ * @author Hamid KOLLI
+ * @author Yanis ALAYOUD
  * 
- * Super Interface de ApplicationNodeAddressI et ContentNodeAddressI
+ * Contrat pour un ContentManagementNodeAddress
  */
 public interface ContentManagementNodeAddressI {
 	public String getContentManagementURI();

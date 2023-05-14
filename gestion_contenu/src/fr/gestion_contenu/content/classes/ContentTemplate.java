@@ -6,7 +6,8 @@ import fr.gestion_contenu.content.interfaces.ContentTemplateI;
 
 /**
  * 
- * @author Hamid KOLLI && Yanis ALAYOUD
+ * @author Hamid KOLLI
+ * @author Yanis ALAYOUD
  *
  *         Classe representant un ContentTemplate
  */
@@ -87,6 +88,12 @@ public class ContentTemplate implements ContentTemplateI {
 
 	
 
+	/**
+	 * Methode equals pour comparer deux Template
+	 * @param obj : l'objet a comparer
+	 * 
+	 * @return boolean : le resultat de la comparaison
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

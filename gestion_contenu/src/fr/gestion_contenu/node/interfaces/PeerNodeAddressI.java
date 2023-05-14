@@ -2,9 +2,10 @@ package fr.gestion_contenu.node.interfaces;
 
 
 /**
- * @author Hamid KOLLI && Yanis ALAYOUD
+ * @author Hamid KOLLI
+ * @author Yanis ALAYOUD
  * 
- * Super Interface de ContentNodeAddressI
+ * Contrat pour un PeerNodeAdress
  */
 public interface PeerNodeAddressI extends NodeAddressI{
 	/**

@@ -23,6 +23,12 @@ import fr.sorbonne_u.components.cvm.AbstractDistributedCVM;
 import fr.sorbonne_u.cps.p2Pcm.dataread.ContentDataManager;
 import fr.sorbonne_u.utils.aclocks.ClocksServer;
 
+/**
+ * @author Hamid KOLLI
+ * @author Yanis ALAYOUD
+ *
+ *			implantation distribuee de la CVM
+ */
 public class DistributedCVM extends AbstractDistributedCVM {
 
 	public static final int NB_NODES = 50;

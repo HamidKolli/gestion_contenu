@@ -4,7 +4,8 @@ import fr.gestion_contenu.node.interfaces.ContentNodeAddressI;
 
 /**
  * 
- * @author Hamid KOLLI && Yanis ALAYOUD
+ * @author Hamid KOLLI
+ * @author Yanis ALAYOUD
  *
  *        Classe aui gere les addresses des ports pour un noeud
  */
@@ -14,6 +15,7 @@ public class ContentNodeAddress extends AbstractAddress implements ContentNodeAd
 
 
 	/**
+	 * Constructeur
 	 * 
 	 * @param nodeURI
 	 * @param nodeIdentifier
@@ -35,7 +37,11 @@ public class ContentNodeAddress extends AbstractAddress implements ContentNodeAd
 		return nodeURI;
 	}
 
-	
+	/**
+	 *toString
+	 *
+	 *@return String
+	 */
 	@Override
 	public String toString() {
 		return "ContentNodeAdress [nodeURI=" + getNodeURI() + ", nodeIdentifier=" + getNodeIdentifier()
@@ -43,6 +49,13 @@ public class ContentNodeAddress extends AbstractAddress implements ContentNodeAd
 	}
 
 
+
+	/**
+	 *methode equals
+	 *
+	 *@param obj : l'objet à comparer
+	 *@return boolean : resultat de l'equivalence
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

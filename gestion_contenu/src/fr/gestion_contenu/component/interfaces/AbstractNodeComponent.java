@@ -18,7 +18,9 @@ import fr.sorbonne_u.components.annotations.RequiredInterfaces;
 @OfferedInterfaces(offered = { ContentManagementCI.class, NodeCI.class })
 /**
  * 
- * @author Hamid KOLLI && Yanis ALAYOUD
+ * @author Hamid KOLLI
+ * @author Yanis ALAYOUD
+ * 
  * Classe abstraite qui gere les composant de noeud 
  *
  */
@@ -32,21 +34,20 @@ public abstract class AbstractNodeComponent extends AbstractComponent  {
 	 * 
 	 * Methode qui fait un match entre le template et le descripteur du noeud
 	 * @param template 
-	 * @return le descripteur si ca match ,null sinon
+	 * @return les descripteurs s'il y a match
 	 */
 	public abstract List<ContentDescriptorI> match(ContentTemplateI template);
 	
 
 	/**
 	 * Methode qui permet de quitter le reseau
-	* @see fr.gestion_contenu.component.interfaces.AbstractNodeComponent#leave()
-	* @throws Exception
+	 * @throws Exception
 	 */
 	public abstract void leave() throws Exception;
 	
 		
 	/**
-	* Methode qui permet de joindre un reseau
+	* Methode qui permet de rejoindre un reseau
 	* @throws Exception
 	*/
 	public abstract void join() throws Exception;

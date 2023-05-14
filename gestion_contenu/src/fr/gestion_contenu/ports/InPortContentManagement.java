@@ -5,6 +5,7 @@ import java.util.Set;
 import fr.gestion_contenu.content.interfaces.ContentDescriptorI;
 import fr.gestion_contenu.content.interfaces.ContentTemplateI;
 import fr.gestion_contenu.node.interfaces.NodeAddressI;
+import fr.gestion_contenu.node.interfaces.PeerNodeAddressI;
 import fr.gestion_contenu.plugins.ContentManagementPlugin;
 import fr.gestion_contenu.ports.interfaces.ContentManagementCI;
 import fr.sorbonne_u.components.AbstractComponent;
@@ -13,7 +14,8 @@ import fr.sorbonne_u.components.ports.AbstractInboundPort;
 
 /**
  * 
- * @author Hamid KOLLI && Yanis ALAYOUD
+ * @author Hamid KOLLI
+ * @author Yanis ALAYOUD
  * 
  *         Classe qui represente le port entrant d'un noeud/facade pour les
  *         requetes sur les contenus
@@ -28,6 +30,7 @@ public class InPortContentManagement extends AbstractInboundPort implements Cont
 	 * 
 	 * @param uri   : l'URI du port
 	 * @param owner : le composant qui le possede
+	 * @param pluginURI : l'uri du plugin
 	 * @param uriContentManagement 
 	 * @throws Exception
 	 */
@@ -37,8 +40,7 @@ public class InPortContentManagement extends AbstractInboundPort implements Cont
 
 	/**
 	 * 
-	 * @see fr.gestion_contenu.component.interfaces.IContentRequest#find(fr.gestion_contenu.content.interfaces.ContentTemplateI,
-	 *      int)
+	 * @see fr.gestion_contenu.ports.interfaces.ContentManagementCI#find(ContentTemplateI, int, NodeAddressI, String)
 	 *
 	 */
 	@Override
@@ -59,8 +61,7 @@ public class InPortContentManagement extends AbstractInboundPort implements Cont
 
 	/**
 	 * 
-	 * @see fr.gestion_contenu.component.interfaces.IContentRequest#match(fr.gestion_contenu.content.interfaces.ContentTemplateI,
-	 *      java.util.Set, int)
+	 * @see fr.gestion_contenu.ports.interfaces.ContentManagementCI#match(ContentTemplateI, int, NodeAddressI, String, Set)
 	 *
 	 */
 	@Override

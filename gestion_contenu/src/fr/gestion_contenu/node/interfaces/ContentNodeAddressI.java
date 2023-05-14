@@ -2,8 +2,8 @@ package fr.gestion_contenu.node.interfaces;
 
 
 /**
- * 
- * @author Hamid KOLLI && Yanis ALAYOUD
+ * @author Hamid KOLLI
+ * @author Yanis ALAYOUD
  * 
  * Contrat pour un ContentNodeAddress
  */
