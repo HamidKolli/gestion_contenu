@@ -17,13 +17,6 @@ import fr.sorbonne_u.components.annotations.RequiredInterfaces;
 @RequiredInterfaces(required = { NodeCI.class, ContentManagementCI.class, NodeManagementCI.class })
 @OfferedInterfaces(offered = { ContentManagementCI.class, NodeCI.class })
 
-/**
- * 
-
- * 
-
- *
- */
 
  /**
   * 
