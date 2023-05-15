@@ -45,8 +45,8 @@ public class FacadeComponent extends AbstractComponent {
 
 	public static final String DIR_LOGGER_NAME = "loggers/facades/";
 	public static final String FILE_LOGGER_NAME = "facade";
-	public static final int NB_THREAD_CONTENT_MANAGEMENT_FACADE = 5;
-	public static final int NB_THREAD_NODE_MANAGEMENT_FACADE = 5;
+	public static final int NB_THREAD_CONTENT_MANAGEMENT_FACADE = 10;
+	public static final int NB_THREAD_NODE_MANAGEMENT_FACADE = 10;
 	public static final int NB_RACINE_FACADE = 2;
 
 	private FacadeContentManagementPlugin plugin;

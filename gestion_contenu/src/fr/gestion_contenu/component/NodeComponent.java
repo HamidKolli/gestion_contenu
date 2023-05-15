@@ -40,8 +40,8 @@ public class NodeComponent extends AbstractNodeComponent {
 	
 	public static final String DIR_LOGGER_NAME = "loggers/nodes/";
 	public static final String FILE_LOGGER_NAME = "node";
-	public static final int NB_THREAD_CONTENT_MANAGEMENT = 5;
-	public static final int NB_THREAD_NODE_MANAGEMENT = 5;
+	public static final int NB_THREAD_CONTENT_MANAGEMENT = 10;
+	public static final int NB_THREAD_NODE_MANAGEMENT = 10;
 	public static final int TIME_IN_NETWORK = 30;
 	public static final int MIN_TIME_TO_JOIN = 1;
 	public static final int MAX_TIME_TO_JOIN = 5;
