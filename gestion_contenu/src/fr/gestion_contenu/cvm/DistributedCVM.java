@@ -103,7 +103,7 @@ public class DistributedCVM extends AbstractDistributedCVM {
 				assert addressFacade.get((i + 1) % JVMFACADES.length) != null;
 
 				uri = AbstractComponent.createComponent(FacadeComponent.class.getCanonicalName(), new Object[] {
-						horlogeURI, addressFacade.get(i), addressFacade.get((i + 1) % JVMFACADES.length) });
+						 addressFacade.get(i), addressFacade.get((i + 1) % JVMFACADES.length) });
 				this.toggleLogging(uri);
 
 				int endLoopNode = nbNodesParFacade * (i + 1);

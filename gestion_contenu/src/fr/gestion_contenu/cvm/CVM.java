@@ -69,7 +69,7 @@ public class CVM extends AbstractCVM {
 
 		for (int i = 0; i < NB_FACADES; i++) {
 			uri = AbstractComponent.createComponent(FacadeComponent.class.getCanonicalName(),
-					new Object[] { horlogeURI, addressFacade.get(i), addressFacade.get((i + 1) % NB_FACADES) });
+					new Object[] { addressFacade.get(i), addressFacade.get((i + 1) % NB_FACADES) });
 			this.toggleTracing(uri);
 			this.toggleLogging(uri);
 		}
